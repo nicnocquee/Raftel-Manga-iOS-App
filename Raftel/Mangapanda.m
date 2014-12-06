@@ -9,6 +9,7 @@
 #import "Mangapanda.h"
 #import "Manga.h"
 #import "MangaChapter.h"
+#import "MangaGenre.h"
 
 @interface Mangapanda ()
 
@@ -39,6 +40,10 @@
     NSString *synopsisParagraphRegexPattern = @"(?<=p>)([\\s\\S]*?)(?=</p)";
     NSString *coverRegexPattern = mangaDictionary[@"cover"];
     NSString *imgRegexPattern = @"(?<=img src=\")([\\s\\S]*?)(?=\" alt)";
+    NSString *genreListRegexPattern = mangaDictionary[@"genre_list"];
+    NSString *genreItemRegexPattern = mangaDictionary[@"genre_item"];
+    NSString *genreLinkRegexPattern = mangaDictionary[@"genre_link"];
+    NSString *genreNameRegexPattern = mangaDictionary[@"genre_name"];
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
     NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
@@ -52,6 +57,20 @@
     NSString *imgDiv = [self matchInString:contentURLString pattern:coverRegexPattern];
     NSString *imgString = [self matchInString:imgDiv pattern:imgRegexPattern];
     NSURL *imgURL = [NSURL URLWithString:imgString];
+    NSString *genreList = [self matchInString:contentURLString pattern:genreListRegexPattern];
+    NSArray *genresStrings = [self matchesInString:genreList pattern:genreItemRegexPattern];
+    NSMutableArray *genres = [NSMutableArray arrayWithCapacity:genresStrings.count];
+    for (NSString *genreString in genresStrings) {
+        NSString *genreLinkString = [self matchInString:genreString pattern:genreListRegexPattern];
+        NSString *genreName = [self matchInString:genreString pattern:genreNameRegexPattern];
+        NSURL *genreURL = [NSURL URLWithString:genreLinkString];
+        
+        MangaGenre *genre = [[MangaGenre alloc] init];
+        [genre setValue:genreURL forKey:NSStringFromSelector(@selector(URL))];
+        [genre setValue:genreName forKey:NSStringFromSelector(@selector(name))];
+        
+        [genres addObject:genre];
+    }
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
@@ -63,20 +82,35 @@
     [manga setValue:artist forKey:NSStringFromSelector(@selector(artist))];
     [manga setValue:cleanedSynopsis forKey:NSStringFromSelector(@selector(synopsis))];
     if (imgURL) [manga setValue:imgURL forKey:NSStringFromSelector(@selector(coverURL))];
+    [manga setValue:genres forKey:NSStringFromSelector(@selector(genre))];
     
     return manga;
 }
 
 - (NSString *)matchInString:(NSString *)string pattern:(NSString *)pattern {
     NSError *error;
-    NSRegularExpression *mangaNameRegex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
     if (error) {
         return nil;
     }
-    NSArray *matches = [mangaNameRegex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
-    NSTextCheckingResult *mangaNameResult = [matches firstObject];
-    NSRange range = mangaNameResult.range;
+    NSArray *matches = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
+    NSTextCheckingResult *result = [matches firstObject];
+    NSRange range = result.range;
     return [string substringWithRange:range];
+}
+
+- (NSArray *)matchesInString:(NSString *)string pattern:(NSString *)pattern {
+    NSError *error;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error) {
+        return nil;
+    }
+    NSArray *matches = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
+    NSMutableArray *results = [NSMutableArray arrayWithCapacity:matches.count];
+    for (NSTextCheckingResult *result in matches) {
+        [results addObject:[string substringWithRange:result.range]];
+    }
+    return results;
 }
 
 + (NSArray *)sourcesPlist {

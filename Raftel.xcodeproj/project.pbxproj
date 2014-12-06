@@ -19,6 +19,7 @@
 		033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C4A1A3348F0000F34CF /* Mangapanda.m */; };
 		033C7C4E1A33493A000F34CF /* Manga.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C4D1A33493A000F34CF /* Manga.m */; };
 		033C7C511A334C20000F34CF /* MangaChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C501A334C20000F34CF /* MangaChapter.m */; };
+		033C7C571A337142000F34CF /* MangaGenre.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C561A337142000F34CF /* MangaGenre.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		033C7C4D1A33493A000F34CF /* Manga.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manga.m; sourceTree = "<group>"; };
 		033C7C4F1A334C20000F34CF /* MangaChapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaChapter.h; sourceTree = "<group>"; };
 		033C7C501A334C20000F34CF /* MangaChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaChapter.m; sourceTree = "<group>"; };
+		033C7C551A337142000F34CF /* MangaGenre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaGenre.h; sourceTree = "<group>"; };
+		033C7C561A337142000F34CF /* MangaGenre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaGenre.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,8 @@
 				033C7C4D1A33493A000F34CF /* Manga.m */,
 				033C7C4F1A334C20000F34CF /* MangaChapter.h */,
 				033C7C501A334C20000F34CF /* MangaChapter.m */,
+				033C7C551A337142000F34CF /* MangaGenre.h */,
+				033C7C561A337142000F34CF /* MangaGenre.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
+				033C7C571A337142000F34CF /* MangaGenre.m in Sources */,
 				033C7C271A333A90000F34CF /* FirstViewController.m in Sources */,
 				033C7C211A333A90000F34CF /* main.m in Sources */,
 				033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */,
