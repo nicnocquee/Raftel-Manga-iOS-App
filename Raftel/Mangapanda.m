@@ -35,6 +35,8 @@
     NSString *ongoingRegexPattern = mangaDictionary[@"ongoing"];
     NSString *authorRegexPattern = mangaDictionary[@"author"];
     NSString *artistRegexPattern = mangaDictionary[@"artist"];
+    NSString *synopsisRegexPattern = mangaDictionary[@"synopsis"];
+    NSString *synopsisParagraphRegexPattern = @"(?<=p>)([\\s\\S]*?)(?=</p)";
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
     NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
@@ -43,6 +45,9 @@
     BOOL ongoing = [[ongoingString lowercaseString] isEqualToString:@"ongoing"];
     NSString *author = [self matchInString:contentURLString pattern:authorRegexPattern];
     NSString *artist = [self matchInString:contentURLString pattern:artistRegexPattern];
+    NSString *synopsis = [self matchInString:contentURLString pattern:synopsisRegexPattern];
+    NSString *cleanedSynopsis = [self matchInString:synopsis pattern:synopsisParagraphRegexPattern];
+    
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
@@ -52,6 +57,7 @@
     [manga setValue:@(ongoing) forKey:NSStringFromSelector(@selector(ongoing))];
     [manga setValue:author forKey:NSStringFromSelector(@selector(author))];
     [manga setValue:artist forKey:NSStringFromSelector(@selector(artist))];
+    [manga setValue:cleanedSynopsis forKey:NSStringFromSelector(@selector(synopsis))];
     
     return manga;
 }

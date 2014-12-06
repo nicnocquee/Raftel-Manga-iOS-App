@@ -38,7 +38,7 @@
 			<key>genre</key>
 			<string>&lt;td&gt;&lt;a href=&quot;/popular/action&quot;&gt;&lt;span class=&quot;genretags&quot;&gt;$genre$&lt;/span&gt;&lt;/a&gt;</string>
 			<key>synopsis</key>
-			<string>&lt;div id=&quot;readmangasum&quot;&gt;$synopsis$&lt;/div&gt;</string>
+			<string>(?&lt;=id=&quot;readmangasum&quot;&gt;)([\s\S]*?)(?=&lt;/div)</string>
 		</dict>
 	</dict>
 </array>
