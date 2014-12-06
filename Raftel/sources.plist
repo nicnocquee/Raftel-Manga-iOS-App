@@ -24,7 +24,8 @@
 			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Alternate Name:&lt;/td&gt;
 &lt;td&gt;)(.*)(?=&lt;/td)</string>
 			<key>year</key>
-			<string>&lt;td class=&quot;propertytitle&quot;&gt;Year of Release:&lt;/td&gt;&lt;td&gt;$year$&lt;/td&gt;</string>
+			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Year of Release:&lt;/td&gt;
+&lt;td&gt;)(.*)(?=&lt;/td)</string>
 			<key>ongoing</key>
 			<string>&lt;td class=&quot;propertytitle&quot;&gt;Status:&lt;/td&gt;&lt;td&gt;$ongoing$&lt;/td&gt;</string>
 			<key>author</key>

@@ -31,14 +31,17 @@
     NSDictionary *mangaDictionary = self.configuration[@"manga"];
     NSString *mangaNameRegexPattern = mangaDictionary[@"name"];
     NSString *mangaAlternateNameRegexPattern = mangaDictionary[@"alternateName"];
+    NSString *yearRegexPattern = mangaDictionary[@"year"];
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
     NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
+    NSString *yearString = [self matchInString:contentURLString pattern:yearRegexPattern];
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
     [manga setValue:self.configuration[@"name"] forKey:NSStringFromSelector(@selector(source))];
     [manga setValue:alternateName forKey:NSStringFromSelector(@selector(alternateName))];
+    [manga setValue:yearString forKey:NSStringFromSelector(@selector(year))];
     
     return manga;
 }

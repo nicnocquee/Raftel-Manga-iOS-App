@@ -14,7 +14,7 @@
 @property (nonatomic, copy, readonly) NSString *source;
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSString *alternateName;
-@property (nonatomic, copy, readonly) NSNumber *year;
+@property (nonatomic, copy, readonly) NSString *year;
 @property (nonatomic, copy, readonly) NSNumber *ongoing;
 @property (nonatomic, copy, readonly) NSString *author;
 @property (nonatomic, copy, readonly) NSString *artist;
