@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>mangapanda</string>
+		<key>host</key>
+		<string>mangapanda.com</string>
+		<key>list</key>
+		<dict>
+			<key>url</key>
+			<string>alphabetical</string>
+			<key>list_tag</key>
+			<string>&lt;ul class=&quot;series_alpha&quot;&gt;</string>
+			<key>unit_template</key>
+			<string>&lt;li&gt;&lt;a href=&quot;$link$&quot;&gt;$name$&lt;/a&gt;$completed$&lt;/li&gt;</string>
+		</dict>
+		<key>manga</key>
+		<dict>
+			<key>name</key>
+			<string>(?&lt;=&quot;aname&quot;&gt;)(.*)(?=&lt;/h2)</string>
+			<key>alternateName</key>
+			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Alternate Name:&lt;/td&gt;
+&lt;td&gt;)(.*)(?=&lt;/td)</string>
+			<key>year</key>
+			<string>&lt;td class=&quot;propertytitle&quot;&gt;Year of Release:&lt;/td&gt;&lt;td&gt;$year$&lt;/td&gt;</string>
+			<key>ongoing</key>
+			<string>&lt;td class=&quot;propertytitle&quot;&gt;Status:&lt;/td&gt;&lt;td&gt;$ongoing$&lt;/td&gt;</string>
+			<key>author</key>
+			<string>&lt;td class=&quot;propertytitle&quot;&gt;Author:&lt;/td&gt;&lt;td&gt;$author$&lt;/td&gt;</string>
+			<key>artist</key>
+			<string>&lt;td class=&quot;propertytitle&quot;&gt;Artist:&lt;/td&gt;&lt;td&gt;$artist&lt;/td&gt;</string>
+			<key>genre</key>
+			<string>&lt;td&gt;&lt;a href=&quot;/popular/action&quot;&gt;&lt;span class=&quot;genretags&quot;&gt;$genre$&lt;/span&gt;&lt;/a&gt;</string>
+			<key>synopsis</key>
+			<string>&lt;div id=&quot;readmangasum&quot;&gt;$synopsis$&lt;/div&gt;</string>
+		</dict>
+	</dict>
+</array>
+</plist>

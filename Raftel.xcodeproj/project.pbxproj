@@ -15,6 +15,10 @@
 		033C7C2F1A333A90000F34CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C2E1A333A90000F34CF /* Images.xcassets */; };
 		033C7C321A333A90000F34CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C301A333A90000F34CF /* LaunchScreen.xib */; };
 		033C7C3E1A333A90000F34CF /* RaftelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C3D1A333A90000F34CF /* RaftelTests.m */; };
+		033C7C481A33453D000F34CF /* sources.plist in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C471A33453D000F34CF /* sources.plist */; };
+		033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C4A1A3348F0000F34CF /* Mangapanda.m */; };
+		033C7C4E1A33493A000F34CF /* Manga.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C4D1A33493A000F34CF /* Manga.m */; };
+		033C7C511A334C20000F34CF /* MangaChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C501A334C20000F34CF /* MangaChapter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +47,13 @@
 		033C7C371A333A90000F34CF /* RaftelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RaftelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		033C7C3C1A333A90000F34CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		033C7C3D1A333A90000F34CF /* RaftelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RaftelTests.m; sourceTree = "<group>"; };
+		033C7C471A33453D000F34CF /* sources.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sources.plist; sourceTree = "<group>"; };
+		033C7C491A3348F0000F34CF /* Mangapanda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mangapanda.h; sourceTree = "<group>"; };
+		033C7C4A1A3348F0000F34CF /* Mangapanda.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mangapanda.m; sourceTree = "<group>"; };
+		033C7C4C1A33493A000F34CF /* Manga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manga.h; sourceTree = "<group>"; };
+		033C7C4D1A33493A000F34CF /* Manga.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manga.m; sourceTree = "<group>"; };
+		033C7C4F1A334C20000F34CF /* MangaChapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaChapter.h; sourceTree = "<group>"; };
+		033C7C501A334C20000F34CF /* MangaChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaChapter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +105,13 @@
 				033C7C2E1A333A90000F34CF /* Images.xcassets */,
 				033C7C301A333A90000F34CF /* LaunchScreen.xib */,
 				033C7C1E1A333A90000F34CF /* Supporting Files */,
+				033C7C471A33453D000F34CF /* sources.plist */,
+				033C7C491A3348F0000F34CF /* Mangapanda.h */,
+				033C7C4A1A3348F0000F34CF /* Mangapanda.m */,
+				033C7C4C1A33493A000F34CF /* Manga.h */,
+				033C7C4D1A33493A000F34CF /* Manga.m */,
+				033C7C4F1A334C20000F34CF /* MangaChapter.h */,
+				033C7C501A334C20000F34CF /* MangaChapter.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -207,6 +225,7 @@
 				033C7C2D1A333A90000F34CF /* Main.storyboard in Resources */,
 				033C7C321A333A90000F34CF /* LaunchScreen.xib in Resources */,
 				033C7C2F1A333A90000F34CF /* Images.xcassets in Resources */,
+				033C7C481A33453D000F34CF /* sources.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,10 +243,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				033C7C511A334C20000F34CF /* MangaChapter.m in Sources */,
+				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
 				033C7C271A333A90000F34CF /* FirstViewController.m in Sources */,
 				033C7C211A333A90000F34CF /* main.m in Sources */,
+				033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
