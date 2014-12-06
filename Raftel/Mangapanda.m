@@ -37,9 +37,9 @@
     NSString *authorRegexPattern = mangaDictionary[@"author"];
     NSString *artistRegexPattern = mangaDictionary[@"artist"];
     NSString *synopsisRegexPattern = mangaDictionary[@"synopsis"];
-    NSString *synopsisParagraphRegexPattern = @"(?<=p>)([\\s\\S]*?)(?=</p)";
+    NSString *synopsisParagraphRegexPattern = mangaDictionary[@"synopsis_paragraph"];
     NSString *coverRegexPattern = mangaDictionary[@"cover"];
-    NSString *imgRegexPattern = @"(?<=img src=\")([\\s\\S]*?)(?=\" alt)";
+    NSString *imgRegexPattern = mangaDictionary[@"cover_img"];
     NSString *genreListRegexPattern = mangaDictionary[@"genre_list"];
     NSString *genreItemRegexPattern = mangaDictionary[@"genre_item"];
     NSString *genreLinkRegexPattern = mangaDictionary[@"genre_link"];

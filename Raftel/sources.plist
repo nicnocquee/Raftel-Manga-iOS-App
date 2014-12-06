@@ -46,8 +46,12 @@
 			<string>(?&lt;=genretags&quot;&gt;)([\s\S]*?)(?=&lt;/span&gt;)</string>
 			<key>synopsis</key>
 			<string>(?&lt;=id=&quot;readmangasum&quot;&gt;)([\s\S]*?)(?=&lt;/div)</string>
+			<key>synopsis_paragraph</key>
+			<string>(?&lt;=p&gt;)([\s\S]*?)(?=&lt;/p)</string>
 			<key>cover</key>
 			<string>(?&lt;=&lt;div id=&quot;mangaimg&quot;&gt;)([\s\S]*?)(?=&lt;/div)</string>
+			<key>cover_img</key>
+			<string>(?&lt;=img src=&quot;)([\s\S]*?)(?=&quot; alt)</string>
 		</dict>
 	</dict>
 </array>
