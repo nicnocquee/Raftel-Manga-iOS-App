@@ -44,6 +44,10 @@
     NSString *genreItemRegexPattern = mangaDictionary[@"genre_item"];
     NSString *genreLinkRegexPattern = mangaDictionary[@"genre_link"];
     NSString *genreNameRegexPattern = mangaDictionary[@"genre_name"];
+    NSString *chapterBlockRegexPattern = mangaDictionary[@"chapter_block"];
+    NSString *chapterItemRegexPattern = mangaDictionary[@"chapter_item"];
+    NSString *chapterLinkRegexPattern = mangaDictionary[@"chapter_link"];
+    NSString *chapterNameRegexPattern = mangaDictionary[@"chapter_name"];
     NSString *host = self.configuration[@"host"];
     
     NSString *mangaName = [[self matchInString:contentURLString pattern:mangaNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -72,6 +76,22 @@
         
         [genres addObject:genre];
     }
+    NSString *chapterBlock = [self matchInString:contentURLString pattern:chapterBlockRegexPattern];
+    NSArray *chapterItems = [self matchesInString:chapterBlock pattern:chapterItemRegexPattern];
+    NSMutableArray *chapters = [NSMutableArray arrayWithCapacity:chapterItems.count];
+    int i = 0;
+    for (NSString *chapter in chapterItems) {
+        NSString *chapterLink = [self matchInString:chapter pattern:chapterLinkRegexPattern];
+        NSString *chapterName = [self matchInString:chapter pattern:chapterNameRegexPattern];
+        NSURL *chapterURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", host, chapterLink]];
+        MangaChapter *c = [[MangaChapter alloc] init];
+        [c setValue:chapterURL forKey:NSStringFromSelector(@selector(url))];
+        [c setValue:chapterName forKey:NSStringFromSelector(@selector(title))];
+        [c setValue:@"mangapanda" forKey:NSStringFromSelector(@selector(source))];
+        [c setValue:@(i) forKey:NSStringFromSelector(@selector(index))];
+        i++;
+        [chapters addObject:c];
+    }
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
@@ -84,7 +104,7 @@
     [manga setValue:cleanedSynopsis forKey:NSStringFromSelector(@selector(synopsis))];
     if (imgURL) [manga setValue:imgURL forKey:NSStringFromSelector(@selector(coverURL))];
     [manga setValue:genres forKey:NSStringFromSelector(@selector(genre))];
-    
+    [manga setValue:chapters forKey:NSStringFromSelector(@selector(chapters))];
     return manga;
 }
 

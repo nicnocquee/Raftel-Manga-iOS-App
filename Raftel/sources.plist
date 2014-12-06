@@ -52,6 +52,14 @@
 			<string>(?&lt;=&lt;div id=&quot;mangaimg&quot;&gt;)([\s\S]*?)(?=&lt;/div)</string>
 			<key>cover_img</key>
 			<string>(?&lt;=img src=&quot;)([\s\S]*?)(?=&quot; alt)</string>
+			<key>chapter_block</key>
+			<string>(?&lt;=&lt;div id=&quot;chapterlist&quot;&gt;)([\s\S]*?)(?=&lt;td class=&quot;footer-column)</string>
+			<key>chapter_item</key>
+			<string>(?&lt;=&lt;div class=&quot;chico_manga&quot;&gt;&lt;/div&gt;)([\s\S]*?)(?=&lt;td&gt;)</string>
+			<key>chapter_link</key>
+			<string>(?&lt;=a href=&quot;)([\s\S]*?)(?=&quot;&gt;)</string>
+			<key>chapter_name</key>
+			<string>(?&lt;=&lt;/a&gt; : )([\s\S]*?)(?=&lt;/td&gt;)</string>
 		</dict>
 	</dict>
 </array>

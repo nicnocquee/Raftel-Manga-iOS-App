@@ -53,6 +53,8 @@
     XCTAssertEqualObjects(mangaObject.artist, @"Oda, Eiichiro");
     XCTAssertEqualObjects(mangaObject.synopsis, @"Seeking to be the greatest pirate in the world, young Monkey D. Luffy, endowed with stretching powers from the legendary &amp;quot;Gomu Gomu&amp;quot; Devil's fruit, travels towards the Grand Line in search of One Piece, the greatest treasure in the world.");
     XCTAssertNotNil(mangaObject.coverURL);
+    //XCTAssertEqual((int)mangaObject.chapters.count, 769);
+    XCTAssertGreaterThan((int)mangaObject.chapters.count, 767);
     XCTAssertEqual((int)mangaObject.genre.count, 6);
     
     MangaGenre *action = [mangaObject.genre firstObject];
@@ -76,6 +78,7 @@
     XCTAssertEqualObjects(mangaObject.artist, @"NAKAHARA Aya");
     XCTAssertEqualObjects(mangaObject.synopsis, @"Recently rejected Saki Momota is having a hard time getting over her first love. While picking up her younger brother from school, Saki bumps into Akai Ryuuichi; the class delinquent whos rumored to be able to shoot lazer-beams from his eyes. Could this day get any worse?");
     XCTAssertNotNil(mangaObject.coverURL);
+    XCTAssertEqual((int)mangaObject.chapters.count, 4);
     XCTAssertEqual((int)mangaObject.genre.count, 3);
     
     MangaGenre *action = [mangaObject.genre firstObject];
