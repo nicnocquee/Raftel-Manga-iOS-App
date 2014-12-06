@@ -6,7 +6,7 @@
 		<key>name</key>
 		<string>mangapanda</string>
 		<key>host</key>
-		<string>mangapanda.com</string>
+		<string>http://www.mangapanda.com</string>
 		<key>list</key>
 		<dict>
 			<key>url</key>

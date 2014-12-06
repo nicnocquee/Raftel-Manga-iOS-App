@@ -57,6 +57,7 @@
     
     MangaGenre *action = [mangaObject.genre firstObject];
     XCTAssertEqualObjects(action.name, @"Action");
+    XCTAssertEqualObjects(action.URL.absoluteString, @"http://www.mangapanda.com/popular/action");
 }
 
 //- (void)testPerformanceExample {

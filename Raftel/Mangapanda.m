@@ -44,6 +44,7 @@
     NSString *genreItemRegexPattern = mangaDictionary[@"genre_item"];
     NSString *genreLinkRegexPattern = mangaDictionary[@"genre_link"];
     NSString *genreNameRegexPattern = mangaDictionary[@"genre_name"];
+    NSString *host = self.configuration[@"host"];
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
     NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
@@ -61,9 +62,9 @@
     NSArray *genresStrings = [self matchesInString:genreList pattern:genreItemRegexPattern];
     NSMutableArray *genres = [NSMutableArray arrayWithCapacity:genresStrings.count];
     for (NSString *genreString in genresStrings) {
-        NSString *genreLinkString = [self matchInString:genreString pattern:genreListRegexPattern];
+        NSString *genreLinkString = [self matchInString:genreString pattern:genreLinkRegexPattern];
         NSString *genreName = [self matchInString:genreString pattern:genreNameRegexPattern];
-        NSURL *genreURL = [NSURL URLWithString:genreLinkString];
+        NSURL *genreURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", host, genreLinkString]];
         
         MangaGenre *genre = [[MangaGenre alloc] init];
         [genre setValue:genreURL forKey:NSStringFromSelector(@selector(URL))];
