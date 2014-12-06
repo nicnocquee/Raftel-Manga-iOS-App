@@ -33,7 +33,8 @@
 			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Author:&lt;/td&gt;
 &lt;td&gt;)(.*)(?=&lt;/td)</string>
 			<key>artist</key>
-			<string>&lt;td class=&quot;propertytitle&quot;&gt;Artist:&lt;/td&gt;&lt;td&gt;$artist&lt;/td&gt;</string>
+			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Artist:&lt;/td&gt;
+&lt;td&gt;)(.*)(?=&lt;/td)</string>
 			<key>genre</key>
 			<string>&lt;td&gt;&lt;a href=&quot;/popular/action&quot;&gt;&lt;span class=&quot;genretags&quot;&gt;$genre$&lt;/span&gt;&lt;/a&gt;</string>
 			<key>synopsis</key>
