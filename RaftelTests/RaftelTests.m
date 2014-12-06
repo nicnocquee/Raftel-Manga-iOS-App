@@ -29,7 +29,7 @@
     [super tearDown];
 }
 
-- (void)testParseName {
+- (void)testParseOnePiece {
     NSArray *sources = [self.class sourcesPlist];
     NSDictionary *mangapanda = [sources firstObject];
     NSDictionary *manga = mangapanda[@"manga"];
@@ -58,6 +58,29 @@
     MangaGenre *action = [mangaObject.genre firstObject];
     XCTAssertEqualObjects(action.name, @"Action");
     XCTAssertEqualObjects(action.URL.absoluteString, @"http://www.mangapanda.com/popular/action");
+}
+
+- (void)testParseJunjou {    
+    NSData *urlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.mangapanda.com/junjou-drop"]];
+    NSString *urlContentString = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+    
+    Mangapanda *panda = [[Mangapanda alloc] init];
+    Manga *mangaObject = [panda mangaWithContentURLString:urlContentString];
+    XCTAssertNotNil(mangaObject);
+    XCTAssertEqualObjects(mangaObject.name, @"Junjou Drop");
+    XCTAssertEqualObjects(mangaObject.source, @"mangapanda");
+    XCTAssertEqualObjects(mangaObject.alternateName, @"Romantic Drop");
+    XCTAssertEqualObjects(mangaObject.year, @"2011");
+    XCTAssertFalse(mangaObject.ongoing.boolValue);
+    XCTAssertEqualObjects(mangaObject.author, @"NAKAHARA Aya");
+    XCTAssertEqualObjects(mangaObject.artist, @"NAKAHARA Aya");
+    XCTAssertEqualObjects(mangaObject.synopsis, @"Recently rejected Saki Momota is having a hard time getting over her first love. While picking up her younger brother from school, Saki bumps into Akai Ryuuichi; the class delinquent whos rumored to be able to shoot lazer-beams from his eyes. Could this day get any worse?");
+    XCTAssertNotNil(mangaObject.coverURL);
+    XCTAssertEqual((int)mangaObject.genre.count, 3);
+    
+    MangaGenre *action = [mangaObject.genre firstObject];
+    XCTAssertEqualObjects(action.name, @"Comedy");
+    XCTAssertEqualObjects(action.URL.absoluteString, @"http://www.mangapanda.com/popular/comedy");
 }
 
 //- (void)testPerformanceExample {

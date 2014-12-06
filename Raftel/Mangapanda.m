@@ -46,8 +46,8 @@
     NSString *genreNameRegexPattern = mangaDictionary[@"genre_name"];
     NSString *host = self.configuration[@"host"];
     
-    NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
-    NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
+    NSString *mangaName = [[self matchInString:contentURLString pattern:mangaNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *alternateName = [[self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *yearString = [self matchInString:contentURLString pattern:yearRegexPattern];
     NSString *ongoingString = [self matchInString:contentURLString pattern:ongoingRegexPattern];
     BOOL ongoing = [[ongoingString lowercaseString] isEqualToString:@"ongoing"];
