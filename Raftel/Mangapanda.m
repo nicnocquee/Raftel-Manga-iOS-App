@@ -30,12 +30,15 @@
 - (Manga *)mangaWithContentURLString:(NSString *)contentURLString {
     NSDictionary *mangaDictionary = self.configuration[@"manga"];
     NSString *mangaNameRegexPattern = mangaDictionary[@"name"];
+    NSString *mangaAlternateNameRegexPattern = mangaDictionary[@"alternateName"];
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
+    NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
     [manga setValue:self.configuration[@"name"] forKey:NSStringFromSelector(@selector(source))];
+    [manga setValue:alternateName forKey:NSStringFromSelector(@selector(alternateName))];
     
     return manga;
 }

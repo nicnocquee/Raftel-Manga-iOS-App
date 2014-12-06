@@ -29,7 +29,6 @@
 }
 
 - (void)testParseName {
-    // This is an example of a functional test case.
     NSArray *sources = [self.class sourcesPlist];
     NSDictionary *mangapanda = [sources firstObject];
     NSDictionary *manga = mangapanda[@"manga"];
@@ -46,6 +45,7 @@
     XCTAssertNotNil(mangaObject);
     XCTAssertEqualObjects(mangaObject.name, @"One Piece");
     XCTAssertEqualObjects(mangaObject.source, @"mangapanda");
+    XCTAssertEqualObjects(mangaObject.alternateName, @"One Piece");
 }
 
 //- (void)testPerformanceExample {
