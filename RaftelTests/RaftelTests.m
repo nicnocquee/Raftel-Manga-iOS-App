@@ -48,6 +48,7 @@
     XCTAssertEqualObjects(mangaObject.alternateName, @"One Piece");
     XCTAssertEqualObjects(mangaObject.year, @"1997");
     XCTAssertTrue(mangaObject.ongoing.boolValue);
+    XCTAssertEqualObjects(mangaObject.author, @"Oda, Eiichiro");
 }
 
 //- (void)testPerformanceExample {

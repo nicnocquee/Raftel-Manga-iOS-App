@@ -33,12 +33,14 @@
     NSString *mangaAlternateNameRegexPattern = mangaDictionary[@"alternateName"];
     NSString *yearRegexPattern = mangaDictionary[@"year"];
     NSString *ongoingRegexPattern = mangaDictionary[@"ongoing"];
+    NSString *authorRegexPattern = mangaDictionary[@"author"];
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
     NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
     NSString *yearString = [self matchInString:contentURLString pattern:yearRegexPattern];
     NSString *ongoingString = [self matchInString:contentURLString pattern:ongoingRegexPattern];
     BOOL ongoing = [[ongoingString lowercaseString] isEqualToString:@"ongoing"];
+    NSString *author = [self matchInString:contentURLString pattern:authorRegexPattern];
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
@@ -46,6 +48,7 @@
     [manga setValue:alternateName forKey:NSStringFromSelector(@selector(alternateName))];
     [manga setValue:yearString forKey:NSStringFromSelector(@selector(year))];
     [manga setValue:@(ongoing) forKey:NSStringFromSelector(@selector(ongoing))];
+    [manga setValue:author forKey:NSStringFromSelector(@selector(author))];
     
     return manga;
 }
