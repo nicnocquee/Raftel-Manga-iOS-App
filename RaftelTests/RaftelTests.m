@@ -51,6 +51,7 @@
     XCTAssertEqualObjects(mangaObject.author, @"Oda, Eiichiro");
     XCTAssertEqualObjects(mangaObject.artist, @"Oda, Eiichiro");
     XCTAssertEqualObjects(mangaObject.synopsis, @"Seeking to be the greatest pirate in the world, young Monkey D. Luffy, endowed with stretching powers from the legendary &amp;quot;Gomu Gomu&amp;quot; Devil's fruit, travels towards the Grand Line in search of One Piece, the greatest treasure in the world.");
+    XCTAssertNotNil(mangaObject.coverURL);
 }
 
 //- (void)testPerformanceExample {

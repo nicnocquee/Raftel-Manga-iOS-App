@@ -37,6 +37,8 @@
     NSString *artistRegexPattern = mangaDictionary[@"artist"];
     NSString *synopsisRegexPattern = mangaDictionary[@"synopsis"];
     NSString *synopsisParagraphRegexPattern = @"(?<=p>)([\\s\\S]*?)(?=</p)";
+    NSString *coverRegexPattern = mangaDictionary[@"cover"];
+    NSString *imgRegexPattern = @"(?<=img src=\")([\\s\\S]*?)(?=\" alt)";
     
     NSString *mangaName = [self matchInString:contentURLString pattern:mangaNameRegexPattern];
     NSString *alternateName = [self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern];
@@ -47,7 +49,9 @@
     NSString *artist = [self matchInString:contentURLString pattern:artistRegexPattern];
     NSString *synopsis = [self matchInString:contentURLString pattern:synopsisRegexPattern];
     NSString *cleanedSynopsis = [self matchInString:synopsis pattern:synopsisParagraphRegexPattern];
-    
+    NSString *imgDiv = [self matchInString:contentURLString pattern:coverRegexPattern];
+    NSString *imgString = [self matchInString:imgDiv pattern:imgRegexPattern];
+    NSURL *imgURL = [NSURL URLWithString:imgString];
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
@@ -58,6 +62,7 @@
     [manga setValue:author forKey:NSStringFromSelector(@selector(author))];
     [manga setValue:artist forKey:NSStringFromSelector(@selector(artist))];
     [manga setValue:cleanedSynopsis forKey:NSStringFromSelector(@selector(synopsis))];
+    if (imgURL) [manga setValue:imgURL forKey:NSStringFromSelector(@selector(coverURL))];
     
     return manga;
 }
