@@ -47,6 +47,7 @@
     XCTAssertEqualObjects(mangaObject.source, @"mangapanda");
     XCTAssertEqualObjects(mangaObject.alternateName, @"One Piece");
     XCTAssertEqualObjects(mangaObject.year, @"1997");
+    XCTAssertTrue(mangaObject.ongoing.boolValue);
 }
 
 //- (void)testPerformanceExample {

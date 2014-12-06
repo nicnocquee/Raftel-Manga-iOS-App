@@ -27,7 +27,8 @@
 			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Year of Release:&lt;/td&gt;
 &lt;td&gt;)(.*)(?=&lt;/td)</string>
 			<key>ongoing</key>
-			<string>&lt;td class=&quot;propertytitle&quot;&gt;Status:&lt;/td&gt;&lt;td&gt;$ongoing$&lt;/td&gt;</string>
+			<string>(?&lt;=class=&quot;propertytitle&quot;&gt;Status:&lt;/td&gt;
+&lt;td&gt;)(.*)(?=&lt;/td)</string>
 			<key>author</key>
 			<string>&lt;td class=&quot;propertytitle&quot;&gt;Author:&lt;/td&gt;&lt;td&gt;$author$&lt;/td&gt;</string>
 			<key>artist</key>
