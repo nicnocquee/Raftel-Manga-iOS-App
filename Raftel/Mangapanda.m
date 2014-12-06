@@ -35,6 +35,7 @@
     
     Manga *manga = [[Manga alloc] init];
     [manga setValue:mangaName forKey:NSStringFromSelector(@selector(name))];
+    [manga setValue:self.configuration[@"name"] forKey:NSStringFromSelector(@selector(source))];
     
     return manga;
 }
