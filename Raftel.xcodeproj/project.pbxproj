@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		033C7C211A333A90000F34CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C201A333A90000F34CF /* main.m */; };
 		033C7C241A333A90000F34CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C231A333A90000F34CF /* AppDelegate.m */; };
-		033C7C271A333A90000F34CF /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C261A333A90000F34CF /* FirstViewController.m */; };
 		033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C291A333A90000F34CF /* SecondViewController.m */; };
 		033C7C2D1A333A90000F34CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C2B1A333A90000F34CF /* Main.storyboard */; };
 		033C7C2F1A333A90000F34CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C2E1A333A90000F34CF /* Images.xcassets */; };
@@ -24,6 +23,10 @@
 		033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */; };
 		033C7C601A33FA3A000F34CF /* MangaPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C5F1A33FA3A000F34CF /* MangaPage.m */; };
 		033C7C631A340746000F34CF /* MangaSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C621A340746000F34CF /* MangaSearchResult.m */; };
+		033C7C661A341963000F34CF /* SearchCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C651A341963000F34CF /* SearchCollectionViewController.m */; };
+		033C7C681A341AD1000F34CF /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C671A341AD1000F34CF /* SearchResultCell.xib */; };
+		033C7C6B1A341C00000F34CF /* SearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C6A1A341C00000F34CF /* SearchResultCell.m */; };
+		5EA9BBA261799912F5A42F69 /* libPods-Raftel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,8 +45,6 @@
 		033C7C201A333A90000F34CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		033C7C221A333A90000F34CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		033C7C231A333A90000F34CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		033C7C251A333A90000F34CF /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		033C7C261A333A90000F34CF /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		033C7C281A333A90000F34CF /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		033C7C291A333A90000F34CF /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		033C7C2C1A333A90000F34CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -69,6 +70,14 @@
 		033C7C5F1A33FA3A000F34CF /* MangaPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaPage.m; sourceTree = "<group>"; };
 		033C7C611A340746000F34CF /* MangaSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaSearchResult.h; sourceTree = "<group>"; };
 		033C7C621A340746000F34CF /* MangaSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaSearchResult.m; sourceTree = "<group>"; };
+		033C7C641A341963000F34CF /* SearchCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCollectionViewController.h; sourceTree = "<group>"; };
+		033C7C651A341963000F34CF /* SearchCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCollectionViewController.m; sourceTree = "<group>"; };
+		033C7C671A341AD1000F34CF /* SearchResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
+		033C7C691A341C00000F34CF /* SearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultCell.h; sourceTree = "<group>"; };
+		033C7C6A1A341C00000F34CF /* SearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultCell.m; sourceTree = "<group>"; };
+		04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Raftel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Raftel/Pods-Raftel.release.xcconfig"; sourceTree = "<group>"; };
+		367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Raftel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E210B4C42E8BC52C22BE4A4 /* Pods-Raftel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Raftel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Raftel/Pods-Raftel.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EA9BBA261799912F5A42F69 /* libPods-Raftel.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +105,8 @@
 				033C7C1D1A333A90000F34CF /* Raftel */,
 				033C7C3A1A333A90000F34CF /* RaftelTests */,
 				033C7C1C1A333A90000F34CF /* Products */,
+				1D8C66E85D597BA99B50DE32 /* Pods */,
+				2E05F61AB08C9ECE1820CBC2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,8 +124,6 @@
 			children = (
 				033C7C221A333A90000F34CF /* AppDelegate.h */,
 				033C7C231A333A90000F34CF /* AppDelegate.m */,
-				033C7C251A333A90000F34CF /* FirstViewController.h */,
-				033C7C261A333A90000F34CF /* FirstViewController.m */,
 				033C7C281A333A90000F34CF /* SecondViewController.h */,
 				033C7C291A333A90000F34CF /* SecondViewController.m */,
 				033C7C2B1A333A90000F34CF /* Main.storyboard */,
@@ -137,6 +147,11 @@
 				033C7C5F1A33FA3A000F34CF /* MangaPage.m */,
 				033C7C611A340746000F34CF /* MangaSearchResult.h */,
 				033C7C621A340746000F34CF /* MangaSearchResult.m */,
+				033C7C641A341963000F34CF /* SearchCollectionViewController.h */,
+				033C7C651A341963000F34CF /* SearchCollectionViewController.m */,
+				033C7C671A341AD1000F34CF /* SearchResultCell.xib */,
+				033C7C691A341C00000F34CF /* SearchResultCell.h */,
+				033C7C6A1A341C00000F34CF /* SearchResultCell.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -167,6 +182,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		1D8C66E85D597BA99B50DE32 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5E210B4C42E8BC52C22BE4A4 /* Pods-Raftel.debug.xcconfig */,
+				04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2E05F61AB08C9ECE1820CBC2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -174,9 +206,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 033C7C411A333A90000F34CF /* Build configuration list for PBXNativeTarget "Raftel" */;
 			buildPhases = (
+				99B78F5EE3012E79AB16062E /* Check Pods Manifest.lock */,
 				033C7C171A333A90000F34CF /* Sources */,
 				033C7C181A333A90000F34CF /* Frameworks */,
 				033C7C191A333A90000F34CF /* Resources */,
+				F8725F6BC5B7CA9A55B41052 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				033C7C2D1A333A90000F34CF /* Main.storyboard in Resources */,
+				033C7C681A341AD1000F34CF /* SearchResultCell.xib in Resources */,
 				033C7C321A333A90000F34CF /* LaunchScreen.xib in Resources */,
 				033C7C2F1A333A90000F34CF /* Images.xcassets in Resources */,
 				033C7C481A33453D000F34CF /* sources.plist in Resources */,
@@ -263,6 +298,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		99B78F5EE3012E79AB16062E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F8725F6BC5B7CA9A55B41052 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Raftel/Pods-Raftel-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		033C7C171A333A90000F34CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -275,8 +343,9 @@
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
 				033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
+				033C7C6B1A341C00000F34CF /* SearchResultCell.m in Sources */,
 				033C7C571A337142000F34CF /* MangaGenre.m in Sources */,
-				033C7C271A333A90000F34CF /* FirstViewController.m in Sources */,
+				033C7C661A341963000F34CF /* SearchCollectionViewController.m in Sources */,
 				033C7C211A333A90000F34CF /* main.m in Sources */,
 				033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */,
 				033C7C631A340746000F34CF /* MangaSearchResult.m in Sources */,
@@ -401,22 +470,24 @@
 		};
 		033C7C421A333A90000F34CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E210B4C42E8BC52C22BE4A4 /* Pods-Raftel.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Raftel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		033C7C431A333A90000F34CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Raftel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -474,6 +545,7 @@
 				033C7C431A333A90000F34CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		033C7C441A333A90000F34CF /* Build configuration list for PBXNativeTarget "RaftelTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +554,7 @@
 				033C7C461A333A90000F34CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
