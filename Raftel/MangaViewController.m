@@ -32,6 +32,8 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:headerIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaChapterCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:chapterIdentifier];
     
+    self.title = self.searchResult.name;
+    
     [SVProgressHUD show];
     [Mangapanda mangaWithURL:self.searchResult.url completion:^(Manga *manga, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{

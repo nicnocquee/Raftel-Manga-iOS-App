@@ -45,6 +45,8 @@ static NSString * const reuseIdentifier = @"pageCell";
             } else {
                 NSLog(@"%d pages received", (int)pages.count);
                 [self.collectionView reloadData];
+                
+                self.title = [NSString stringWithFormat:@"1/%d", (int)pages.count];
             }
         });
     }];
@@ -53,6 +55,13 @@ static NSString * const reuseIdentifier = @"pageCell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - <UISCrollViewDelegate>
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    int page = (int)floorf(self.collectionView.contentOffset.x / scrollView.frame.size.width);
+    self.title = [NSString stringWithFormat:@"%d/%d", page+1, (int)self.chapter.pages.count];
 }
 
 #pragma mark <UICollectionViewDataSource>
