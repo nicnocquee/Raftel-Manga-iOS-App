@@ -15,7 +15,6 @@
 @property (nonatomic, strong) NSDictionary *configuration;
 
 - (Manga *)mangaWithContentURLString:(NSString *)contentURLString;
-- (NSString *)matchInString:(NSString *)string pattern:(NSString *)pattern;
 + (NSArray *)popularMangas;
 + (NSArray *)list;
 + (void)mangaWithURL:(NSURL *)URL completion:(void(^)(Manga *manga, NSError *error))completion;

@@ -60,6 +60,8 @@
 			<string>(?&lt;=a href=&quot;)([\s\S]*?)(?=&quot;&gt;)</string>
 			<key>chapter_name</key>
 			<string>(?&lt;=&lt;/a&gt; : )([\s\S]*?)(?=&lt;/td&gt;)</string>
+			<key>pages</key>
+			<string>(?&lt;=option value=&quot;)([\s\S]*?)(?=&quot;)</string>
 		</dict>
 	</dict>
 </array>

@@ -20,6 +20,7 @@
 		033C7C4E1A33493A000F34CF /* Manga.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C4D1A33493A000F34CF /* Manga.m */; };
 		033C7C511A334C20000F34CF /* MangaChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C501A334C20000F34CF /* MangaChapter.m */; };
 		033C7C571A337142000F34CF /* MangaGenre.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C561A337142000F34CF /* MangaGenre.m */; };
+		033C7C5A1A33E89D000F34CF /* NSString+Matches.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C591A33E89D000F34CF /* NSString+Matches.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		033C7C501A334C20000F34CF /* MangaChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaChapter.m; sourceTree = "<group>"; };
 		033C7C551A337142000F34CF /* MangaGenre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaGenre.h; sourceTree = "<group>"; };
 		033C7C561A337142000F34CF /* MangaGenre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaGenre.m; sourceTree = "<group>"; };
+		033C7C581A33E89D000F34CF /* NSString+Matches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Matches.h"; sourceTree = "<group>"; };
+		033C7C591A33E89D000F34CF /* NSString+Matches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Matches.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				033C7C501A334C20000F34CF /* MangaChapter.m */,
 				033C7C551A337142000F34CF /* MangaGenre.h */,
 				033C7C561A337142000F34CF /* MangaGenre.m */,
+				033C7C581A33E89D000F34CF /* NSString+Matches.h */,
+				033C7C591A33E89D000F34CF /* NSString+Matches.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				033C7C5A1A33E89D000F34CF /* NSString+Matches.m in Sources */,
 				033C7C511A334C20000F34CF /* MangaChapter.m in Sources */,
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
@@ -381,6 +387,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Raftel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -391,6 +398,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Raftel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

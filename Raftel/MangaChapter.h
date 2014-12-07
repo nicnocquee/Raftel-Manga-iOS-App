@@ -16,4 +16,6 @@
 @property (nonatomic, copy, readonly) NSURL *url;
 @property (nonatomic, copy, readonly) NSArray *pages;
 
+- (void)loadPagesWithCompletion:(void(^)(NSArray *pages, NSError *error))completion;
+
 @end

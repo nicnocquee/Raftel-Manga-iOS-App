@@ -30,17 +30,11 @@
 }
 
 - (void)testParseOnePiece {
-    NSArray *sources = [self.class sourcesPlist];
-    NSDictionary *mangapanda = [sources firstObject];
-    NSDictionary *manga = mangapanda[@"manga"];
-    NSString *mangaNameRegexPattern = manga[@"name"];
-    
     NSData *urlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.mangapanda.com/103/one-piece.html"]];
+    XCTAssertNotNil(urlData);
     NSString *urlContentString = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
     
     Mangapanda *panda = [[Mangapanda alloc] init];
-    NSString *name = [panda matchInString:urlContentString pattern:mangaNameRegexPattern];
-    XCTAssertEqualObjects(name, @"One Piece");
     
     Manga *mangaObject = [panda mangaWithContentURLString:urlContentString];
     XCTAssertNotNil(mangaObject);
@@ -64,6 +58,8 @@
 
 - (void)testParseJunjou {    
     NSData *urlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.mangapanda.com/junjou-drop"]];
+    XCTAssertNotNil(urlData);
+    
     NSString *urlContentString = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
     
     Mangapanda *panda = [[Mangapanda alloc] init];
@@ -93,21 +89,5 @@
 //    }];
 //}
 
-+ (NSArray *)sourcesPlist {
-    NSPropertyListFormat format;
-    NSString *plistPath;
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                              NSUserDomainMask, YES) objectAtIndex:0];
-    plistPath = [rootPath stringByAppendingPathComponent:[NSString stringWithFormat:@"sources.plist"]];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        plistPath = [[NSBundle mainBundle] pathForResource:@"sources" ofType:@"plist"];
-    }
-    NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
-    NSError *error;
-    NSArray *temp = (NSArray *)[NSPropertyListSerialization
-                                          propertyListWithData:plistXML options:0 format:&format error:&error];
-    
-    return temp;
-}
 
 @end

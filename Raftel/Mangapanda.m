@@ -10,6 +10,7 @@
 #import "Manga.h"
 #import "MangaChapter.h"
 #import "MangaGenre.h"
+#import "NSString+Matches.h"
 
 @interface Mangapanda ()
 
@@ -50,24 +51,24 @@
     NSString *chapterNameRegexPattern = mangaDictionary[@"chapter_name"];
     NSString *host = self.configuration[@"host"];
     
-    NSString *mangaName = [[self matchInString:contentURLString pattern:mangaNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *alternateName = [[self matchInString:contentURLString pattern:mangaAlternateNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *yearString = [self matchInString:contentURLString pattern:yearRegexPattern];
-    NSString *ongoingString = [self matchInString:contentURLString pattern:ongoingRegexPattern];
+    NSString *mangaName = [[contentURLString matchInWithPattern:mangaNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *alternateName = [[contentURLString matchInWithPattern:mangaAlternateNameRegexPattern] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *yearString = [contentURLString matchInWithPattern:yearRegexPattern];
+    NSString *ongoingString = [contentURLString matchInWithPattern:ongoingRegexPattern];
     BOOL ongoing = [[ongoingString lowercaseString] isEqualToString:@"ongoing"];
-    NSString *author = [self matchInString:contentURLString pattern:authorRegexPattern];
-    NSString *artist = [self matchInString:contentURLString pattern:artistRegexPattern];
-    NSString *synopsis = [self matchInString:contentURLString pattern:synopsisRegexPattern];
-    NSString *cleanedSynopsis = [self matchInString:synopsis pattern:synopsisParagraphRegexPattern];
-    NSString *imgDiv = [self matchInString:contentURLString pattern:coverRegexPattern];
-    NSString *imgString = [self matchInString:imgDiv pattern:imgRegexPattern];
+    NSString *author = [contentURLString matchInWithPattern:authorRegexPattern];
+    NSString *artist = [contentURLString matchInWithPattern:artistRegexPattern];
+    NSString *synopsis = [contentURLString matchInWithPattern:synopsisRegexPattern];
+    NSString *cleanedSynopsis = [synopsis matchInWithPattern:synopsisParagraphRegexPattern];
+    NSString *imgDiv = [contentURLString matchInWithPattern:coverRegexPattern];
+    NSString *imgString = [imgDiv matchInWithPattern:imgRegexPattern];
     NSURL *imgURL = [NSURL URLWithString:imgString];
-    NSString *genreList = [self matchInString:contentURLString pattern:genreListRegexPattern];
-    NSArray *genresStrings = [self matchesInString:genreList pattern:genreItemRegexPattern];
+    NSString *genreList = [contentURLString matchInWithPattern:genreListRegexPattern];
+    NSArray *genresStrings = [genreList matchesWithPattern:genreItemRegexPattern];
     NSMutableArray *genres = [NSMutableArray arrayWithCapacity:genresStrings.count];
     for (NSString *genreString in genresStrings) {
-        NSString *genreLinkString = [self matchInString:genreString pattern:genreLinkRegexPattern];
-        NSString *genreName = [self matchInString:genreString pattern:genreNameRegexPattern];
+        NSString *genreLinkString = [genreString matchInWithPattern:genreLinkRegexPattern];
+        NSString *genreName = [genreString matchInWithPattern:genreNameRegexPattern];
         NSURL *genreURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", host, genreLinkString]];
         
         MangaGenre *genre = [[MangaGenre alloc] init];
@@ -76,13 +77,13 @@
         
         [genres addObject:genre];
     }
-    NSString *chapterBlock = [self matchInString:contentURLString pattern:chapterBlockRegexPattern];
-    NSArray *chapterItems = [self matchesInString:chapterBlock pattern:chapterItemRegexPattern];
+    NSString *chapterBlock = [contentURLString matchInWithPattern:chapterBlockRegexPattern];
+    NSArray *chapterItems = [chapterBlock matchesWithPattern:chapterItemRegexPattern];
     NSMutableArray *chapters = [NSMutableArray arrayWithCapacity:chapterItems.count];
     int i = 0;
     for (NSString *chapter in chapterItems) {
-        NSString *chapterLink = [self matchInString:chapter pattern:chapterLinkRegexPattern];
-        NSString *chapterName = [self matchInString:chapter pattern:chapterNameRegexPattern];
+        NSString *chapterLink = [chapter matchInWithPattern:chapterLinkRegexPattern];
+        NSString *chapterName = [chapter matchInWithPattern:chapterNameRegexPattern];
         NSURL *chapterURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", host, chapterLink]];
         MangaChapter *c = [[MangaChapter alloc] init];
         [c setValue:chapterURL forKey:NSStringFromSelector(@selector(url))];
@@ -106,32 +107,6 @@
     [manga setValue:genres forKey:NSStringFromSelector(@selector(genre))];
     [manga setValue:chapters forKey:NSStringFromSelector(@selector(chapters))];
     return manga;
-}
-
-- (NSString *)matchInString:(NSString *)string pattern:(NSString *)pattern {
-    NSError *error;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error) {
-        return nil;
-    }
-    NSArray *matches = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
-    NSTextCheckingResult *result = [matches firstObject];
-    NSRange range = result.range;
-    return [string substringWithRange:range];
-}
-
-- (NSArray *)matchesInString:(NSString *)string pattern:(NSString *)pattern {
-    NSError *error;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error) {
-        return nil;
-    }
-    NSArray *matches = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
-    NSMutableArray *results = [NSMutableArray arrayWithCapacity:matches.count];
-    for (NSTextCheckingResult *result in matches) {
-        [results addObject:[string substringWithRange:result.range]];
-    }
-    return results;
 }
 
 + (NSArray *)sourcesPlist {
