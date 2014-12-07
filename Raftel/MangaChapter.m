@@ -44,13 +44,15 @@
     return pages;
 }
 
-- (void)loadPagesWithCompletion:(void (^)(NSArray *pages, NSError *error))completion {
+- (NSURLSessionDataTask *)loadPagesWithCompletion:(void (^)(NSArray *pages, NSError *error))completion {
+    __weak typeof (self) selfie = self;
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:self.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"pages downloaded");
         if (error) {
             if (completion) completion(nil, error);
         } else {
             NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSArray *pages = [self pagesWithContentURLString:string];
+            NSArray *pages = [selfie pagesWithContentURLString:string];
             _pages = pages;
             if (completion) {
                 completion(pages, nil);
@@ -58,6 +60,7 @@
         }
     }];
     [task resume];
+    return task;
 }
 
 @end

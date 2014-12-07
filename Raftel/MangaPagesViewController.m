@@ -13,9 +13,10 @@
 #import "DBManager.h"
 #import <UIImageView+WebCache.h>
 #import <SIAlertView.h>
-#import <SVProgressHUD.h>
 
 @interface MangaPagesViewController () <UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 
 @end
 
@@ -26,6 +27,8 @@ static NSString * const reuseIdentifier = @"pageCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.collectionView setScrollEnabled:NO];
+    
     // Register cell classes
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaPageViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     
@@ -35,13 +38,16 @@ static NSString * const reuseIdentifier = @"pageCell";
     }];
     if (ch && ch.pages.count > 0) {
         self.chapter = ch;
+        [self.collectionView setScrollEnabled:YES];
         [self setTitleForPage:1 total:(int)self.chapter.pages.count];
     } else {
-        [SVProgressHUD show];
-        [self.chapter loadPagesWithCompletion:^(NSArray *pages, NSError *error) {
+        [self showRightBarLoadingView:YES];
+        __weak typeof (self) selfie = self;
+        self.dataTask = [self.chapter loadPagesWithCompletion:^(NSArray *pages, NSError *error) {
+            NSLog(@"%d pages received", (int)pages.count);
+            
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
                     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) andMessage:error.localizedDescription];
                     
                     [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
@@ -50,16 +56,16 @@ static NSString * const reuseIdentifier = @"pageCell";
                                               NSLog(@"Button1 Clicked");
                                           }];
                     [alertView show];
+                    [selfie showRightBarLoadingView:NO];
                 });
             } else {
-                NSLog(@"%d pages received", (int)pages.count);
+                
                 
                 int count = 1;
-                int pagesCount = (int)self.chapter.pages.count;
-                for (MangaPage *page in self.chapter.pages) {
+                int pagesCount = (int)selfie.chapter.pages.count;
+                for (MangaPage *page in selfie.chapter.pages) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        if (![SVProgressHUD isVisible]) [SVProgressHUD show];
-                        self.title = [NSString stringWithFormat:NSLocalizedString(@"Loading page %d/%d", nil), count,pagesCount];
+                        selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Loading page %d/%d", nil), count,pagesCount];
                     });
                     
                     NSData *data = [NSData dataWithContentsOfURL:page.url];
@@ -75,16 +81,34 @@ static NSString * const reuseIdentifier = @"pageCell";
                 }
                 
                 [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                    [transaction setObject:self.chapter forKey:self.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                    [transaction setObject:selfie.chapter forKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection];
                 } completionBlock:^{
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [SVProgressHUD dismiss];
-                        [self.collectionView reloadData];
-                        [self setTitleForPage:1 total:pagesCount];
+                        [selfie.collectionView reloadData];
+                        [selfie setTitleForPage:1 total:pagesCount];
+                        [selfie.collectionView setScrollEnabled:YES];
+                        [selfie showRightBarLoadingView:NO];
                     });
                 }];
             }
         }];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"canceling data task");
+    [self.dataTask cancel];
+}
+
+- (void)showRightBarLoadingView:(BOOL)show {
+    if (show) {
+        UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:view];
+        [view startAnimating];
+        [self.navigationItem setRightBarButtonItem:right];
+    } else {
+        [self.navigationItem setRightBarButtonItem:nil];
     }
 }
 
