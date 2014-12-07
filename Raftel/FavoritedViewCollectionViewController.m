@@ -45,9 +45,18 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
         [self.databaseViewMappings updateWithTransaction:transaction];
     }];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(yapDatabaseModified:)
+                                                 name:YapDatabaseModifiedNotification
+                                               object:nil];
+    
     // Register cell classes
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([SearchResultCell class]) bundle:nil] forCellWithReuseIdentifier:favoriteCellIdentifier];
     // Do any additional setup after loading the view.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -106,6 +115,17 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(cellSpacing, cellSpacing, cellSpacing, cellSpacing);
+}
+
+#pragma mark - Notifications
+
+- (void)yapDatabaseModified:(NSNotification *)sender {
+    [self.readConnection beginLongLivedReadTransaction];
+    [self.readConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        [self.databaseViewMappings updateWithTransaction:transaction];
+    }];
+    
+    [self.collectionView reloadData];
 }
 
 @end
