@@ -11,6 +11,7 @@
 #import "MangaChapter.h"
 #import "MangaGenre.h"
 #import "NSString+Matches.h"
+#import "NSArray+SourcesPlist.h"
 
 @interface Mangapanda ()
 
@@ -22,7 +23,7 @@
 {
     self = [super init];
     if (self) {
-        NSArray *sources = [self.class sourcesPlist];
+        NSArray *sources = [NSArray sourcesPlist];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", @"mangapanda"];
         self.configuration = [[sources filteredArrayUsingPredicate:predicate] firstObject];
     }
@@ -107,23 +108,6 @@
     [manga setValue:genres forKey:NSStringFromSelector(@selector(genre))];
     [manga setValue:chapters forKey:NSStringFromSelector(@selector(chapters))];
     return manga;
-}
-
-+ (NSArray *)sourcesPlist {
-    NSPropertyListFormat format;
-    NSString *plistPath;
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                              NSUserDomainMask, YES) objectAtIndex:0];
-    plistPath = [rootPath stringByAppendingPathComponent:[NSString stringWithFormat:@"sources.plist"]];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        plistPath = [[NSBundle mainBundle] pathForResource:@"sources" ofType:@"plist"];
-    }
-    NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
-    NSError *error;
-    NSArray *temp = (NSArray *)[NSPropertyListSerialization
-                                propertyListWithData:plistXML options:0 format:&format error:&error];
-    
-    return temp;
 }
 
 + (NSArray *)popularMangas {

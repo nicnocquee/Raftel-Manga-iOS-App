@@ -12,6 +12,7 @@
 #import "Manga.h"
 #import "Mangapanda.h"
 #import "MangaGenre.h"
+#import "MangaChapter.h"
 
 @interface RaftelTests : XCTestCase
 
@@ -54,6 +55,15 @@
     MangaGenre *action = [mangaObject.genre firstObject];
     XCTAssertEqualObjects(action.name, @"Action");
     XCTAssertEqualObjects(action.URL.absoluteString, @"http://www.mangapanda.com/popular/action");
+    
+    MangaChapter *chapter1 = [mangaObject.chapters firstObject];
+    XCTAssertNotNil(chapter1);
+    NSData *chapterData = [NSData dataWithContentsOfURL:chapter1.url];
+    XCTAssertNotNil(chapterData);
+    NSString *chapterContentString = [[NSString alloc] initWithData:chapterData encoding:NSUTF8StringEncoding];
+    NSArray *pages = [chapter1 pagesWithContentURLString:chapterContentString];
+    XCTAssertNotNil(pages);
+    XCTAssertEqual((int)pages.count, 54);
 }
 
 - (void)testParseJunjou {    

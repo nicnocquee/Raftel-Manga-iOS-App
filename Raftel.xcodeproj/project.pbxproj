@@ -21,6 +21,7 @@
 		033C7C511A334C20000F34CF /* MangaChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C501A334C20000F34CF /* MangaChapter.m */; };
 		033C7C571A337142000F34CF /* MangaGenre.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C561A337142000F34CF /* MangaGenre.m */; };
 		033C7C5A1A33E89D000F34CF /* NSString+Matches.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C591A33E89D000F34CF /* NSString+Matches.m */; };
+		033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		033C7C561A337142000F34CF /* MangaGenre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaGenre.m; sourceTree = "<group>"; };
 		033C7C581A33E89D000F34CF /* NSString+Matches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Matches.h"; sourceTree = "<group>"; };
 		033C7C591A33E89D000F34CF /* NSString+Matches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Matches.m"; sourceTree = "<group>"; };
+		033C7C5B1A33F193000F34CF /* NSArray+SourcesPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+SourcesPlist.h"; sourceTree = "<group>"; };
+		033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SourcesPlist.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,8 @@
 				033C7C561A337142000F34CF /* MangaGenre.m */,
 				033C7C581A33E89D000F34CF /* NSString+Matches.h */,
 				033C7C591A33E89D000F34CF /* NSString+Matches.m */,
+				033C7C5B1A33F193000F34CF /* NSArray+SourcesPlist.h */,
+				033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				033C7C511A334C20000F34CF /* MangaChapter.m in Sources */,
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
+				033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
 				033C7C571A337142000F34CF /* MangaGenre.m in Sources */,
 				033C7C271A333A90000F34CF /* FirstViewController.m in Sources */,
