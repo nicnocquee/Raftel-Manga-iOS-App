@@ -35,19 +35,25 @@
 }
 
 - (void)loadImageURLWithCompletion:(void(^)(NSURL *imageURL, NSError *error))completion {
-    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:self.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            if (completion) completion(nil, error);
-        } else {
-            NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSURL *image = [self imageURLWithContentURLString:string];
-            _imageURL = image;
-            if (completion) {
-                completion(image, nil);
-            }
+    if (self.imageURL) {
+        if (completion) {
+            completion(self.imageURL, nil);
         }
-    }];
-    [task resume];
+    } else {
+        NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:self.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (error) {
+                if (completion) completion(nil, error);
+            } else {
+                NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                NSURL *image = [self imageURLWithContentURLString:string];
+                _imageURL = image;
+                if (completion) {
+                    completion(image, nil);
+                }
+            }
+        }];
+        [task resume];
+    }
 }
 
 @end

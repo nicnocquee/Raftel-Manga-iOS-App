@@ -13,6 +13,7 @@
 #import "Mangapanda.h"
 #import "MangaChapter.h"
 #import "MangaSearchResult.h"
+#import "MangaPagesViewController.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
 
@@ -45,6 +46,13 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showPages"]) {
+        MangaPagesViewController *pagesVC = (MangaPagesViewController *)segue.destinationViewController;
+        pagesVC.chapter = sender;
+    }
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -131,33 +139,11 @@ static NSString * const chapterIdentifier = @"chapterCell";
     return 0;
 }
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        MangaChapter *chapter = [self.manga.chapters objectAtIndex:indexPath.item];
+        [self performSegueWithIdentifier:@"showPages" sender:chapter];
+    }
 }
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

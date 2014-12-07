@@ -31,6 +31,9 @@
 		033C7C741A342B00000F34CF /* MangaChapterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C731A342B00000F34CF /* MangaChapterCollectionViewCell.m */; };
 		033C7C761A342B13000F34CF /* MangaHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C751A342B13000F34CF /* MangaHeaderViewCell.xib */; };
 		033C7C7B1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C7A1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib */; };
+		033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */; };
+		033C7C821A3460B8000F34CF /* MangaPageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C801A3460B8000F34CF /* MangaPageViewCell.m */; };
+		033C7C831A3460B8000F34CF /* MangaPageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */; };
 		5EA9BBA261799912F5A42F69 /* libPods-Raftel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */; };
 		70B1028CB1059B6447871B5D /* libPods-RaftelTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB371E9D57C4EF31495799A /* libPods-RaftelTests.a */; };
 /* End PBXBuildFile section */
@@ -89,6 +92,11 @@
 		033C7C731A342B00000F34CF /* MangaChapterCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaChapterCollectionViewCell.m; sourceTree = "<group>"; };
 		033C7C751A342B13000F34CF /* MangaHeaderViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangaHeaderViewCell.xib; sourceTree = "<group>"; };
 		033C7C7A1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangaChapterCollectionViewCell.xib; sourceTree = "<group>"; };
+		033C7C7C1A345F41000F34CF /* MangaPagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaPagesViewController.h; sourceTree = "<group>"; };
+		033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaPagesViewController.m; sourceTree = "<group>"; };
+		033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaPageViewCell.h; sourceTree = "<group>"; };
+		033C7C801A3460B8000F34CF /* MangaPageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaPageViewCell.m; sourceTree = "<group>"; };
+		033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangaPageViewCell.xib; sourceTree = "<group>"; };
 		04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Raftel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Raftel/Pods-Raftel.release.xcconfig"; sourceTree = "<group>"; };
 		3506B5B0232874E076ABD6E6 /* Pods-RaftelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaftelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaftelTests/Pods-RaftelTests.debug.xcconfig"; sourceTree = "<group>"; };
 		367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Raftel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +186,11 @@
 				033C7C731A342B00000F34CF /* MangaChapterCollectionViewCell.m */,
 				033C7C751A342B13000F34CF /* MangaHeaderViewCell.xib */,
 				033C7C7A1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib */,
+				033C7C7C1A345F41000F34CF /* MangaPagesViewController.h */,
+				033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */,
+				033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */,
+				033C7C801A3460B8000F34CF /* MangaPageViewCell.m */,
+				033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -314,6 +327,7 @@
 			files = (
 				033C7C761A342B13000F34CF /* MangaHeaderViewCell.xib in Resources */,
 				033C7C2D1A333A90000F34CF /* Main.storyboard in Resources */,
+				033C7C831A3460B8000F34CF /* MangaPageViewCell.xib in Resources */,
 				033C7C681A341AD1000F34CF /* SearchResultCell.xib in Resources */,
 				033C7C321A333A90000F34CF /* LaunchScreen.xib in Resources */,
 				033C7C7B1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib in Resources */,
@@ -403,6 +417,7 @@
 				033C7C601A33FA3A000F34CF /* MangaPage.m in Sources */,
 				033C7C511A334C20000F34CF /* MangaChapter.m in Sources */,
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
+				033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */,
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
 				033C7C711A342AEF000F34CF /* MangaHeaderViewCell.m in Sources */,
 				033C7C6E1A3429A2000F34CF /* MangaViewController.m in Sources */,
@@ -410,6 +425,7 @@
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
 				033C7C6B1A341C00000F34CF /* SearchResultCell.m in Sources */,
 				033C7C741A342B00000F34CF /* MangaChapterCollectionViewCell.m in Sources */,
+				033C7C821A3460B8000F34CF /* MangaPageViewCell.m in Sources */,
 				033C7C571A337142000F34CF /* MangaGenre.m in Sources */,
 				033C7C661A341963000F34CF /* SearchCollectionViewController.m in Sources */,
 				033C7C211A333A90000F34CF /* main.m in Sources */,

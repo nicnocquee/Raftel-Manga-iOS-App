@@ -111,7 +111,7 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
                 [SVProgressHUD dismiss];
                 if (error) {
                     NSLog(@"Error %@", error);
-                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Search Error", NSInteger) andMessage:error.localizedDescription];
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Search Error", nil) andMessage:error.localizedDescription];
                     
                     [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
                                              type:SIAlertViewButtonTypeCancel
