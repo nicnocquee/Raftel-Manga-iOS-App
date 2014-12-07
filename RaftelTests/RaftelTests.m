@@ -13,6 +13,7 @@
 #import "Mangapanda.h"
 #import "MangaGenre.h"
 #import "MangaChapter.h"
+#import "MangaPage.h"
 
 @interface RaftelTests : XCTestCase
 
@@ -64,6 +65,14 @@
     NSArray *pages = [chapter1 pagesWithContentURLString:chapterContentString];
     XCTAssertNotNil(pages);
     XCTAssertEqual((int)pages.count, 54);
+    MangaPage *page1 = [pages firstObject];
+    NSData *page1Data = [NSData dataWithContentsOfURL:page1.url];
+    XCTAssertNotNil(page1Data);
+    NSString *page1ContentString = [[NSString alloc] initWithData:page1Data encoding:NSUTF8StringEncoding];
+    NSURL *page1ImageURL = [page1 imageURLWithContentURLString:page1ContentString];
+    XCTAssertNotNil(page1);
+    XCTAssertEqualObjects(page1.url.absoluteString, @"http://www.mangapanda.com/103-2039-1/one-piece/chapter-1.html");
+    XCTAssertEqualObjects(page1ImageURL.absoluteString, @"http://i38.mangapanda.com/one-piece/1/one-piece-1668160.jpg");
 }
 
 - (void)testParseJunjou {    

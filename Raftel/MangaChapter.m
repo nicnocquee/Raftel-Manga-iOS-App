@@ -7,6 +7,7 @@
 //
 
 #import "MangaChapter.h"
+#import "MangaPage.h"
 #import "NSString+Matches.h"
 #import "NSArray+SourcesPlist.h"
 
@@ -33,9 +34,11 @@
     for (NSString *page in pagesStrings) {
         NSString *urlString = [NSString stringWithFormat:@"%@%@", host, page];
         NSURL *pageURL = [NSURL URLWithString:urlString];
-        if (pageURL) {
-            [pages addObject:pageURL];
-        }
+        
+        MangaPage *pageObject = [[MangaPage alloc] init];
+        [pageObject setValue:pageURL forKey:NSStringFromSelector(@selector(url))];
+        [pageObject setValue:self.source forKey:NSStringFromSelector(@selector(source))];
+        [pages addObject:pageObject];
     }
     
     return pages;
@@ -48,6 +51,7 @@
         } else {
             NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             NSArray *pages = [self pagesWithContentURLString:string];
+            _pages = pages;
             if (completion) {
                 completion(pages, nil);
             }

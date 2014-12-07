@@ -62,6 +62,10 @@
 			<string>(?&lt;=&lt;/a&gt; : )([\s\S]*?)(?=&lt;/td&gt;)</string>
 			<key>pages</key>
 			<string>(?&lt;=option value=&quot;)([\s\S]*?)(?=&quot;)</string>
+			<key>page_image</key>
+			<string>(?&lt;=id=&quot;img&quot;)([\s\S]*?)(?= alt=)</string>
+			<key>page_image_src</key>
+			<string>(?&lt;=src=&quot;)([\s\S]*?)(?=&quot;)</string>
 		</dict>
 	</dict>
 </array>
