@@ -8,7 +8,6 @@
 
 #import "DBManager.h"
 #import "Manga.h"
-#import <YapDatabaseView.h>
 
 NSString *const kSearchResultCollection = @"searchResults";
 NSString *const kMangaCollection = @"mangas";
@@ -51,23 +50,7 @@ NSString *const kFavoritedDateKey = @"favorited-day";
         self.writeConnection.objectCacheEnabled = NO; // don't need cache for write-only connection
         self.writeConnection.metadataCacheEnabled = NO;
         
-        YapDatabaseViewGrouping *grouping = [YapDatabaseViewGrouping withRowBlock:^NSString *(NSString *collection, NSString *key, Manga *object, NSDictionary *metadata) {
-            if ([collection isEqualToString:kMangaCollection]) {
-                if ([metadata objectForKey:kFavoritedDateKey]) {
-                    return @"";
-                }
-            }
-            return nil;
-        }];
-        
-        YapDatabaseViewSorting *sorting = [YapDatabaseViewSorting withMetadataBlock:^NSComparisonResult(NSString *group, NSString *collection1, NSString *key1, NSDictionary *metadata, NSString *collection2, NSString *key2, NSDictionary *metadata2) {
-            NSDate *favDate1 = [metadata objectForKey:kFavoritedDateKey];
-            NSDate *favDate2 = [metadata2 objectForKey:kFavoritedDateKey];
-            return [favDate2 compare:favDate1];
-        }];
-        
-        YapDatabaseView *view = [[YapDatabaseView alloc] initWithGrouping:grouping sorting:sorting versionTag:@"1.0"];
-        [_database registerExtension:view withName:kUserFavoriteView];
+        [self favoritedView];
     }
     return self;
 }
@@ -80,6 +63,30 @@ NSString *const kFavoritedDateKey = @"favorited-day";
     NSString *databaseName = @"database.sqlite";
     
     return [baseDir stringByAppendingPathComponent:databaseName];
+}
+
+- (id)favoritedView {
+    if ([_database registeredExtension:kUserFavoriteView]) {
+        return [_database registeredExtension:kUserFavoriteView];
+    }
+    YapDatabaseViewGrouping *grouping = [YapDatabaseViewGrouping withRowBlock:^NSString *(NSString *collection, NSString *key, Manga *object, NSDictionary *metadata) {
+        if ([collection isEqualToString:kMangaCollection]) {
+            if ([metadata objectForKey:kFavoritedDateKey]) {
+                return @"";
+            }
+        }
+        return nil;
+    }];
+    
+    YapDatabaseViewSorting *sorting = [YapDatabaseViewSorting withMetadataBlock:^NSComparisonResult(NSString *group, NSString *collection1, NSString *key1, NSDictionary *metadata, NSString *collection2, NSString *key2, NSDictionary *metadata2) {
+        NSDate *favDate1 = [metadata objectForKey:kFavoritedDateKey];
+        NSDate *favDate2 = [metadata2 objectForKey:kFavoritedDateKey];
+        return [favDate2 compare:favDate1];
+    }];
+    
+    YapDatabaseView *view = [[YapDatabaseView alloc] initWithGrouping:grouping sorting:sorting versionTag:@"1.0"];
+    [_database registerExtension:view withName:kUserFavoriteView];
+    return view;
 }
 
 @end

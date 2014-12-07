@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <YapDatabase.h>
 #import <YapDatabaseConnection.h>
+#import <YapDatabaseView.h>
 
 extern NSString *const kSearchResultCollection;
 extern NSString *const kMangaCollection;
@@ -24,5 +25,7 @@ extern NSString *const kFavoritedDateKey;
 @property (nonatomic, strong, readonly) YapDatabase *database;
 @property (nonatomic, strong, readonly) YapDatabaseConnection *readConnection;
 @property (nonatomic, strong, readonly) YapDatabaseConnection *writeConnection;
+
+- (YapDatabaseView *)favoritedView;
 
 @end
