@@ -83,6 +83,7 @@ static NSString * const reuseIdentifier = @"pageCell";
     MangaPage *page = [self.chapter.pages objectAtIndex:indexPath.item];
     
     [cell.indicatorView setHidden:YES];
+    [cell.scrollView setZoomScale:1];
     [cell.imageView sd_setImageWithURL:page.imageURL];
     if (!cell.imageView.image) {
         [cell.indicatorView setHidden:NO];

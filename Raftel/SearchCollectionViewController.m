@@ -58,6 +58,10 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.searchBar endEditing:YES];
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

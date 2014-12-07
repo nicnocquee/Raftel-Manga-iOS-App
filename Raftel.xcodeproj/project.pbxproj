@@ -34,6 +34,7 @@
 		033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */; };
 		033C7C821A3460B8000F34CF /* MangaPageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C801A3460B8000F34CF /* MangaPageViewCell.m */; };
 		033C7C831A3460B8000F34CF /* MangaPageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */; };
+		03D66DF81A34895B004D9CEB /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D66DF71A34895B004D9CEB /* DBManager.m */; };
 		5EA9BBA261799912F5A42F69 /* libPods-Raftel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */; };
 		70B1028CB1059B6447871B5D /* libPods-RaftelTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB371E9D57C4EF31495799A /* libPods-RaftelTests.a */; };
 /* End PBXBuildFile section */
@@ -97,6 +98,8 @@
 		033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaPageViewCell.h; sourceTree = "<group>"; };
 		033C7C801A3460B8000F34CF /* MangaPageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaPageViewCell.m; sourceTree = "<group>"; };
 		033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangaPageViewCell.xib; sourceTree = "<group>"; };
+		03D66DF61A34895B004D9CEB /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		03D66DF71A34895B004D9CEB /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Raftel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Raftel/Pods-Raftel.release.xcconfig"; sourceTree = "<group>"; };
 		3506B5B0232874E076ABD6E6 /* Pods-RaftelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaftelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaftelTests/Pods-RaftelTests.debug.xcconfig"; sourceTree = "<group>"; };
 		367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Raftel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +194,8 @@
 				033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */,
 				033C7C801A3460B8000F34CF /* MangaPageViewCell.m */,
 				033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */,
+				03D66DF61A34895B004D9CEB /* DBManager.h */,
+				03D66DF71A34895B004D9CEB /* DBManager.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
 				033C7C711A342AEF000F34CF /* MangaHeaderViewCell.m in Sources */,
 				033C7C6E1A3429A2000F34CF /* MangaViewController.m in Sources */,
+				03D66DF81A34895B004D9CEB /* DBManager.m in Sources */,
 				033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
 				033C7C6B1A341C00000F34CF /* SearchResultCell.m in Sources */,
