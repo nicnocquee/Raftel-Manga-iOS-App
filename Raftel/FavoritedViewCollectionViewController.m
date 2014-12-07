@@ -9,6 +9,7 @@
 #import "FavoritedViewCollectionViewController.h"
 #import "SearchResultCell.h"
 #import "DBManager.h"
+#import "MangaViewController.h"
 #import "Manga.h"
 #import <UIImageView+WebCache.h>
 
@@ -64,15 +65,16 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"showMangaFromFavorite"]) {
+        MangaViewController *mangaVC = (MangaViewController *)segue.destinationViewController;
+        mangaVC.manga = sender;
+    }
 }
-*/
+
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -115,6 +117,14 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(cellSpacing, cellSpacing, cellSpacing, cellSpacing);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    __block Manga *result;
+    [self.readConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        result = [[transaction ext:kUserFavoriteView] objectAtIndexPath:indexPath withMappings:self.databaseViewMappings];
+    }];
+    [self performSegueWithIdentifier:@"showMangaFromFavorite" sender:result];
 }
 
 #pragma mark - Notifications

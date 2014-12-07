@@ -36,9 +36,9 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:headerIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaChapterCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:chapterIdentifier];
     
-    self.title = self.searchResult.name;
+    self.title = self.searchResult.name?:self.manga.name;
     
-    NSString *key = self.searchResult.url.absoluteString;
+    NSString *key = self.searchResult.url.absoluteString?:self.manga.url.absoluteString;
     __block Manga *m;
     [[[DBManager sharedManager] readConnection] readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         m = [transaction objectForKey:key inCollection:kMangaCollection];
@@ -53,21 +53,21 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [SVProgressHUD show];
     }
     
-    self.dataTask = [Mangapanda mangaWithURL:self.searchResult.url completion:^(Manga *manga, NSError *error) {
+    self.dataTask = [Mangapanda mangaWithURL:self.searchResult.url?:self.manga.url completion:^(Manga *manga, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"done fetching manga");
             [SVProgressHUD dismiss];
             self.navigationItem.titleView = nil;
-            self.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), self.searchResult.name, (int)manga.chapters.count];
+            self.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), self.searchResult.name?:self.manga.name, (int)manga.chapters.count];
             self.manga = manga;
             [self.collectionView reloadData];
             [self showAddToCollectionButton:YES];
             
             [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                if ([transaction hasObjectForKey:self.searchResult.url.absoluteString inCollection:kMangaCollection]) {
-                    [transaction replaceObject:manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+                if ([transaction hasObjectForKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection]) {
+                    [transaction replaceObject:manga forKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection];
                 } else {
-                    [transaction setObject:manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+                    [transaction setObject:manga forKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection];
                 }
             }];
         });
@@ -87,10 +87,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [sender setEnabled:NO];
     if (self.manga) {
         [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-            if ([transaction hasObjectForKey:self.searchResult.url.absoluteString inCollection:kMangaCollection]) {
-                [transaction replaceMetadata:@{kFavoritedDateKey: [NSDate date]} forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+            if ([transaction hasObjectForKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection]) {
+                [transaction replaceMetadata:@{kFavoritedDateKey: [NSDate date]} forKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection];
             } else {
-                [transaction setObject:self.manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection withMetadata:@{kFavoritedDateKey: [NSDate date]}];
+                [transaction setObject:self.manga forKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection withMetadata:@{kFavoritedDateKey: [NSDate date]}];
             }
         } completionBlock:^{
             [sender setEnabled:YES];
@@ -127,7 +127,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)viewDidDisappear:(BOOL)animated {
     [self.dataTask suspend];
     self.navigationItem.titleView = nil;
-    self.title = self.searchResult.name;
+    self.title = self.manga.name;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
