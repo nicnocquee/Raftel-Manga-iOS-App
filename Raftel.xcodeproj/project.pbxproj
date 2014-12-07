@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		033C7C211A333A90000F34CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C201A333A90000F34CF /* main.m */; };
 		033C7C241A333A90000F34CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C231A333A90000F34CF /* AppDelegate.m */; };
-		033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C291A333A90000F34CF /* SecondViewController.m */; };
 		033C7C2D1A333A90000F34CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C2B1A333A90000F34CF /* Main.storyboard */; };
 		033C7C2F1A333A90000F34CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C2E1A333A90000F34CF /* Images.xcassets */; };
 		033C7C321A333A90000F34CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C301A333A90000F34CF /* LaunchScreen.xib */; };
@@ -35,6 +34,7 @@
 		033C7C821A3460B8000F34CF /* MangaPageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C801A3460B8000F34CF /* MangaPageViewCell.m */; };
 		033C7C831A3460B8000F34CF /* MangaPageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */; };
 		03D66DF81A34895B004D9CEB /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D66DF71A34895B004D9CEB /* DBManager.m */; };
+		03D66DFB1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D66DFA1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m */; };
 		5EA9BBA261799912F5A42F69 /* libPods-Raftel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */; };
 		70B1028CB1059B6447871B5D /* libPods-RaftelTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB371E9D57C4EF31495799A /* libPods-RaftelTests.a */; };
 /* End PBXBuildFile section */
@@ -55,8 +55,6 @@
 		033C7C201A333A90000F34CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		033C7C221A333A90000F34CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		033C7C231A333A90000F34CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		033C7C281A333A90000F34CF /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		033C7C291A333A90000F34CF /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		033C7C2C1A333A90000F34CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		033C7C2E1A333A90000F34CF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		033C7C311A333A90000F34CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -100,6 +98,8 @@
 		033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangaPageViewCell.xib; sourceTree = "<group>"; };
 		03D66DF61A34895B004D9CEB /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		03D66DF71A34895B004D9CEB /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		03D66DF91A34BEA6004D9CEB /* FavoritedViewCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritedViewCollectionViewController.h; sourceTree = "<group>"; };
+		03D66DFA1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritedViewCollectionViewController.m; sourceTree = "<group>"; };
 		04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Raftel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Raftel/Pods-Raftel.release.xcconfig"; sourceTree = "<group>"; };
 		3506B5B0232874E076ABD6E6 /* Pods-RaftelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaftelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaftelTests/Pods-RaftelTests.debug.xcconfig"; sourceTree = "<group>"; };
 		367804882BC5D1B9CB8F0F07 /* libPods-Raftel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Raftel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,8 +153,6 @@
 			children = (
 				033C7C221A333A90000F34CF /* AppDelegate.h */,
 				033C7C231A333A90000F34CF /* AppDelegate.m */,
-				033C7C281A333A90000F34CF /* SecondViewController.h */,
-				033C7C291A333A90000F34CF /* SecondViewController.m */,
 				033C7C2B1A333A90000F34CF /* Main.storyboard */,
 				033C7C2E1A333A90000F34CF /* Images.xcassets */,
 				033C7C301A333A90000F34CF /* LaunchScreen.xib */,
@@ -196,6 +194,8 @@
 				033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */,
 				03D66DF61A34895B004D9CEB /* DBManager.h */,
 				03D66DF71A34895B004D9CEB /* DBManager.m */,
+				03D66DF91A34BEA6004D9CEB /* FavoritedViewCollectionViewController.h */,
+				03D66DFA1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -423,7 +423,6 @@
 				033C7C511A334C20000F34CF /* MangaChapter.m in Sources */,
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */,
-				033C7C2A1A333A90000F34CF /* SecondViewController.m in Sources */,
 				033C7C711A342AEF000F34CF /* MangaHeaderViewCell.m in Sources */,
 				033C7C6E1A3429A2000F34CF /* MangaViewController.m in Sources */,
 				03D66DF81A34895B004D9CEB /* DBManager.m in Sources */,
@@ -437,6 +436,7 @@
 				033C7C211A333A90000F34CF /* main.m in Sources */,
 				033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */,
 				033C7C631A340746000F34CF /* MangaSearchResult.m in Sources */,
+				03D66DFB1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
