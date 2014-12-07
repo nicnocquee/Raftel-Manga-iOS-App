@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import <Crashlytics/Crashlytics.h>
+
 @interface AppDelegate ()
 
 @end
@@ -21,6 +23,8 @@
         // if unit test, need to return quickly. Reference: http://www.objc.io/issue-1/testing-view-controllers.html
         return YES;
     }
+    
+    [Crashlytics startWithAPIKey:@"e2c34125953b33a5ab021b095a449f744b70187a"];
     return YES;
 }
 
