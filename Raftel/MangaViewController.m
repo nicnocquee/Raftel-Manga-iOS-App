@@ -35,7 +35,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     
     self.title = self.searchResult.name;
     
-    NSString *key = self.searchResult.name;
+    NSString *key = self.searchResult.url.absoluteString;
     __block Manga *m;
     [[[DBManager sharedManager] readConnection] readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         m = [transaction objectForKey:key inCollection:kMangaCollection];
@@ -71,7 +71,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
             [self.collectionView reloadData];
             
             [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                [transaction setObject:manga forKey:manga.name inCollection:kMangaCollection];
+                [transaction setObject:manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
             }];
         });
     }];
