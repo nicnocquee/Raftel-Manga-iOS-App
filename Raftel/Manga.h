@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Raftel. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <MTLModel.h>
 
-@interface Manga : NSObject
+@interface Manga : MTLModel
 
 @property (nonatomic, copy, readonly) NSURL *url;
 @property (nonatomic, copy, readonly) NSString *source;

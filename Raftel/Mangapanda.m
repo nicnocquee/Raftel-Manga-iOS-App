@@ -13,6 +13,7 @@
 #import "MangaSearchResult.h"
 #import "NSString+Matches.h"
 #import "NSArray+SourcesPlist.h"
+#import <NSString+HTML.h>
 
 @interface Mangapanda ()
 
@@ -65,7 +66,7 @@
     NSString *author = [contentURLString matchInWithPattern:authorRegexPattern];
     NSString *artist = [contentURLString matchInWithPattern:artistRegexPattern];
     NSString *synopsis = [contentURLString matchInWithPattern:synopsisRegexPattern];
-    NSString *cleanedSynopsis = [synopsis matchInWithPattern:synopsisParagraphRegexPattern];
+    NSString *cleanedSynopsis = [[synopsis matchInWithPattern:synopsisParagraphRegexPattern] kv_decodeHTMLCharacterEntities];
     NSString *imgDiv = [contentURLString matchInWithPattern:coverRegexPattern];
     NSString *imgString = [imgDiv matchInWithPattern:imgRegexPattern];
     NSURL *imgURL = [NSURL URLWithString:imgString];

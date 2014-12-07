@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Raftel. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <MTLModel.h>
 
-@interface MangaChapter : NSObject
+@interface MangaChapter : MTLModel
 
 @property (nonatomic, copy, readonly) NSNumber *index;
 @property (nonatomic, copy, readonly) NSString *title;

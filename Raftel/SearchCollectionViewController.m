@@ -10,6 +10,7 @@
 #import "SearchResultCell.h"
 #import "Mangapanda.h"
 #import "MangaSearchResult.h"
+#import "MangaViewController.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
 #import <SIAlertView.h>
@@ -50,6 +51,13 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showManga"]) {
+        MangaViewController *mangaVC = (MangaViewController *)segue.destinationViewController;
+        mangaVC.searchResult = sender;
+    }
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -85,6 +93,11 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(cellSpacing, cellSpacing, cellSpacing, cellSpacing);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    MangaSearchResult *result = [self.searches objectAtIndex:indexPath.item];
+    [self performSegueWithIdentifier:@"showManga" sender:result];
 }
 
 #pragma mark <UISearchBarDelegate>
