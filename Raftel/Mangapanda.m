@@ -183,7 +183,7 @@
     [task resume];
 }
 
-+ (void)mangaWithURL:(NSURL *)URL completion:(void (^)(Manga *manga, NSError *error))completion {
++ (NSURLSessionDataTask *)mangaWithURL:(NSURL *)URL completion:(void (^)(Manga *manga, NSError *error))completion {
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             if (completion) completion(nil, error);
@@ -197,6 +197,7 @@
         }
     }];
     [task resume];
+    return task;
 }
 
 @end

@@ -39,8 +39,8 @@ static NSString * const reuseIdentifier = @"pageCell";
     } else {
         [SVProgressHUD show];
         [self.chapter loadPagesWithCompletion:^(NSArray *pages, NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (error) {
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
                     [SVProgressHUD dismiss];
                     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) andMessage:error.localizedDescription];
                     
@@ -50,19 +50,40 @@ static NSString * const reuseIdentifier = @"pageCell";
                                               NSLog(@"Button1 Clicked");
                                           }];
                     [alertView show];
-                } else {
-                    NSLog(@"%d pages received", (int)pages.count);
-                    [self.collectionView reloadData];
+                });
+            } else {
+                NSLog(@"%d pages received", (int)pages.count);
+                
+                int count = 1;
+                int pagesCount = (int)self.chapter.pages.count;
+                for (MangaPage *page in self.chapter.pages) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (![SVProgressHUD isVisible]) [SVProgressHUD show];
+                        self.title = [NSString stringWithFormat:NSLocalizedString(@"Loading page %d/%d", nil), count,pagesCount];
+                    });
                     
-                    [self setTitleForPage:1 total:(int)self.chapter.pages.count];
+                    NSData *data = [NSData dataWithContentsOfURL:page.url];
+                    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    NSURL *imageURL = [page imageURLWithContentURLString:string];
+                    [page setValue:imageURL forKey:NSStringFromSelector(@selector(imageURL))];
                     
-                    [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                        [transaction setObject:self.chapter forKey:self.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                    [[SDWebImageManager sharedManager] downloadImageWithURL:imageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                        
                     }];
                     
-                    [SVProgressHUD dismiss];
+                    count++;
                 }
-            });
+                
+                [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                    [transaction setObject:self.chapter forKey:self.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                } completionBlock:^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [SVProgressHUD dismiss];
+                        [self.collectionView reloadData];
+                        [self setTitleForPage:1 total:pagesCount];
+                    });
+                }];
+            }
         }];
     }
 }

@@ -20,6 +20,8 @@
 
 @interface MangaViewController () <UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic, strong) NSURLSessionDataTask *dataTask;
+
 @end
 
 @implementation MangaViewController
@@ -44,26 +46,14 @@ static NSString * const chapterIdentifier = @"chapterCell";
     if (m) {
         self.manga = m;
         [self.collectionView reloadData];
-        NSString *updating = NSLocalizedString(@"Updating ...", nil);
-        NSString *titleString = [NSString stringWithFormat:@"%@\n%@", self.title, updating];
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:titleString];
-        [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, titleString.length)];
-        [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[titleString rangeOfString:updating]];
-        NSMutableParagraphStyle *paragraph = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        [paragraph setAlignment:NSTextAlignmentCenter];
-        [attr addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, titleString.length)];
-        UILabel *label = [[UILabel alloc] init];
-        [label setBackgroundColor:[UIColor clearColor]];
-        [label setAttributedText:attr];
-        [label setNumberOfLines:2];
-        [label sizeToFit];
-        [self.navigationItem setTitleView:label];
+        [self setUpdatingTitleView];
     } else {
         [SVProgressHUD show];
     }
     
-    [Mangapanda mangaWithURL:self.searchResult.url completion:^(Manga *manga, NSError *error) {
+    self.dataTask = [Mangapanda mangaWithURL:self.searchResult.url completion:^(Manga *manga, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"done fetching manga");
             [SVProgressHUD dismiss];
             self.navigationItem.titleView = nil;
             self.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), self.searchResult.name, (int)manga.chapters.count];
@@ -75,6 +65,36 @@ static NSString * const chapterIdentifier = @"chapterCell";
             }];
         });
     }];
+}
+
+- (void)setUpdatingTitleView {
+    NSString *updating = NSLocalizedString(@"Updating ...", nil);
+    NSString *titleString = [NSString stringWithFormat:@"%@\n%@", self.title, updating];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:titleString];
+    [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, titleString.length)];
+    [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[titleString rangeOfString:updating]];
+    NSMutableParagraphStyle *paragraph = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [paragraph setAlignment:NSTextAlignmentCenter];
+    [attr addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, titleString.length)];
+    UILabel *label = [[UILabel alloc] init];
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setAttributedText:attr];
+    [label setNumberOfLines:2];
+    [label sizeToFit];
+    [self.navigationItem setTitleView:label];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [self.dataTask suspend];
+    self.navigationItem.titleView = nil;
+    self.title = self.searchResult.name;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (self.dataTask && self.dataTask.state == NSURLSessionTaskStateSuspended) {
+        [self setUpdatingTitleView];
+        [self.dataTask resume];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
