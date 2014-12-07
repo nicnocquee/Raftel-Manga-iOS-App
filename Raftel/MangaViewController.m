@@ -14,6 +14,7 @@
 #import "MangaChapter.h"
 #import "MangaSearchResult.h"
 #import "MangaPagesViewController.h"
+#import "DBManager.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
 
@@ -34,13 +35,44 @@ static NSString * const chapterIdentifier = @"chapterCell";
     
     self.title = self.searchResult.name;
     
-    [SVProgressHUD show];
+    NSString *key = self.searchResult.name;
+    __block Manga *m;
+    [[[DBManager sharedManager] readConnection] readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+        m = [transaction objectForKey:key inCollection:kMangaCollection];
+    }];
+    
+    if (m) {
+        self.manga = m;
+        [self.collectionView reloadData];
+        NSString *updating = NSLocalizedString(@"Updating ...", nil);
+        NSString *titleString = [NSString stringWithFormat:@"%@\n%@", self.title, updating];
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:titleString];
+        [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, titleString.length)];
+        [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[titleString rangeOfString:updating]];
+        NSMutableParagraphStyle *paragraph = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [paragraph setAlignment:NSTextAlignmentCenter];
+        [attr addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, titleString.length)];
+        UILabel *label = [[UILabel alloc] init];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [label setAttributedText:attr];
+        [label setNumberOfLines:2];
+        [label sizeToFit];
+        [self.navigationItem setTitleView:label];
+    } else {
+        [SVProgressHUD show];
+    }
+    
     [Mangapanda mangaWithURL:self.searchResult.url completion:^(Manga *manga, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
+            self.navigationItem.titleView = nil;
+            self.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), self.searchResult.name, (int)manga.chapters.count];
             self.manga = manga;
             [self.collectionView reloadData];
             
+            [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                [transaction setObject:manga forKey:manga.name inCollection:kMangaCollection];
+            }];
         });
     }];
 }

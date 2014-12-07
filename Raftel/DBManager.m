@@ -8,6 +8,12 @@
 
 #import "DBManager.h"
 
+NSString *const kSearchResultCollection = @"searchResults";
+NSString *const kMangaCollection = @"mangas";
+NSString *const kMangaChapterCollection = @"chapters";
+NSString *const kMangaPageCollection = @"pages";
+
+
 @interface DBManager ()
 
 @property (nonatomic, strong) YapDatabase *database;

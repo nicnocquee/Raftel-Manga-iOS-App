@@ -11,6 +11,7 @@
 #import "Mangapanda.h"
 #import "MangaSearchResult.h"
 #import "MangaViewController.h"
+#import "DBManager.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
 #import <SIAlertView.h>
@@ -126,6 +127,12 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
                 } else {
                     self.searches = results;
                     [self.collectionView reloadData];
+                    
+                    [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                        for (MangaSearchResult *result in self.searches) {
+                            [transaction setObject:result forKey:result.name inCollection:kSearchResultCollection];
+                        }
+                    }];
                 }
             });
         }];
