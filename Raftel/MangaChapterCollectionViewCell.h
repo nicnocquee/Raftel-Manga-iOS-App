@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MangaChapterCollectionViewCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @end

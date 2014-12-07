@@ -11,6 +11,7 @@
 #import "MangaChapterCollectionViewCell.h"
 #import "Manga.h"
 #import "Mangapanda.h"
+#import "MangaChapter.h"
 #import "MangaSearchResult.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
@@ -22,11 +23,13 @@
 @implementation MangaViewController
 
 static NSString * const headerIdentifier = @"headerCell";
+static NSString * const chapterIdentifier = @"chapterCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:headerIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaChapterCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:chapterIdentifier];
     
     [SVProgressHUD show];
     [Mangapanda mangaWithURL:self.searchResult.url completion:^(Manga *manga, NSError *error) {
@@ -34,6 +37,7 @@ static NSString * const headerIdentifier = @"headerCell";
             [SVProgressHUD dismiss];
             self.manga = manga;
             [self.collectionView reloadData];
+            
         });
     }];
 }
@@ -47,7 +51,7 @@ static NSString * const headerIdentifier = @"headerCell";
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     if (self.manga) {
-        return 1;
+        return 2;
     }
     return 0;
 }
@@ -57,7 +61,7 @@ static NSString * const headerIdentifier = @"headerCell";
     if (section == 0) {
         return 1;
     } else {
-        // return self.manga.chapters.count;
+        return self.manga.chapters.count;
     }
     return 1;
 }
@@ -69,6 +73,17 @@ static NSString * const headerIdentifier = @"headerCell";
         MangaHeaderViewCell *headerCell = (MangaHeaderViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:headerIdentifier forIndexPath:indexPath];
         [self configureHeaderCell:headerCell withManga:self.manga];
         cell = headerCell;
+    } else {
+        MangaChapter *chapter = [self.manga.chapters objectAtIndex:indexPath.item];
+        MangaChapterCollectionViewCell *chapterCell = (MangaChapterCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:chapterIdentifier forIndexPath:indexPath];
+        NSString *chapterIndex = [NSString stringWithFormat:@"#%d", chapter.index.intValue];
+        NSString *chapterString = [NSString stringWithFormat:@"%@ %@", chapterIndex, chapter.title];
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:chapterString];
+        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, chapterString.length)];
+        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:[chapterString rangeOfString:chapterIndex]];
+        [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:[chapterString rangeOfString:chapterIndex]];
+        [chapterCell.nameLabel setAttributedText:attr];
+        cell = chapterCell;
     }
     
     
@@ -101,9 +116,19 @@ static NSString * const headerIdentifier = @"headerCell";
         [cell setNeedsLayout];
         [cell layoutIfNeeded];
         
-        return CGSizeMake(CGRectGetWidth(collectionView.frame), MAX(CGRectGetMaxY(cell.summaryLabel.frame), CGRectGetMaxY(cell.imageView.frame)));
+        return CGSizeMake(CGRectGetWidth(collectionView.frame), MAX(CGRectGetMaxY(cell.summaryLabel.frame), CGRectGetMaxY(cell.imageView.frame)) + 10);
+    } else {
+        return CGSizeMake(CGRectGetWidth(collectionView.frame), 44);
     }
     return CGSizeZero;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 0;
 }
 
 /*
