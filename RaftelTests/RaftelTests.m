@@ -14,6 +14,7 @@
 #import "MangaGenre.h"
 #import "MangaChapter.h"
 #import "MangaPage.h"
+#import "MangaSearchResult.h"
 
 @interface RaftelTests : XCTestCase
 
@@ -99,6 +100,26 @@
     MangaGenre *action = [mangaObject.genre firstObject];
     XCTAssertEqualObjects(action.name, @"Comedy");
     XCTAssertEqualObjects(action.URL.absoluteString, @"http://www.mangapanda.com/popular/comedy");
+}
+
+- (void)testSearch {
+    NSURL *searchURL = [Mangapanda searchURLForKeyword:@"One Piece"];
+    XCTAssertNotNil(searchURL);
+    
+    NSData *urlData = [NSData dataWithContentsOfURL:searchURL];
+    XCTAssertNotNil(urlData);
+    
+    NSString *urlContentString = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+    
+    Mangapanda *panda = [[Mangapanda alloc] init];
+    NSArray *searches = [panda searchItemsWithContentURLString:urlContentString];
+    XCTAssertNotNil(searches);
+    XCTAssertEqual((int)searches.count, 3);
+    
+    MangaSearchResult *firstResult = [searches firstObject];
+    XCTAssertEqualObjects(firstResult.name, @"One Piece");
+    XCTAssertEqualObjects(firstResult.url.absoluteString, @"http://www.mangapanda.com/103/one-piece.html");
+    XCTAssertEqualObjects(firstResult.imageURL.absoluteString, @"http://s1.mangapanda.com/cover/one-piece/one-piece-r1.jpg");
 }
 
 //- (void)testPerformanceExample {

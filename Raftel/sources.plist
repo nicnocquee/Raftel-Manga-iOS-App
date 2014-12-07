@@ -7,6 +7,8 @@
 		<string>mangapanda</string>
 		<key>host</key>
 		<string>http://www.mangapanda.com</string>
+		<key>search</key>
+		<string>http://www.mangapanda.com/search/?w=</string>
 		<key>list</key>
 		<dict>
 			<key>url</key>
@@ -66,6 +68,16 @@
 			<string>(?&lt;=id=&quot;img&quot;)([\s\S]*?)(?= alt=)</string>
 			<key>page_image_src</key>
 			<string>(?&lt;=src=&quot;)([\s\S]*?)(?=&quot;)</string>
+			<key>search_item</key>
+			<string>(?&lt;=mangaresultinner&quot;&gt;)([\s\S]*?)(?=&lt;div class=&quot;clear&quot;&gt;)</string>
+			<key>search_item_img</key>
+			<string>(?&lt;=background-image:url\(&apos;)([\s\S]*?)(?=&apos;)</string>
+			<key>search_item_name_block</key>
+			<string>(?&lt;=&lt;h3&gt;)([\s\S]*?)(?=&lt;/h3&gt;)</string>
+			<key>search_item_link</key>
+			<string>(?&lt;=href=&quot;)([\s\S]*?)(?=&quot;)</string>
+			<key>search_item_name</key>
+			<string>(?&lt;=&quot;&gt;)([\s\S]*?)(?=&lt;/a&gt;)</string>
 		</dict>
 	</dict>
 </array>

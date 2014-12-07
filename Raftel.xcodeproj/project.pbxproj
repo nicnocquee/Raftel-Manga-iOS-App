@@ -23,6 +23,7 @@
 		033C7C5A1A33E89D000F34CF /* NSString+Matches.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C591A33E89D000F34CF /* NSString+Matches.m */; };
 		033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */; };
 		033C7C601A33FA3A000F34CF /* MangaPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C5F1A33FA3A000F34CF /* MangaPage.m */; };
+		033C7C631A340746000F34CF /* MangaSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C621A340746000F34CF /* MangaSearchResult.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SourcesPlist.m"; sourceTree = "<group>"; };
 		033C7C5E1A33FA3A000F34CF /* MangaPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaPage.h; sourceTree = "<group>"; };
 		033C7C5F1A33FA3A000F34CF /* MangaPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaPage.m; sourceTree = "<group>"; };
+		033C7C611A340746000F34CF /* MangaSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaSearchResult.h; sourceTree = "<group>"; };
+		033C7C621A340746000F34CF /* MangaSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaSearchResult.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,8 @@
 				033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */,
 				033C7C5E1A33FA3A000F34CF /* MangaPage.h */,
 				033C7C5F1A33FA3A000F34CF /* MangaPage.m */,
+				033C7C611A340746000F34CF /* MangaSearchResult.h */,
+				033C7C621A340746000F34CF /* MangaSearchResult.m */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 				033C7C271A333A90000F34CF /* FirstViewController.m in Sources */,
 				033C7C211A333A90000F34CF /* main.m in Sources */,
 				033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */,
+				033C7C631A340746000F34CF /* MangaSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

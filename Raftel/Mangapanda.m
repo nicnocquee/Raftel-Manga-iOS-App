@@ -10,6 +10,7 @@
 #import "Manga.h"
 #import "MangaChapter.h"
 #import "MangaGenre.h"
+#import "MangaSearchResult.h"
 #import "NSString+Matches.h"
 #import "NSArray+SourcesPlist.h"
 
@@ -23,11 +24,15 @@
 {
     self = [super init];
     if (self) {
-        NSArray *sources = [NSArray sourcesPlist];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", @"mangapanda"];
-        self.configuration = [[sources filteredArrayUsingPredicate:predicate] firstObject];
+        self.configuration = [self.class loadConfiguration];
     }
     return self;
+}
+
++ (NSDictionary *)loadConfiguration {
+    NSArray *sources = [NSArray sourcesPlist];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", @"mangapanda"];
+    return [[sources filteredArrayUsingPredicate:predicate] firstObject];
 }
 
 - (Manga *)mangaWithContentURLString:(NSString *)contentURLString {
@@ -116,6 +121,65 @@
 
 + (NSArray *)list {
     return nil;
+}
+
++ (NSURL *)searchURLForKeyword:(NSString *)search {
+    NSString *searchKey = [search stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSDictionary *configuration = [self.class loadConfiguration];
+    NSString *searchBaseURLString = configuration[@"search"];
+    NSString *searchURLString = [NSString stringWithFormat:@"%@%@", searchBaseURLString, searchKey];
+    NSURL *searchURL = [NSURL URLWithString:searchURLString];
+    
+    return searchURL;
+}
+
+- (NSArray *)searchItemsWithContentURLString:(NSString *)contentURLString {
+    NSDictionary *configuration = [self.class loadConfiguration];
+    NSString *host = configuration[@"host"];
+    NSString *searchItemPattern = configuration[@"manga"][@"search_item"];
+    NSString *searchItemImgPattern = configuration[@"manga"][@"search_item_img"];
+    NSString *searchItemNameBlockPattern = configuration[@"manga"][@"search_item_name_block"];
+    NSString *searchItemLinkPattern = configuration[@"manga"][@"search_item_link"];
+    NSString *searchItemNamePattern = configuration[@"manga"][@"search_item_name"];
+    
+    NSArray *searchItems = [contentURLString matchesWithPattern:searchItemPattern];
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:searchItems.count];
+    for (NSString *item in searchItems) {
+        NSString *imageString = [item matchInWithPattern:searchItemImgPattern];
+        NSURL *imageURL = [NSURL URLWithString:imageString];
+        NSString *searchNameLinkBlock = [item matchInWithPattern:searchItemNameBlockPattern];
+        NSString *link = [searchNameLinkBlock matchInWithPattern:searchItemLinkPattern];
+        NSString *completeLink = [NSString stringWithFormat:@"%@%@", host, link];
+        NSURL *linkURL = [NSURL URLWithString:completeLink];
+        NSString *name = [searchNameLinkBlock matchInWithPattern:searchItemNamePattern];
+        
+        MangaSearchResult *searchResult = [[MangaSearchResult alloc] init];
+        [searchResult setValue:linkURL forKey:NSStringFromSelector(@selector(url))];
+        [searchResult setValue:name forKey:NSStringFromSelector(@selector(name))];
+        [searchResult setValue:imageURL forKey:NSStringFromSelector(@selector(imageURL))];
+        [items addObject:searchResult];
+    }
+    
+    return items;
+}
+
++ (void)search:(NSString *)search completion:(void (^)(NSArray *, NSError *))completion {
+    NSURL *searchURL = [self.class searchURLForKeyword:search];
+    
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:searchURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            if (completion) completion(nil, error);
+        } else {
+            NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            Mangapanda *panda = [[Mangapanda alloc] init];
+            NSArray *items = [panda searchItemsWithContentURLString:dataString];
+            
+            if (completion) {
+                completion(items, nil);
+            }
+        }
+    }];
+    [task resume];
 }
 
 + (void)mangaWithURL:(NSURL *)URL completion:(void (^)(Manga *manga, NSError *error))completion {
