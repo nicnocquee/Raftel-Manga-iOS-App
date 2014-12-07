@@ -12,6 +12,7 @@
 #import "MangaSearchResult.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
+#import <SIAlertView.h>
 
 static CGFloat const cellSpacing = 10;
 
@@ -97,8 +98,15 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
                 [SVProgressHUD dismiss];
                 if (error) {
                     NSLog(@"Error %@", error);
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Search Error", NSInteger) andMessage:error.localizedDescription];
+                    
+                    [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
+                                             type:SIAlertViewButtonTypeCancel
+                                          handler:^(SIAlertView *alert) {
+                                              NSLog(@"Button1 Clicked");
+                                          }];
+                    [alertView show];
                 } else {
-                    NSLog(@"Fetched items %d", (int)results.count);
                     self.searches = results;
                     [self.collectionView reloadData];
                 }
