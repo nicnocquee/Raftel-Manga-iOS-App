@@ -124,7 +124,7 @@
 }
 
 + (NSURL *)searchURLForKeyword:(NSString *)search {
-    NSString *searchKey = [search stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSString *searchKey = [[search stringByReplacingOccurrencesOfString:@" " withString:@"+"] lowercaseString];
     NSDictionary *configuration = [self.class loadConfiguration];
     NSString *searchBaseURLString = configuration[@"search"];
     NSString *searchURLString = [NSString stringWithFormat:@"%@%@", searchBaseURLString, searchKey];
