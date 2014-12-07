@@ -17,6 +17,7 @@
 #import "DBManager.h"
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
+#import <SIAlertView.h>
 
 @interface MangaViewController () <UICollectionViewDelegateFlowLayout>
 
@@ -93,6 +94,15 @@ static NSString * const chapterIdentifier = @"chapterCell";
             }
         } completionBlock:^{
             [sender setEnabled:YES];
+            
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Added to Collections", nil) andMessage:[NSString stringWithFormat:NSLocalizedString(@"%@ has been added to your collection.", nil), self.manga.name]];
+            
+            [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
+                                     type:SIAlertViewButtonTypeCancel
+                                  handler:^(SIAlertView *alert) {
+                                      NSLog(@"Button1 Clicked");
+                                  }];
+            [alertView show];
         }];
     }
 }
