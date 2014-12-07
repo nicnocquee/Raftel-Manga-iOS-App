@@ -51,6 +51,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showPages"]) {
         MangaPagesViewController *pagesVC = (MangaPagesViewController *)segue.destinationViewController;
+        [pagesVC setHidesBottomBarWhenPushed:YES];
         pagesVC.chapter = sender;
     }
 }

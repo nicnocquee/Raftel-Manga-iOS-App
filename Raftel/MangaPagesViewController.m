@@ -50,9 +50,6 @@ static NSString * const reuseIdentifier = @"pageCell";
     }];
 }
 
-
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
