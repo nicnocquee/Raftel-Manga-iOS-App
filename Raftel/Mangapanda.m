@@ -191,6 +191,7 @@
             NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             Mangapanda *panda = [[Mangapanda alloc] init];
             Manga *manga = [panda mangaWithContentURLString:dataString];
+            [manga setValue:URL forKey:NSStringFromSelector(@selector(url))];
             if (completion) {
                 completion(manga, nil);
             }

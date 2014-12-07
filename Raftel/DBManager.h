@@ -14,6 +14,8 @@ extern NSString *const kSearchResultCollection;
 extern NSString *const kMangaCollection;
 extern NSString *const kMangaChapterCollection;
 extern NSString *const kMangaPageCollection;
+extern NSString *const kUserFavoriteView;
+extern NSString *const kFavoritedDateKey;
 
 @interface DBManager : NSObject
 

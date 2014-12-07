@@ -22,6 +22,5 @@
 @property (nonatomic, copy, readonly) NSArray *chapters;
 @property (nonatomic, copy, readonly) NSString *synopsis;
 @property (nonatomic, copy, readonly) NSURL *coverURL;
-@property (nonatomic, copy, readonly) NSNumber *favorite;
 
 @end

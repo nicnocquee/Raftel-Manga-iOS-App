@@ -47,6 +47,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         self.manga = m;
         [self.collectionView reloadData];
         [self setUpdatingTitleView];
+        [self showAddToCollectionButton:YES];
     } else {
         [SVProgressHUD show];
     }
@@ -59,12 +60,41 @@ static NSString * const chapterIdentifier = @"chapterCell";
             self.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), self.searchResult.name, (int)manga.chapters.count];
             self.manga = manga;
             [self.collectionView reloadData];
+            [self showAddToCollectionButton:YES];
             
             [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                [transaction setObject:manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+                if ([transaction hasObjectForKey:self.searchResult.url.absoluteString inCollection:kMangaCollection]) {
+                    [transaction replaceObject:manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+                } else {
+                    [transaction setObject:manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+                }
             }];
         });
     }];
+}
+
+- (void)showAddToCollectionButton:(BOOL)show {
+    if (show) {
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
+        [self.navigationItem setRightBarButtonItem:right];
+    } else {
+        [self.navigationItem setRightBarButtonItem:nil];
+    }
+}
+
+- (void)didTapAddButton:(id)sender {
+    [sender setEnabled:NO];
+    if (self.manga) {
+        [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+            if ([transaction hasObjectForKey:self.searchResult.url.absoluteString inCollection:kMangaCollection]) {
+                [transaction replaceMetadata:@{kFavoritedDateKey: [NSDate date]} forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection];
+            } else {
+                [transaction setObject:self.manga forKey:self.searchResult.url.absoluteString inCollection:kMangaCollection withMetadata:@{kFavoritedDateKey: [NSDate date]}];
+            }
+        } completionBlock:^{
+            [sender setEnabled:YES];
+        }];
+    }
 }
 
 - (void)setUpdatingTitleView {
