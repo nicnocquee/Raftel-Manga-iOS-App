@@ -306,6 +306,12 @@ static NSString * const chapterIdentifier = @"chapterCell";
             BOOL isRead = [[metadata objectForKey:kChapterRead] boolValue];
             [chapterCell setIsRead:isRead];
         }
+        if ([chapter.url.absoluteString isEqualToString:self.currentlyReadChapter.url.absoluteString]) {
+            [chapterCell.isReadingLabel setHidden:NO];
+            [chapterCell.isReadingLabel setText:NSLocalizedString(@"Reading", nil)];
+            [chapterCell sizeToFit];
+        } else [chapterCell.isReadingLabel setHidden:YES];
+        [chapterCell.isReadingLabelBackground setHidden:chapterCell.isReadingLabel.isHidden];
         
         cell = chapterCell;
     }

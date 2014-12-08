@@ -12,5 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIView *isReadView;
 @property (nonatomic,assign) BOOL isRead;
+@property (weak, nonatomic) IBOutlet UILabel *isReadingLabel;
+@property (weak, nonatomic) IBOutlet UIView *isReadingLabelBackground;
 
 @end
