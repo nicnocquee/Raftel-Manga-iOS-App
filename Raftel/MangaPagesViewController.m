@@ -122,7 +122,7 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 - (void)showRightBarLoadingView:(BOOL)show {
     if (show) {
-        UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:view];
         [view startAnimating];
         [self.navigationItem setRightBarButtonItem:right];
@@ -138,6 +138,7 @@ static NSString * const reuseIdentifier = @"pageCell";
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:combine];
     [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, combine.length)];
     [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[combine rangeOfString:pagination]];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, combine.length)];
     NSMutableParagraphStyle *paragraph = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [paragraph setAlignment:NSTextAlignmentCenter];
     [attr addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, combine.length)];

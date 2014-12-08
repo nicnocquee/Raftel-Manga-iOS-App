@@ -216,6 +216,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:titleString];
     [attr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, titleString.length)];
     [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[titleString rangeOfString:updating]];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, titleString.length)];
     NSMutableParagraphStyle *paragraph = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [paragraph setAlignment:NSTextAlignmentCenter];
     [attr addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, titleString.length)];
