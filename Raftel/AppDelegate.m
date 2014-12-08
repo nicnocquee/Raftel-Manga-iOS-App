@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import <SDWebImageManager.h>
 #import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
@@ -23,7 +23,7 @@
         // if unit test, need to return quickly. Reference: http://www.objc.io/issue-1/testing-view-controllers.html
         return YES;
     }
-    
+    [[[SDWebImageManager sharedManager] imageCache] setMaxCacheAge:30*24*60*60*12];
     [Crashlytics startWithAPIKey:@"e2c34125953b33a5ab021b095a449f744b70187a"];
     return YES;
 }
