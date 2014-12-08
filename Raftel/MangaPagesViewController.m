@@ -69,7 +69,6 @@ static NSString * const reuseIdentifier = @"pageCell";
                     int count = 1;
                     int pagesCount = (int)selfie.chapter.pages.count;
                     for (MangaPage *page in selfie.chapter.pages) {
-                        NSLog(@"processing page %d", count);
                         if ([weakOperation isCancelled]) {
                             break;
                         }

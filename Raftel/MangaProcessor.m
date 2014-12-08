@@ -137,6 +137,7 @@
         if (imgURL) [manga setValue:imgURL forKey:NSStringFromSelector(@selector(coverURL))];
         [manga setValue:genres forKey:NSStringFromSelector(@selector(genre))];
         [manga setValue:chapters forKey:NSStringFromSelector(@selector(chapters))];
+        [manga setValue:url forKey:NSStringFromSelector(@selector(url))];
         
         if ([weakOperation isCancelled]) {
             return;

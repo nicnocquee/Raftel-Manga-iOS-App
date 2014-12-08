@@ -59,11 +59,12 @@ static NSString * const chapterIdentifier = @"chapterCell";
     }
     
     NSURL *URL = self.searchResult.url?:self.manga.url;
+    NSString *name = self.searchResult.name?:self.manga.name;
     __weak typeof (self) selfie = self;
     self.dataTask = [[NSURLSession sharedSession] dataTaskWithURL:URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot Fetch Manga", nil) andMessage:error.localizedDescription];
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Cannot Fetch %@", nil), name] andMessage:error.localizedDescription];
                 
                 [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
                                          type:SIAlertViewButtonTypeCancel
@@ -112,7 +113,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
             });
         } didProcessChapter:^(MangaChapter *chapter, int total) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Processing chapter %d/%d", nil), chapter.index.intValue, total];
+                if (!selfie.manga) selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Processing chapter %d/%d", nil), chapter.index.intValue, total];
             });
         }];
     }
@@ -132,6 +133,9 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [self setUpdatingTitleView];
         [self.dataTask resume];
     } else {
+        if ([self.operation isExecuting]) {
+            [self setUpdatingTitleView];
+        }
         [self startProcessingContentString];
     }
 }
