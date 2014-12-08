@@ -11,6 +11,8 @@
 #import "NSString+Matches.h"
 #import "NSArray+SourcesPlist.h"
 
+NSString *const kChapterRead = @"com.raftelapp.chapterIsRead";
+
 @interface MangaChapter ()
 
 @property (nonatomic, strong) NSDictionary *configuration;

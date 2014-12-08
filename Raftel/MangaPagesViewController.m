@@ -93,7 +93,11 @@ static NSString * const reuseIdentifier = @"pageCell";
                     }
                     
                     [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                        [transaction setObject:selfie.chapter forKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                        if ([transaction hasObjectForKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection]) {
+                            [transaction replaceObject:selfie.chapter forKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                        } else {
+                            [transaction setObject:selfie.chapter forKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                        }
                     } completionBlock:^{
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [selfie.collectionView reloadData];

@@ -10,4 +10,12 @@
 
 @implementation MangaChapterCollectionViewCell
 
+- (void)setIsRead:(BOOL)isRead {
+    if (_isRead != isRead) {
+        _isRead = isRead;
+        
+        [self.isReadView setHidden:_isRead];
+    }
+}
+
 @end

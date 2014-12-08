@@ -10,5 +10,7 @@
 
 @interface MangaChapterCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIView *isReadView;
+@property (nonatomic,assign) BOOL isRead;
 
 @end

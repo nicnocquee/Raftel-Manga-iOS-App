@@ -8,6 +8,8 @@
 
 #import <MTLModel.h>
 
+extern NSString *const kChapterRead;
+
 @interface MangaChapter : MTLModel
 
 @property (nonatomic, copy, readonly) NSNumber *index;

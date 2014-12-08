@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, strong) NSString *contentString;
 @property (nonatomic, strong) NSOperation *operation;
+@property (nonatomic, assign) BOOL ascending;
 
 @end
 
@@ -35,6 +36,8 @@ static NSString * const chapterIdentifier = @"chapterCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.ascending = YES;
     
     [self.navigationController setDelegate:self];
     
@@ -154,10 +157,19 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)showAddToCollectionButton:(BOOL)show {
     if (show) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
-        [self.navigationItem setRightBarButtonItem:right];
+        UIBarButtonItem *sort = [[UIBarButtonItem alloc] initWithTitle:self.ascending?@"1->2":@"2->1" style:UIBarButtonItemStyleDone target:self action:@selector(didTapSort:)];
+        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [space setWidth:10];
+        [self.navigationItem setRightBarButtonItems:@[right, space, sort]];
     } else {
         [self.navigationItem setRightBarButtonItem:nil];
     }
+}
+
+- (void)didTapSort:(id)sender {
+    self.ascending = !self.ascending;
+    [self.collectionView reloadData];
+    [self showAddToCollectionButton:YES];
 }
 
 - (void)didTapAddButton:(id)sender {
@@ -211,6 +223,19 @@ static NSString * const chapterIdentifier = @"chapterCell";
         MangaPagesViewController *pagesVC = (MangaPagesViewController *)segue.destinationViewController;
         [pagesVC setHidesBottomBarWhenPushed:YES];
         pagesVC.chapter = sender;
+        NSString *key = ((MangaChapter *)sender).url.absoluteString;
+        NSDictionary *metadata = @{kChapterRead:@(YES)};
+        [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+            if (![transaction hasObjectForKey:key inCollection:kMangaChapterCollection]) {
+                [transaction setObject:sender forKey:key inCollection:kMangaChapterCollection withMetadata:metadata];
+            } else {
+                [transaction replaceMetadata:metadata forKey:key inCollection:kMangaChapterCollection];
+            }
+            
+        } completionBlock:^{
+            [self.collectionView reloadData];
+        }];
+        
     }
 }
 
@@ -241,7 +266,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [self configureHeaderCell:headerCell withManga:self.manga];
         cell = headerCell;
     } else {
-        MangaChapter *chapter = [self.manga.chapters objectAtIndex:indexPath.item];
+        MangaChapter *chapter = [self chapterAtIndexPath:indexPath];
         MangaChapterCollectionViewCell *chapterCell = (MangaChapterCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:chapterIdentifier forIndexPath:indexPath];
         NSString *chapterIndex = [NSString stringWithFormat:@"#%d", chapter.index.intValue];
         NSString *chapterString = [NSString stringWithFormat:@"%@ %@", chapterIndex, chapter.title];
@@ -250,11 +275,30 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [attr addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:[chapterString rangeOfString:chapterIndex]];
         [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:[chapterString rangeOfString:chapterIndex]];
         [chapterCell.nameLabel setAttributedText:attr];
+        
+        __block NSDictionary *metadata;
+        [[[DBManager sharedManager] readConnection] readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+            metadata = [transaction metadataForKey:chapter.url.absoluteString inCollection:kMangaChapterCollection];
+        }];
+        [chapterCell setIsRead:NO];
+        if (metadata) {
+            BOOL isRead = [[metadata objectForKey:kChapterRead] boolValue];
+            [chapterCell setIsRead:isRead];
+        }
+        
         cell = chapterCell;
     }
     
     
     return cell;
+}
+
+- (MangaChapter *)chapterAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.ascending) {
+        return [self.manga.chapters objectAtIndex:indexPath.item];
+    }
+    int count = (int)self.manga.chapters.count;
+    return [self.manga.chapters objectAtIndex:count-indexPath.item-1];
 }
 
 - (void)configureHeaderCell:(MangaHeaderViewCell *)headerCell withManga:(Manga *)manga {
@@ -300,7 +344,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 1) {
-        MangaChapter *chapter = [self.manga.chapters objectAtIndex:indexPath.item];
+        MangaChapter *chapter = [self chapterAtIndexPath:indexPath];
         [self performSegueWithIdentifier:@"showPages" sender:chapter];
     }
 }
