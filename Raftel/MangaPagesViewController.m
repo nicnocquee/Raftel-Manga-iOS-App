@@ -17,6 +17,7 @@
 @interface MangaPagesViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
+@property (nonatomic, strong) NSOperationQueue *pagesOperationQueue;
 
 @end
 
@@ -26,6 +27,9 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.pagesOperationQueue = [[NSOperationQueue alloc] init];
+    [self.pagesOperationQueue setMaxConcurrentOperationCount:1];
     
     [self.collectionView setScrollEnabled:NO];
     
@@ -59,37 +63,48 @@ static NSString * const reuseIdentifier = @"pageCell";
                     [selfie showRightBarLoadingView:NO];
                 });
             } else {
-                
-                
-                int count = 1;
-                int pagesCount = (int)selfie.chapter.pages.count;
-                for (MangaPage *page in selfie.chapter.pages) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Loading page %d/%d", nil), count,pagesCount];
-                    });
-                    
-                    NSData *data = [NSData dataWithContentsOfURL:page.url];
-                    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                    NSURL *imageURL = [page imageURLWithContentURLString:string];
-                    [page setValue:imageURL forKey:NSStringFromSelector(@selector(imageURL))];
-                    
-                    [[SDWebImageManager sharedManager] downloadImageWithURL:imageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
+                __weak NSBlockOperation *weakOperation = blockOperation;
+                [blockOperation addExecutionBlock:^{
+                    int count = 1;
+                    int pagesCount = (int)selfie.chapter.pages.count;
+                    for (MangaPage *page in selfie.chapter.pages) {
+                        NSLog(@"processing page %d", count);
+                        if ([weakOperation isCancelled]) {
+                            break;
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Loading page %d/%d", nil), count,pagesCount];
+                        });
                         
-                    }];
+                        NSData *data = [NSData dataWithContentsOfURL:page.url];
+                        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                        NSURL *imageURL = [page imageURLWithContentURLString:string];
+                        [page setValue:imageURL forKey:NSStringFromSelector(@selector(imageURL))];
+                        
+                        [[SDWebImageManager sharedManager] downloadImageWithURL:imageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                            
+                        }];
+                        
+                        
+                        count++;
+                    }
+                    if ([weakOperation isCancelled]) {
+                        return;
+                    }
                     
-                    count++;
-                }
-                
-                [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                    [transaction setObject:selfie.chapter forKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection];
-                } completionBlock:^{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [selfie.collectionView reloadData];
-                        [selfie setTitleForPage:1 total:pagesCount];
-                        [selfie.collectionView setScrollEnabled:YES];
-                        [selfie showRightBarLoadingView:NO];
-                    });
+                    [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                        [transaction setObject:selfie.chapter forKey:selfie.chapter.url.absoluteString inCollection:kMangaChapterCollection];
+                    } completionBlock:^{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [selfie.collectionView reloadData];
+                            [selfie setTitleForPage:1 total:pagesCount];
+                            [selfie.collectionView setScrollEnabled:YES];
+                            [selfie showRightBarLoadingView:NO];
+                        });
+                    }];
                 }];
+                [selfie.pagesOperationQueue addOperation:blockOperation];
             }
         }];
     }
@@ -99,6 +114,7 @@ static NSString * const reuseIdentifier = @"pageCell";
     [super viewWillDisappear:animated];
     NSLog(@"canceling data task");
     [self.dataTask cancel];
+    [self.pagesOperationQueue cancelAllOperations];
 }
 
 - (void)showRightBarLoadingView:(BOOL)show {
