@@ -127,14 +127,26 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
                                           }];
                     [alertView show];
                 } else {
-                    selfie.searches = results;
-                    [selfie.collectionView reloadData];
+                    if (results.count > 0) {
+                        selfie.searches = results;
+                        [selfie.collectionView reloadData];
+                        
+                        [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                            for (MangaSearchResult *result in selfie.searches) {
+                                [transaction setObject:result forKey:result.name inCollection:kSearchResultCollection];
+                            }
+                        }];
+                    } else {
+                        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Manga not Found", nil) andMessage:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@. Try something else.", nil), searchBar.text]];
+                        
+                        [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
+                                                 type:SIAlertViewButtonTypeCancel
+                                              handler:^(SIAlertView *alert) {
+                                                  NSLog(@"Button1 Clicked");
+                                              }];
+                        [alertView show];
+                    }
                     
-                    [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                        for (MangaSearchResult *result in selfie.searches) {
-                            [transaction setObject:result forKey:result.name inCollection:kSearchResultCollection];
-                        }
-                    }];
                 }
             });
         }];
