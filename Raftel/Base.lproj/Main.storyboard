@@ -177,7 +177,7 @@
         <scene sceneID="24z-g4-Ngy">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JgR-Bp-WFx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="Search" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dN1-Ch-fkt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -196,7 +196,7 @@
         <scene sceneID="hqE-iF-Ge9">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zei-zu-jTg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Collections" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Collections" image="Collection" id="cPa-gy-q4n"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Saz-gn-Hxo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -213,8 +213,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="Collection" width="30" height="30"/>
+        <image name="Search" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="CX6-OT-KbI"/>

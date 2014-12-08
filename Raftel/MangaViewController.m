@@ -171,9 +171,13 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)showAddToCollectionButton:(BOOL)show {
     if (show) {
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
-        UIBarButtonItem *sort = [[UIBarButtonItem alloc] initWithTitle:self.ascending?@"1->2":@"2->1" style:UIBarButtonItemStyleDone target:self action:@selector(didTapSort:)];
+        UIImage *ascendingImage = [UIImage imageNamed:@"Ascending"];
+        if (!self.ascending) {
+            ascendingImage = [UIImage imageNamed:@"Descending"];
+        }
+        UIBarButtonItem *sort = [[UIBarButtonItem alloc] initWithImage:ascendingImage style:UIBarButtonItemStyleDone target:self action:@selector(didTapSort:)];
         UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        [space setWidth:10];
+        [space setWidth:5];
         [self.navigationItem setRightBarButtonItems:@[right, space, sort]];
     } else {
         [self.navigationItem setRightBarButtonItem:nil];
