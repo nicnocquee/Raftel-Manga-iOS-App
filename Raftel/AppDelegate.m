@@ -27,10 +27,14 @@
     [[[SDWebImageManager sharedManager] imageCache] setMaxCacheAge:30*24*60*60*12];
     [Crashlytics startWithAPIKey:@"e2c34125953b33a5ab021b095a449f744b70187a"];
     
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.118 green:0.125 blue:0.157 alpha:1.000]];
+    UIColor *darkColor = [UIColor colorWithRed:0.118 green:0.125 blue:0.157 alpha:1.000];
+    [[UINavigationBar appearance] setBarTintColor:darkColor];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    [[UITabBar appearance] setBarTintColor:darkColor];
+    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.227 green:0.506 blue:0.718 alpha:1.000]];
     
     return YES;
 }
