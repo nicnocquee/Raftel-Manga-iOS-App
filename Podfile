@@ -9,6 +9,7 @@ pod 'Mantle'
 pod 'NSString-HTML', '~> 0.0'
 pod 'YapDatabase', :git => 'https://github.com/nicnocquee/YapDatabase'
 pod 'JDStatusBarNotification', '~> 1.4'
+pod 'AppsfireSDK'
 end
 
 target 'RaftelTests' do

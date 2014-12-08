@@ -13,11 +13,16 @@
 #import "DBManager.h"
 #import <UIImageView+WebCache.h>
 #import <SIAlertView.h>
+#import <AppsfireAdSDK.h>
+#import <AFAdSDKSashimiMinimalView.h>
 
-@interface MangaPagesViewController () <UICollectionViewDelegateFlowLayout>
+#define AD_HEIGHT 100
+
+@interface MangaPagesViewController () <UICollectionViewDelegateFlowLayout, AppsfireAdSDKDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, strong) NSOperationQueue *pagesOperationQueue;
+@property (nonatomic, weak) AFAdSDKSashimiMinimalView *adView;
 
 @end
 
@@ -27,6 +32,34 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [AppsfireAdSDK setDelegate:self];
+    NSUInteger sashimiMinimalAdsCount = [AppsfireAdSDK numberOfSashimiAdsAvailableForFormat:AFAdSDKSashimiFormatMinimal];
+    NSLog(@"has %d ads", (int)sashimiMinimalAdsCount);
+    if (sashimiMinimalAdsCount > 0) {
+        NSError *error;
+        AFAdSDKSashimiMinimalView *sashimiMinimalView;
+        
+        // Get sashimi view
+        sashimiMinimalView = (AFAdSDKSashimiMinimalView *)[AppsfireAdSDK sashimiViewForFormat:AFAdSDKSashimiFormatMinimal withController:[UIApplication sharedApplication].keyWindow.rootViewController andError:&error];
+        
+        // Before using this view make sure the returned view is not `nil` and that there is not error.
+        if (sashimiMinimalView != nil && error == nil) {
+            
+            // You can safely use the view
+            [self.navigationController.view addSubview:sashimiMinimalView];
+            sashimiMinimalView.frame = ({
+                CGRect frame = sashimiMinimalView.frame;
+                frame.origin.x = 0;
+                frame.size.height = AD_HEIGHT;
+                frame.origin.y = CGRectGetHeight(self.navigationController.view.frame) - CGRectGetHeight(frame);
+                frame.size.width = CGRectGetWidth(self.navigationController.view.frame);
+                frame;
+            });
+            self.adView = sashimiMinimalView;
+            [self.collectionView.collectionViewLayout invalidateLayout];
+        }
+    }
     
     self.pagesOperationQueue = [[NSOperationQueue alloc] init];
     [self.pagesOperationQueue setMaxConcurrentOperationCount:1];
@@ -118,6 +151,7 @@ static NSString * const reuseIdentifier = @"pageCell";
     NSLog(@"canceling data task");
     [self.dataTask cancel];
     [self.pagesOperationQueue cancelAllOperations];
+    [self.adView removeFromSuperview];
 }
 
 - (void)showRightBarLoadingView:(BOOL)show {
@@ -225,8 +259,22 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 #pragma mark <UICollectionViewDelegate>
 
+- (UIEdgeInsets)collectionViewInset {
+    if (self.adView) {
+        return UIEdgeInsetsMake(0, 0, AD_HEIGHT, 0);
+    }
+    return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return collectionView.frame.size;
+    CGFloat width = CGRectGetWidth(collectionView.frame);
+    CGFloat height = CGRectGetHeight(collectionView.frame);
+    UIEdgeInsets inset = [self collectionViewInset];
+    return CGSizeMake(width - inset.left - inset.right, height - inset.top - inset.bottom - collectionView.contentInset.top - collectionView.contentInset.bottom);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return [self collectionViewInset];
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -235,6 +283,22 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 0;
+}
+
+#pragma mark - <AppsfireAdSDKDelegate>
+
+- (void)sashimiAdsRefreshedAndAvailable {
+    
+    NSLog(@"Sashimi ads were received");
+    
+    // check if a sashimi ad is available for the format
+    NSUInteger sashimiMinimalAdsCount = [AppsfireAdSDK numberOfSashimiAdsAvailableForFormat:AFAdSDKSashimiFormatMinimal];
+    NSLog(@"Number of Sashimi Minimal ads received:%lu", (unsigned long)sashimiMinimalAdsCount);
+    
+}
+
+- (void)sashimiAdsRefreshedAndNotAvailable {
+    NSLog(@"no sashimi ads");
 }
 
 @end

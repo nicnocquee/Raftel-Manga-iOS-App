@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <SDWebImageManager.h>
 #import <Crashlytics/Crashlytics.h>
+#import <AppsfireSDK.h>
+#import <AppsfireAdSDK.h>
 
 @interface AppDelegate ()
 
@@ -25,6 +27,7 @@
     }
     
     [[[SDWebImageManager sharedManager] imageCache] setMaxCacheAge:30*24*60*60*12];
+    [AppsfireSDK connectWithSDKToken:@"1B0D21DBE444DBC97C9FF7F3783CE10C" secretKey:@"8e7d7710f71bfb609feb41c54f978d74" features:AFSDKFeatureMonetization parameters:nil];
     [Crashlytics startWithAPIKey:@"e2c34125953b33a5ab021b095a449f744b70187a"];
     
     UIColor *darkColor = [UIColor colorWithRed:0.118 green:0.125 blue:0.157 alpha:1.000];
@@ -35,6 +38,10 @@
     
     [[UITabBar appearance] setBarTintColor:darkColor];
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.227 green:0.506 blue:0.718 alpha:1.000]];
+    
+#ifdef DEBUG
+    [AppsfireAdSDK setDebugModeEnabled:YES];
+#endif
     
     return YES;
 }

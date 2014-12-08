@@ -1,4 +1,5 @@
 PODS:
+  - AppsfireSDK (2.5.1)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions (= 1.9.2)
   - CocoaLumberjack/Core (1.9.2)
@@ -22,6 +23,7 @@ PODS:
     - YapDatabase/common
 
 DEPENDENCIES:
+  - AppsfireSDK
   - JDStatusBarNotification (~> 1.4)
   - Mantle
   - MBProgressHUD
@@ -40,6 +42,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/nicnocquee/YapDatabase
 
 SPEC CHECKSUMS:
+  AppsfireSDK: b960a19009473f67135411b514727725a4cd6480
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   JDStatusBarNotification: 9d833032d343e9a7abe0ec219c415dc115ba67a8
   Mantle: d7c5ac734579ec751c58fecbf56189853056c58c
