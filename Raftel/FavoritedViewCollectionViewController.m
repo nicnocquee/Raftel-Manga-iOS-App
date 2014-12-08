@@ -11,6 +11,7 @@
 #import "DBManager.h"
 #import "MangaViewController.h"
 #import "Manga.h"
+#import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
 
 static CGFloat const cellSpacing = 10;
@@ -54,6 +55,9 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     // Register cell classes
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([SearchResultCell class]) bundle:nil] forCellWithReuseIdentifier:favoriteCellIdentifier];
     // Do any additional setup after loading the view.
+    
+    UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Setting"] style:UIBarButtonItemStyleDone target:self action:@selector(didTapSetting:)];
+    [self.navigationItem setLeftBarButtonItem:setting];
 }
 
 - (void)dealloc {
@@ -65,6 +69,18 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Buttons
+
+- (void)didTapSetting:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Remove ads", nil) preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Remove", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [((AppDelegate *)[[UIApplication sharedApplication] delegate]) removeAds];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:action];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 #pragma mark - Navigation
 

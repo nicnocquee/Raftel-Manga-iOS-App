@@ -6,13 +6,17 @@
 //  Copyright (c) 2014 Raftel. All rights reserved.
 //
 
+@import StoreKit;
 #import "AppDelegate.h"
 #import <SDWebImageManager.h>
 #import <Crashlytics/Crashlytics.h>
 #import <AppsfireSDK.h>
 #import <AppsfireAdSDK.h>
+#import <MBProgressHUD.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () <SKProductsRequestDelegate>
+
+@property (nonatomic, strong) NSArray *iapProducts;
 
 @end
 
@@ -80,6 +84,49 @@
     [AppsfireAdSDK requestModalAd:AFAdSDKModalTypeSushi withController:[UIApplication sharedApplication].keyWindow.rootViewController withDelegate:nil];
     
     return YES;
+    
+}
+
+- (void)removeAds {
+    [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+    NSString *productId = @"removeads";
+    SKProductsRequest *productsRequest = [[SKProductsRequest alloc]
+                                          initWithProductIdentifiers:[NSSet setWithObject:productId]];
+    productsRequest.delegate = self;
+    [productsRequest start];
+}
+
+#pragma mark - <SKProductsRequestDelegate>
+
+// SKProductsRequestDelegate protocol method
+- (void)productsRequest:(SKProductsRequest *)request
+     didReceiveResponse:(SKProductsResponse *)response
+{
+    [MBProgressHUD hideHUDForView:self.window animated:YES];
+    self.iapProducts = response.products;
+    
+    NSLog(@"Products: %@", self.iapProducts);
+    SKProduct *product = [self.iapProducts firstObject];
+    if (product) {
+        NSLog(@"Product %@", product.localizedTitle);
+        
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [numberFormatter setLocale:product.priceLocale];
+        NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
+        
+        NSLog(@"Price: %@", formattedPrice);
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Confirm Purchase", nil) message:[NSString stringWithFormat:NSLocalizedString(@"Remove ads for %@?", nil), formattedPrice] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Buy", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+        [alert addAction:action];
+        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
     
 }
 
