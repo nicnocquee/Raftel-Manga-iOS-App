@@ -16,6 +16,7 @@
 #import "MangaPagesViewController.h"
 #import "DBManager.h"
 #import "MangaProcessor.h"
+#import "UserLastRead.h"
 #import <UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 #import <SIAlertView.h>
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) NSString *contentString;
 @property (nonatomic, strong) NSOperation *operation;
 @property (nonatomic, assign) BOOL ascending;
+@property (nonatomic, strong) MangaChapter *currentlyReadChapter;
 
 @end
 
@@ -55,6 +57,18 @@ static NSString * const chapterIdentifier = @"chapterCell";
     if (m) {
         self.manga = m;
         [self.collectionView reloadData];
+        __weak typeof (self) selfie = self;
+        NSURL *url = self.manga.url;
+        [[[DBManager sharedManager] readConnection] asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
+            UserLastRead *lastRead = [transaction objectForKey:url.absoluteString inCollection:kUserLastReadCollection];
+            if (lastRead) {
+                selfie.currentlyReadChapter = [transaction objectForKey:lastRead.chapterURL.absoluteString inCollection:kMangaChapterCollection];
+            }
+        } completionBlock:^{
+            if (self.currentlyReadChapter) {
+                [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentlyReadChapter.index.integerValue inSection:1] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+            }
+        }];
         [self setUpdatingTitleView];
         [self showAddToCollectionButton:YES];
     } else {
@@ -225,13 +239,20 @@ static NSString * const chapterIdentifier = @"chapterCell";
         pagesVC.chapter = sender;
         NSString *key = ((MangaChapter *)sender).url.absoluteString;
         NSDictionary *metadata = @{kChapterRead:@(YES)};
+        NSURL *mangaURL = self.manga.url;
+        NSURL *chapterURL = ((MangaChapter *)sender).url;
+        NSDate *date = [NSDate date];
+        UserLastRead *lastRead = [[UserLastRead alloc] init];
+        [lastRead setValue:mangaURL forKey:NSStringFromSelector(@selector(mangaURL))];
+        [lastRead setValue:chapterURL forKey:NSStringFromSelector(@selector(chapterURL))];
+        [lastRead setValue:date forKey:NSStringFromSelector(@selector(date))];
         [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
             if (![transaction hasObjectForKey:key inCollection:kMangaChapterCollection]) {
                 [transaction setObject:sender forKey:key inCollection:kMangaChapterCollection withMetadata:metadata];
             } else {
                 [transaction replaceMetadata:metadata forKey:key inCollection:kMangaChapterCollection];
             }
-            
+            [transaction setObject:lastRead forKey:mangaURL.absoluteString inCollection:kUserLastReadCollection];
         } completionBlock:^{
             [self.collectionView reloadData];
         }];

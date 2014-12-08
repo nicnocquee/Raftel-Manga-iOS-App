@@ -15,6 +15,7 @@ NSString *const kMangaChapterCollection = @"chapters";
 NSString *const kMangaPageCollection = @"pages";
 NSString *const kUserFavoriteView = @"user-favorite";
 NSString *const kFavoritedDateKey = @"favorited-day";
+NSString *const kUserLastReadCollection = @"user-last-read";
 
 @interface DBManager ()
 
