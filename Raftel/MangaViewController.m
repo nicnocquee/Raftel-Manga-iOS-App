@@ -108,8 +108,9 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)showAdsWhileWaiting {
     if (!self.hasShownAds) {
         self.hasShownAds = YES;
-        
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] displayModalAdIfPossible];
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY]) {
+            [(AppDelegate *)[[UIApplication sharedApplication] delegate] displayModalAdIfPossible];
+        }
     }
 }
 
@@ -260,7 +261,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [pagesVC setHidesBottomBarWhenPushed:YES];
         pagesVC.chapter = sender;
         NSString *key = ((MangaChapter *)sender).url.absoluteString;
-        NSDictionary *metadata = @{kChapterRead:@(YES)};
+        NSDictionary *metadata = @{kChapterRead:[NSNumber numberWithBool:YES]};
         NSURL *mangaURL = self.manga.url;
         NSURL *chapterURL = ((MangaChapter *)sender).url;
         NSDate *date = [NSDate date];
@@ -268,15 +269,19 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [lastRead setValue:mangaURL forKey:NSStringFromSelector(@selector(mangaURL))];
         [lastRead setValue:chapterURL forKey:NSStringFromSelector(@selector(chapterURL))];
         [lastRead setValue:date forKey:NSStringFromSelector(@selector(date))];
+        self.currentlyReadChapter = sender;
         [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
             if (![transaction hasObjectForKey:key inCollection:kMangaChapterCollection]) {
                 [transaction setObject:sender forKey:key inCollection:kMangaChapterCollection withMetadata:metadata];
             } else {
                 [transaction replaceMetadata:metadata forKey:key inCollection:kMangaChapterCollection];
             }
+            NSLog(@"setting reading metadata %@", key);
             [transaction setObject:lastRead forKey:mangaURL.absoluteString inCollection:kUserLastReadCollection];
         } completionBlock:^{
-            [self.collectionView reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView reloadData];
+            });
         }];
         
     }

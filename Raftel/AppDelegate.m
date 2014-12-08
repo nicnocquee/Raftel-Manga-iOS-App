@@ -17,6 +17,7 @@
 @interface AppDelegate () <SKProductsRequestDelegate>
 
 @property (nonatomic, strong) NSArray *iapProducts;
+@property (nonatomic, assign) BOOL purchaseInitiated;
 
 @end
 
@@ -42,6 +43,8 @@
     
     [[UITabBar appearance] setBarTintColor:darkColor];
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.227 green:0.506 blue:0.718 alpha:1.000]];
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     
 #ifdef DEBUG
     [AppsfireAdSDK setDebugModeEnabled:YES];
@@ -75,16 +78,18 @@
 #pragma mark - Ads
 
 - (BOOL)displayModalAdIfPossible {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY]) {
+        // if there is no ad or if one is already displayed, stop there!
+        if ([AppsfireAdSDK isThereAModalAdAvailableForType:AFAdSDKModalTypeSushi] != AFAdSDKAdAvailabilityYes || [AppsfireAdSDK isModalAdDisplayed])
+            return NO;
+        
+        // else, request the ad that should quickly appears
+        [AppsfireAdSDK requestModalAd:AFAdSDKModalTypeSushi withController:[UIApplication sharedApplication].keyWindow.rootViewController withDelegate:nil];
+        
+        return YES;
+    }
     
-    // if there is no ad or if one is already displayed, stop there!
-    if ([AppsfireAdSDK isThereAModalAdAvailableForType:AFAdSDKModalTypeSushi] != AFAdSDKAdAvailabilityYes || [AppsfireAdSDK isModalAdDisplayed])
-        return NO;
-    
-    // else, request the ad that should quickly appears
-    [AppsfireAdSDK requestModalAd:AFAdSDKModalTypeSushi withController:[UIApplication sharedApplication].keyWindow.rootViewController withDelegate:nil];
-    
-    return YES;
-    
+    return NO;
 }
 
 - (void)removeAds {
@@ -120,7 +125,9 @@
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Confirm Purchase", nil) message:[NSString stringWithFormat:NSLocalizedString(@"Remove ads for %@?", nil), formattedPrice] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Buy", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
+            self.purchaseInitiated = YES;
+            SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
         }];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
         [alert addAction:cancel];
@@ -128,6 +135,60 @@
         [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
     }
     
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue
+ updatedTransactions:(NSArray *)transactions
+{
+    for (SKPaymentTransaction *transaction in transactions) {
+        switch (transaction.transactionState) {
+                // Call the appropriate custom method for the transaction state.
+            case SKPaymentTransactionStatePurchasing:{
+                MBProgressHUD *progressHud = [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+                progressHud.labelText = NSLocalizedString(@"Purchasing ... ", nil);
+                break;
+            } case SKPaymentTransactionStateDeferred:{
+                MBProgressHUD *progressHud = [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+                progressHud.labelText = NSLocalizedString(@"Waiting for authorization", nil);
+                break;
+            } case SKPaymentTransactionStateFailed:{
+                [MBProgressHUD hideHUDForView:self.window animated:YES];
+                if (self.purchaseInitiated) {
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Purchase Failed", nil) message:transaction.error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+                    [alert addAction:cancel];
+                    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+                }
+                
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                break;
+            } case SKPaymentTransactionStatePurchased:{
+                [MBProgressHUD hideHUDForView:self.window animated:YES];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Purchase Succeeded", nil) message:NSLocalizedString(@"Thank you for removing the ads!", nil) preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+                [alert addAction:cancel];
+                [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [queue finishTransaction:transaction];
+                break;
+            } case SKPaymentTransactionStateRestored:{
+                [MBProgressHUD hideHUDForView:self.window animated:YES];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Purchase Restored", nil) message:NSLocalizedString(@"You have purchased ads removal. Ads won't be shown anymore.", nil) preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+                [alert addAction:cancel];
+                [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [queue finishTransaction:transaction];
+                break;
+            } default:
+                // For debugging
+                NSLog(@"Unexpected transaction state %@", @(transaction.transactionState));
+                break;
+        }
+    }
 }
 
 #pragma mark - Unit Test

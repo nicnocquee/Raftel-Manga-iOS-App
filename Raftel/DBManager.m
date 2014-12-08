@@ -46,7 +46,7 @@ NSString *const kUserLastReadCollection = @"user-last-read";
         self.readConnection = [self.database newConnection];
         
         self.readConnection.objectCacheLimit = 500; // increase object cache size
-        self.readConnection.metadataCacheEnabled = NO; // not using metadata on this connection
+        self.readConnection.metadataCacheEnabled = YES; // 
         
         self.writeConnection.objectCacheEnabled = NO; // don't need cache for write-only connection
         self.writeConnection.metadataCacheEnabled = NO;

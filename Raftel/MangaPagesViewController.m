@@ -11,6 +11,7 @@
 #import "MangaPage.h"
 #import "MangaPageViewCell.h"
 #import "DBManager.h"
+#import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
 #import <SIAlertView.h>
 #import <AppsfireAdSDK.h>
@@ -32,34 +33,36 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [AppsfireAdSDK setDelegate:self];
-    NSUInteger sashimiMinimalAdsCount = [AppsfireAdSDK numberOfSashimiAdsAvailableForFormat:AFAdSDKSashimiFormatMinimal];
-    NSLog(@"has %d ads", (int)sashimiMinimalAdsCount);
-    if (sashimiMinimalAdsCount > 0) {
-        NSError *error;
-        AFAdSDKSashimiMinimalView *sashimiMinimalView;
-        
-        // Get sashimi view
-        sashimiMinimalView = (AFAdSDKSashimiMinimalView *)[AppsfireAdSDK sashimiViewForFormat:AFAdSDKSashimiFormatMinimal withController:[UIApplication sharedApplication].keyWindow.rootViewController andError:&error];
-        
-        // Before using this view make sure the returned view is not `nil` and that there is not error.
-        if (sashimiMinimalView != nil && error == nil) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY]) {
+        [AppsfireAdSDK setDelegate:self];
+        NSUInteger sashimiMinimalAdsCount = [AppsfireAdSDK numberOfSashimiAdsAvailableForFormat:AFAdSDKSashimiFormatMinimal];
+        NSLog(@"has %d ads", (int)sashimiMinimalAdsCount);
+        if (sashimiMinimalAdsCount > 0) {
+            NSError *error;
+            AFAdSDKSashimiMinimalView *sashimiMinimalView;
             
-            // You can safely use the view
-            [self.navigationController.view addSubview:sashimiMinimalView];
-            sashimiMinimalView.frame = ({
-                CGRect frame = sashimiMinimalView.frame;
-                frame.origin.x = 0;
-                frame.size.height = AD_HEIGHT;
-                frame.origin.y = CGRectGetHeight(self.navigationController.view.frame) - CGRectGetHeight(frame);
-                frame.size.width = CGRectGetWidth(self.navigationController.view.frame);
-                frame;
-            });
-            self.adView = sashimiMinimalView;
-            [self.collectionView.collectionViewLayout invalidateLayout];
+            // Get sashimi view
+            sashimiMinimalView = (AFAdSDKSashimiMinimalView *)[AppsfireAdSDK sashimiViewForFormat:AFAdSDKSashimiFormatMinimal withController:[UIApplication sharedApplication].keyWindow.rootViewController andError:&error];
+            
+            // Before using this view make sure the returned view is not `nil` and that there is not error.
+            if (sashimiMinimalView != nil && error == nil) {
+                
+                // You can safely use the view
+                [self.navigationController.view addSubview:sashimiMinimalView];
+                sashimiMinimalView.frame = ({
+                    CGRect frame = sashimiMinimalView.frame;
+                    frame.origin.x = 0;
+                    frame.size.height = AD_HEIGHT;
+                    frame.origin.y = CGRectGetHeight(self.navigationController.view.frame) - CGRectGetHeight(frame);
+                    frame.size.width = CGRectGetWidth(self.navigationController.view.frame);
+                    frame;
+                });
+                self.adView = sashimiMinimalView;
+                [self.collectionView.collectionViewLayout invalidateLayout];
+            }
         }
     }
+    
     
     self.pagesOperationQueue = [[NSOperationQueue alloc] init];
     [self.pagesOperationQueue setMaxConcurrentOperationCount:1];
@@ -117,7 +120,13 @@ static NSString * const reuseIdentifier = @"pageCell";
                         [[SDWebImageManager sharedManager] downloadImageWithURL:imageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                             
                         }];
-                        
+                        if (count%5==0) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [selfie.collectionView reloadData];
+                                [selfie.collectionView setScrollEnabled:YES];
+                            });
+                            
+                        }
                         
                         count++;
                     }
