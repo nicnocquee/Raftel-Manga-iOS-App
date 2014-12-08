@@ -163,6 +163,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     if ([viewController isKindOfClass:((UIViewController *)[navigationController.viewControllers firstObject]).class]) {
         [[[MangaProcessor sharedProcessor] operationQueue] cancelAllOperations];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [navigationController setDelegate:nil];
     }
 }
 
