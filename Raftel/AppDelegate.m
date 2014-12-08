@@ -68,6 +68,21 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Ads
+
+- (BOOL)displayModalAdIfPossible {
+    
+    // if there is no ad or if one is already displayed, stop there!
+    if ([AppsfireAdSDK isThereAModalAdAvailableForType:AFAdSDKModalTypeSushi] != AFAdSDKAdAvailabilityYes || [AppsfireAdSDK isModalAdDisplayed])
+        return NO;
+    
+    // else, request the ad that should quickly appears
+    [AppsfireAdSDK requestModalAd:AFAdSDKModalTypeSushi withController:[UIApplication sharedApplication].keyWindow.rootViewController withDelegate:nil];
+    
+    return YES;
+    
+}
+
 #pragma mark - Unit Test
 
 static BOOL isRunningTests(void)

@@ -17,6 +17,7 @@
 #import "DBManager.h"
 #import "MangaProcessor.h"
 #import "UserLastRead.h"
+#import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 #import <SIAlertView.h>
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) NSOperation *operation;
 @property (nonatomic, assign) BOOL ascending;
 @property (nonatomic, strong) MangaChapter *currentlyReadChapter;
+@property (nonatomic, assign) BOOL hasShownAds;
 
 @end
 
@@ -103,6 +105,14 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [self.dataTask resume];
 }
 
+- (void)showAdsWhileWaiting {
+    if (!self.hasShownAds) {
+        self.hasShownAds = YES;
+        
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] displayModalAdIfPossible];
+    }
+}
+
 - (void)startProcessingContentString {
     if (self.contentString && ![self.operation isExecuting]) {
         __weak typeof (self) selfie = self;
@@ -130,7 +140,13 @@ static NSString * const chapterIdentifier = @"chapterCell";
             });
         } didProcessChapter:^(MangaChapter *chapter, int total) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (!selfie.manga) selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Processing chapter %d/%d", nil), chapter.index.intValue, total];
+                if (!selfie.manga)  {
+                    selfie.navigationItem.titleView = nil;
+                    selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Processing chapter %d/%d", nil), chapter.index.intValue, total];
+                    if (total > 100 && chapter.index.intValue > 50 && !selfie.hasShownAds) {
+                        [selfie showAdsWhileWaiting];
+                    }
+                }
             });
         }];
     }

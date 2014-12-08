@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (BOOL)displayModalAdIfPossible;
+
 
 @end
 
