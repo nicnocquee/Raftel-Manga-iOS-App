@@ -304,6 +304,7 @@
 				TargetAttributes = {
 					033C7C1A1A333A90000F34CF = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = NNTV3ZQR3E;
 					};
 					033C7C361A333A90000F34CF = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -580,6 +581,7 @@
 			baseConfigurationReference = 5E210B4C42E8BC52C22BE4A4 /* Pods-Raftel.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Raftel",
@@ -596,6 +598,7 @@
 			baseConfigurationReference = 04F8F61EF828C52F68349F36 /* Pods-Raftel.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: nico prananta (NNTV3ZQR3E)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Raftel",
@@ -604,6 +607,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "cebccd7c-87d7-4669-a55f-e99551b254fd";
 			};
 			name = Release;
 		};
