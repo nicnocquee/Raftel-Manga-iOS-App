@@ -33,6 +33,7 @@
 		033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */; };
 		033C7C821A3460B8000F34CF /* MangaPageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 033C7C801A3460B8000F34CF /* MangaPageViewCell.m */; };
 		033C7C831A3460B8000F34CF /* MangaPageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */; };
+		038B520F1A355BCF0061A9C8 /* MangaProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 038B520E1A355BCF0061A9C8 /* MangaProcessor.m */; };
 		03D66DF81A34895B004D9CEB /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D66DF71A34895B004D9CEB /* DBManager.m */; };
 		03D66DFB1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D66DFA1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m */; };
 		03D66DFE1A34C630004D9CEB /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D66DFD1A34C630004D9CEB /* Crashlytics.framework */; };
@@ -97,6 +98,8 @@
 		033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaPageViewCell.h; sourceTree = "<group>"; };
 		033C7C801A3460B8000F34CF /* MangaPageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaPageViewCell.m; sourceTree = "<group>"; };
 		033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MangaPageViewCell.xib; sourceTree = "<group>"; };
+		038B520D1A355BCF0061A9C8 /* MangaProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaProcessor.h; sourceTree = "<group>"; };
+		038B520E1A355BCF0061A9C8 /* MangaProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaProcessor.m; sourceTree = "<group>"; };
 		03D66DF61A34895B004D9CEB /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		03D66DF71A34895B004D9CEB /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		03D66DF91A34BEA6004D9CEB /* FavoritedViewCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritedViewCollectionViewController.h; sourceTree = "<group>"; };
@@ -162,44 +165,9 @@
 				033C7C301A333A90000F34CF /* LaunchScreen.xib */,
 				033C7C1E1A333A90000F34CF /* Supporting Files */,
 				033C7C471A33453D000F34CF /* sources.plist */,
-				033C7C491A3348F0000F34CF /* Mangapanda.h */,
-				033C7C4A1A3348F0000F34CF /* Mangapanda.m */,
-				033C7C4C1A33493A000F34CF /* Manga.h */,
-				033C7C4D1A33493A000F34CF /* Manga.m */,
-				033C7C4F1A334C20000F34CF /* MangaChapter.h */,
-				033C7C501A334C20000F34CF /* MangaChapter.m */,
-				033C7C551A337142000F34CF /* MangaGenre.h */,
-				033C7C561A337142000F34CF /* MangaGenre.m */,
-				033C7C581A33E89D000F34CF /* NSString+Matches.h */,
-				033C7C591A33E89D000F34CF /* NSString+Matches.m */,
-				033C7C5B1A33F193000F34CF /* NSArray+SourcesPlist.h */,
-				033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */,
-				033C7C5E1A33FA3A000F34CF /* MangaPage.h */,
-				033C7C5F1A33FA3A000F34CF /* MangaPage.m */,
-				033C7C611A340746000F34CF /* MangaSearchResult.h */,
-				033C7C621A340746000F34CF /* MangaSearchResult.m */,
-				033C7C641A341963000F34CF /* SearchCollectionViewController.h */,
-				033C7C651A341963000F34CF /* SearchCollectionViewController.m */,
-				033C7C671A341AD1000F34CF /* SearchResultCell.xib */,
-				033C7C691A341C00000F34CF /* SearchResultCell.h */,
-				033C7C6A1A341C00000F34CF /* SearchResultCell.m */,
-				033C7C6C1A3429A2000F34CF /* MangaViewController.h */,
-				033C7C6D1A3429A2000F34CF /* MangaViewController.m */,
-				033C7C6F1A342AEF000F34CF /* MangaHeaderViewCell.h */,
-				033C7C701A342AEF000F34CF /* MangaHeaderViewCell.m */,
-				033C7C721A342B00000F34CF /* MangaChapterCollectionViewCell.h */,
-				033C7C731A342B00000F34CF /* MangaChapterCollectionViewCell.m */,
-				033C7C751A342B13000F34CF /* MangaHeaderViewCell.xib */,
-				033C7C7A1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib */,
-				033C7C7C1A345F41000F34CF /* MangaPagesViewController.h */,
-				033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */,
-				033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */,
-				033C7C801A3460B8000F34CF /* MangaPageViewCell.m */,
-				033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */,
-				03D66DF61A34895B004D9CEB /* DBManager.h */,
-				03D66DF71A34895B004D9CEB /* DBManager.m */,
-				03D66DF91A34BEA6004D9CEB /* FavoritedViewCollectionViewController.h */,
-				03D66DFA1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m */,
+				038B520A1A355B760061A9C8 /* Models */,
+				038B520B1A355B810061A9C8 /* Categories */,
+				038B520C1A355B9F0061A9C8 /* Controllers */,
 			);
 			path = Raftel;
 			sourceTree = "<group>";
@@ -228,6 +196,67 @@
 				033C7C3C1A333A90000F34CF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		038B520A1A355B760061A9C8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				033C7C491A3348F0000F34CF /* Mangapanda.h */,
+				033C7C4A1A3348F0000F34CF /* Mangapanda.m */,
+				033C7C4C1A33493A000F34CF /* Manga.h */,
+				033C7C4D1A33493A000F34CF /* Manga.m */,
+				033C7C4F1A334C20000F34CF /* MangaChapter.h */,
+				033C7C501A334C20000F34CF /* MangaChapter.m */,
+				033C7C551A337142000F34CF /* MangaGenre.h */,
+				033C7C561A337142000F34CF /* MangaGenre.m */,
+				033C7C5E1A33FA3A000F34CF /* MangaPage.h */,
+				033C7C5F1A33FA3A000F34CF /* MangaPage.m */,
+				033C7C611A340746000F34CF /* MangaSearchResult.h */,
+				033C7C621A340746000F34CF /* MangaSearchResult.m */,
+				03D66DF61A34895B004D9CEB /* DBManager.h */,
+				03D66DF71A34895B004D9CEB /* DBManager.m */,
+				038B520D1A355BCF0061A9C8 /* MangaProcessor.h */,
+				038B520E1A355BCF0061A9C8 /* MangaProcessor.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		038B520B1A355B810061A9C8 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				033C7C581A33E89D000F34CF /* NSString+Matches.h */,
+				033C7C591A33E89D000F34CF /* NSString+Matches.m */,
+				033C7C5B1A33F193000F34CF /* NSArray+SourcesPlist.h */,
+				033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		038B520C1A355B9F0061A9C8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				033C7C641A341963000F34CF /* SearchCollectionViewController.h */,
+				033C7C651A341963000F34CF /* SearchCollectionViewController.m */,
+				033C7C671A341AD1000F34CF /* SearchResultCell.xib */,
+				033C7C691A341C00000F34CF /* SearchResultCell.h */,
+				033C7C6A1A341C00000F34CF /* SearchResultCell.m */,
+				033C7C6C1A3429A2000F34CF /* MangaViewController.h */,
+				033C7C6D1A3429A2000F34CF /* MangaViewController.m */,
+				033C7C6F1A342AEF000F34CF /* MangaHeaderViewCell.h */,
+				033C7C701A342AEF000F34CF /* MangaHeaderViewCell.m */,
+				033C7C721A342B00000F34CF /* MangaChapterCollectionViewCell.h */,
+				033C7C731A342B00000F34CF /* MangaChapterCollectionViewCell.m */,
+				033C7C751A342B13000F34CF /* MangaHeaderViewCell.xib */,
+				033C7C7A1A3454AD000F34CF /* MangaChapterCollectionViewCell.xib */,
+				033C7C7C1A345F41000F34CF /* MangaPagesViewController.h */,
+				033C7C7D1A345F41000F34CF /* MangaPagesViewController.m */,
+				033C7C7F1A3460B8000F34CF /* MangaPageViewCell.h */,
+				033C7C801A3460B8000F34CF /* MangaPageViewCell.m */,
+				033C7C811A3460B8000F34CF /* MangaPageViewCell.xib */,
+				03D66DF91A34BEA6004D9CEB /* FavoritedViewCollectionViewController.h */,
+				03D66DFA1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		1D8C66E85D597BA99B50DE32 /* Pods */ = {
@@ -445,6 +474,7 @@
 				033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */,
 				033C7C711A342AEF000F34CF /* MangaHeaderViewCell.m in Sources */,
 				033C7C6E1A3429A2000F34CF /* MangaViewController.m in Sources */,
+				038B520F1A355BCF0061A9C8 /* MangaProcessor.m in Sources */,
 				03D66DF81A34895B004D9CEB /* DBManager.m in Sources */,
 				033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,

@@ -13,7 +13,7 @@
 #import "MangaViewController.h"
 #import "DBManager.h"
 #import <UIImageView+WebCache.h>
-#import <SVProgressHUD.h>
+#import <MBProgressHUD.h>
 #import <SIAlertView.h>
 
 static CGFloat const cellSpacing = 10;
@@ -109,11 +109,13 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.searchBar endEditing:YES];
-    [SVProgressHUD show];
+    
     if ([searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        __weak typeof (self) selfie = self;
         [Mangapanda search:searchBar.text completion:^(NSArray *results, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
+                [MBProgressHUD hideHUDForView:selfie.view animated:YES];
                 if (error) {
                     NSLog(@"Error %@", error);
                     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Search Error", nil) andMessage:error.localizedDescription];
@@ -125,11 +127,11 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
                                           }];
                     [alertView show];
                 } else {
-                    self.searches = results;
-                    [self.collectionView reloadData];
+                    selfie.searches = results;
+                    [selfie.collectionView reloadData];
                     
                     [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                        for (MangaSearchResult *result in self.searches) {
+                        for (MangaSearchResult *result in selfie.searches) {
                             [transaction setObject:result forKey:result.name inCollection:kSearchResultCollection];
                         }
                     }];

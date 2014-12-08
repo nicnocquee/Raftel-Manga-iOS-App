@@ -183,22 +183,4 @@
     [task resume];
 }
 
-+ (NSURLSessionDataTask *)mangaWithURL:(NSURL *)URL completion:(void (^)(Manga *manga, NSError *error))completion {
-    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            if (completion) completion(nil, error);
-        } else {
-            NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            Mangapanda *panda = [[Mangapanda alloc] init];
-            Manga *manga = [panda mangaWithContentURLString:dataString];
-            [manga setValue:URL forKey:NSStringFromSelector(@selector(url))];
-            if (completion) {
-                completion(manga, nil);
-            }
-        }
-    }];
-    [task resume];
-    return task;
-}
-
 @end

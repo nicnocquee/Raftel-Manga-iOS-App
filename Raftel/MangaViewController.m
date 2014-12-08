@@ -15,13 +15,16 @@
 #import "MangaSearchResult.h"
 #import "MangaPagesViewController.h"
 #import "DBManager.h"
+#import "MangaProcessor.h"
 #import <UIImageView+WebCache.h>
-#import <SVProgressHUD.h>
+#import <MBProgressHUD.h>
 #import <SIAlertView.h>
 
-@interface MangaViewController () <UICollectionViewDelegateFlowLayout>
+@interface MangaViewController () <UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
+@property (nonatomic, strong) NSString *contentString;
+@property (nonatomic, strong) NSOperation *operation;
 
 @end
 
@@ -32,6 +35,8 @@ static NSString * const chapterIdentifier = @"chapterCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.navigationController setDelegate:self];
     
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:headerIdentifier];
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaChapterCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:chapterIdentifier];
@@ -50,29 +55,97 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [self setUpdatingTitleView];
         [self showAddToCollectionButton:YES];
     } else {
-        [SVProgressHUD show];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
     
-    self.dataTask = [Mangapanda mangaWithURL:self.searchResult.url?:self.manga.url completion:^(Manga *manga, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"done fetching manga");
-            [SVProgressHUD dismiss];
-            self.navigationItem.titleView = nil;
-            self.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), self.searchResult.name?:self.manga.name, (int)manga.chapters.count];
-            self.manga = manga;
-            [self.collectionView reloadData];
-            [self showAddToCollectionButton:YES];
-            
-            [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                if ([transaction hasObjectForKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection]) {
-                    [transaction replaceObject:manga forKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection];
-                } else {
-                    [transaction setObject:manga forKey:self.searchResult.url.absoluteString?:self.manga.url.absoluteString inCollection:kMangaCollection];
-                }
-            }];
-        });
+    NSURL *URL = self.searchResult.url?:self.manga.url;
+    __weak typeof (self) selfie = self;
+    self.dataTask = [[NSURLSession sharedSession] dataTaskWithURL:URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot Fetch Manga", nil) andMessage:error.localizedDescription];
+                
+                [alertView addButtonWithTitle:NSLocalizedString(@"Dismiss", nil)
+                                         type:SIAlertViewButtonTypeCancel
+                                      handler:^(SIAlertView *alert) {
+                                          NSLog(@"Button1 Clicked");
+                                      }];
+                [alertView show];
+                [MBProgressHUD hideHUDForView:selfie.view animated:YES];
+            });
+        } else {
+            NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            selfie.contentString = dataString;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:selfie.view animated:YES];
+                [selfie startProcessingContentString];
+            });
+        }
     }];
+    [self.dataTask resume];
 }
+
+- (void)startProcessingContentString {
+    if (self.contentString && ![self.operation isExecuting]) {
+        __weak typeof (self) selfie = self;
+        NSURL *URL = self.searchResult.url?:self.manga.url;
+        if (!self.manga) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
+        self.operation = [[MangaProcessor sharedProcessor] processMangaFromURL:URL contentString:self.contentString completion:^(Manga *manga) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:selfie.view animated:YES];
+                selfie.navigationItem.titleView = nil;
+                selfie.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), selfie.searchResult.name?:selfie.manga.name, (int)manga.chapters.count];
+                selfie.manga = manga;
+                [selfie.collectionView reloadData];
+                [selfie showAddToCollectionButton:YES];
+                
+                [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                    if ([transaction hasObjectForKey:selfie.searchResult.url.absoluteString?:selfie.manga.url.absoluteString inCollection:kMangaCollection]) {
+                        [transaction replaceObject:manga forKey:selfie.searchResult.url.absoluteString?:selfie.manga.url.absoluteString inCollection:kMangaCollection];
+                    } else {
+                        [transaction setObject:manga forKey:selfie.searchResult.url.absoluteString?:selfie.manga.url.absoluteString inCollection:kMangaCollection];
+                    }
+                }];
+                selfie.contentString = nil;
+            });
+        } didProcessChapter:^(MangaChapter *chapter, int total) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                selfie.title = [NSString stringWithFormat:NSLocalizedString(@"Processing chapter %d/%d", nil), chapter.index.intValue, total];
+            });
+        }];
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.dataTask suspend];
+    self.navigationItem.titleView = nil;
+    self.title = self.manga.name;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.dataTask && self.dataTask.state == NSURLSessionTaskStateSuspended) {
+        [self setUpdatingTitleView];
+        [self.dataTask resume];
+    } else {
+        [self startProcessingContentString];
+    }
+}
+
+#pragma mark - <UINavigationControllerDelegate>
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([viewController isKindOfClass:((UIViewController *)[navigationController.viewControllers firstObject]).class]) {
+        [[[MangaProcessor sharedProcessor] operationQueue] cancelAllOperations];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }
+}
+
+#pragma mark - Buttons
 
 - (void)showAddToCollectionButton:(BOOL)show {
     if (show) {
@@ -122,19 +195,6 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [label setNumberOfLines:2];
     [label sizeToFit];
     [self.navigationItem setTitleView:label];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [self.dataTask suspend];
-    self.navigationItem.titleView = nil;
-    self.title = self.manga.name;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    if (self.dataTask && self.dataTask.state == NSURLSessionTaskStateSuspended) {
-        [self setUpdatingTitleView];
-        [self.dataTask resume];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

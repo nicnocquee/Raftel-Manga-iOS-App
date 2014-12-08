@@ -3,7 +3,7 @@ platform :ios, '8.0'
 
 target 'Raftel' do
 pod 'SDWebImage'
-pod 'SVProgressHUD', '~> 1.1'
+pod 'MBProgressHUD'
 pod 'SIAlertView', '~> 1.3'
 pod 'Mantle'
 pod 'NSString-HTML', '~> 0.0'
