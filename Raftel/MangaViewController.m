@@ -323,6 +323,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [attr addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:[chapterString rangeOfString:chapterIndex]];
         [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:[chapterString rangeOfString:chapterIndex]];
         [chapterCell.nameLabel setAttributedText:attr];
+        [chapterCell setAccessibilityLabel:chapter.title];
         
         __block NSDictionary *metadata;
         [[[DBManager sharedManager] readConnection] readWithBlock:^(YapDatabaseReadTransaction *transaction) {
