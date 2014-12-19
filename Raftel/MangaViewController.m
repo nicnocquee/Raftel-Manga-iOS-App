@@ -69,6 +69,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
             NSLog(@"count = %d", [weakManga readingCount]);
             [selfie.collectionView reloadData];
         }];
+        [self.manga countCommentsWithCompletionBlock:^(int count) {
+            NSLog(@"number of comments = %d", count);
+            [selfie setNumberOfComments:count];
+        }];
         self.title = self.manga.name;
         [self.collectionView reloadData];
         NSURL *url = self.manga.url;
@@ -156,15 +160,27 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:NO animated:YES];
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
-    [self setToolbarItems:@[addButton, flexibleSpace, shareButton]];
+    
+    [self setNumberOfComments:[self.manga commentsCount]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setToolbarHidden:YES animated:YES];
+}
+
+- (void)setNumberOfComments:(int)comments {
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
+    UIBarButtonItem *commentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Chat"] style:UIBarButtonItemStyleDone target:self action:@selector(didTapCommentButton:)];
+    if (comments == 0) {
+        [self setToolbarItems:@[addButton, flexibleSpace, commentButton, flexibleSpace, shareButton]];
+    } else {
+        UIBarButtonItem *commentNumbersItem = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"%d", comments] style:UIBarButtonItemStyleDone target:nil action:nil];
+        [self setToolbarItems:@[addButton, flexibleSpace, commentButton, commentNumbersItem, flexibleSpace, shareButton]];
+    }
+    
 }
 
 - (void)showAdsWhileWaiting {
@@ -230,6 +246,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
 }
 
 #pragma mark - Buttons
+
+- (void)didTapCommentButton:(UIButton *)sender {
+    
+}
 
 - (void)didTapActionButton:(UIButton *)sender {
     NSString *relative = self.manga.url.relativePath?:self.searchResult.url.relativePath;

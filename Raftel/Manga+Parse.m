@@ -7,10 +7,12 @@
 //
 
 #import "Manga+Parse.h"
+#import "Comment.h"
 #import <objc/runtime.h>
 
 const void *parseObjectKey = &parseObjectKey;
 const void *parseReadingCountKey = &parseReadingCountKey;
+const void *parseCommentsCountKey = &parseCommentsCountKey;
 
 @implementation Manga (Parse)
 
@@ -88,6 +90,30 @@ const void *parseReadingCountKey = &parseReadingCountKey;
     }
 }
 
+- (void)fetchCommentsWithCompletionBlock:(void (^)(NSArray *))completionBlock {
+    
+}
+
+- (void)addComment:(NSString *)comment completionBlock:(void (^)())completionBlock {
+    
+}
+
+- (void)countCommentsWithCompletionBlock:(void (^)(int))completionBlock {
+    PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass([Comment class])];
+    [query whereKey:NSStringFromSelector(@selector(mangaURL)) equalTo:self.url.absoluteString];
+    [query countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
+        if (!error) {
+            // The count request succeeded. Log the count
+            [self setCommentsCount:count];
+            if (completionBlock) {
+                completionBlock(count);
+            }
+        } else {
+            // The request failed
+        }
+    }];
+}
+
 - (void)setParseObject:(PFObject *)parseObject {
     [self setReadingCount:[parseObject[readingCountKey] intValue]];
     objc_setAssociatedObject(self, parseObjectKey, parseObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -103,6 +129,14 @@ const void *parseReadingCountKey = &parseReadingCountKey;
 
 - (int)readingCount {
     return [objc_getAssociatedObject(self, parseReadingCountKey) intValue];
+}
+
+- (void)setCommentsCount:(int)commentsCount {
+    objc_setAssociatedObject(self, parseCommentsCountKey, @(commentsCount), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (int)commentsCount {
+    return [objc_getAssociatedObject(self, parseCommentsCountKey) intValue];
 }
 
 @end

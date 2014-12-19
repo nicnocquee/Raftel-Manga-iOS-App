@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		030E2B911A44109000A637FB /* Manga+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B901A44109000A637FB /* Manga+Parse.m */; };
+		030E2B941A442CA600A637FB /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B931A442CA600A637FB /* Comment.m */; };
 		0330183D1A44092A00679FEE /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183C1A44092A00679FEE /* Parse.framework */; };
 		0330183F1A44094F00679FEE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183E1A44094F00679FEE /* Accounts.framework */; };
 		033018411A44095400679FEE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 033018401A44095400679FEE /* AudioToolbox.framework */; };
@@ -71,6 +72,8 @@
 /* Begin PBXFileReference section */
 		030E2B8F1A44109000A637FB /* Manga+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Manga+Parse.h"; sourceTree = "<group>"; };
 		030E2B901A44109000A637FB /* Manga+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Manga+Parse.m"; sourceTree = "<group>"; };
+		030E2B921A442CA600A637FB /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		030E2B931A442CA600A637FB /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		0330183C1A44092A00679FEE /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		0330183E1A44094F00679FEE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		033018401A44095400679FEE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -272,6 +275,8 @@
 				038B520E1A355BCF0061A9C8 /* MangaProcessor.m */,
 				038B52101A3584AA0061A9C8 /* UserLastRead.h */,
 				038B52111A3584AA0061A9C8 /* UserLastRead.m */,
+				030E2B921A442CA600A637FB /* Comment.h */,
+				030E2B931A442CA600A637FB /* Comment.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -543,6 +548,7 @@
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */,
 				033C7C711A342AEF000F34CF /* MangaHeaderViewCell.m in Sources */,
+				030E2B941A442CA600A637FB /* Comment.m in Sources */,
 				033C7C6E1A3429A2000F34CF /* MangaViewController.m in Sources */,
 				038B520F1A355BCF0061A9C8 /* MangaProcessor.m in Sources */,
 				03D66DF81A34895B004D9CEB /* DBManager.m in Sources */,
