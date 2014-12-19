@@ -12,7 +12,10 @@
 #import "MangaViewController.h"
 #import "Manga.h"
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "SignUpViewController.h"
 #import <UIImageView+WebCache.h>
+#import <Parse/Parse.h>
 
 static CGFloat const cellSpacing = 10;
 
@@ -20,7 +23,7 @@ static int const column = 3;
 
 static NSString *const favoriteCellIdentifier = @"searchResult";
 
-@interface FavoritedViewCollectionViewController ()
+@interface FavoritedViewCollectionViewController () <PFLogInViewControllerDelegate>
 
 @property (nonatomic, strong) YapDatabaseConnection *readConnection;
 @property (nonatomic, strong) YapDatabaseViewMappings *databaseViewMappings;
@@ -84,6 +87,27 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     [alert addAction:action];
     [alert addAction:restoreAction];
     [alert addAction:cancel];
+    
+    if ([PFUser currentUser]) {
+        UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Logout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [PFUser logOut];
+        }];
+        [alert addAction:logoutAction];
+    } else {
+        UIAlertAction *loginAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Login", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            LoginViewController *logInController = [[LoginViewController alloc] init];
+            logInController.delegate = self;
+            SignUpViewController *signupController = [[SignUpViewController alloc] init];
+            [signupController setDelegate:logInController];
+            signupController.fields = (PFSignUpFieldsUsernameAndPassword
+                                       | PFSignUpFieldsSignUpButton
+                                       | PFSignUpFieldsDismissButton);
+            logInController.signUpController = signupController;
+            [self presentViewController:logInController animated:YES completion:nil];
+        }];
+        [alert addAction:loginAction];
+    }
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -158,6 +182,22 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     }];
     
     [self.collectionView reloadData];
+}
+
+#pragma mark - <PFLogInViewControllerDelegate>
+
+#pragma mark - <PFLogInViewControllerDelegate>
+
+- (void)logInViewController:(PFLogInViewController *)controller
+               didLogInUser:(PFUser *)user {
+    if (user) {
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
