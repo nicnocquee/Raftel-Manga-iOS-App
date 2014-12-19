@@ -8,6 +8,7 @@
 
 @import StoreKit;
 #import "AppDelegate.h"
+#import "SearchCollectionViewController.h"
 #import <SDWebImageManager.h>
 #import <Crashlytics/Crashlytics.h>
 #import <AppsfireSDK.h>
@@ -53,7 +54,15 @@
     [AppsfireAdSDK setDebugModeEnabled:YES];
 #endif
     
-    return YES;
+    BOOL returnResult = NO;
+    if (launchOptions) {
+        NSURL *URL = launchOptions[UIApplicationLaunchOptionsURLKey];
+        if (URL && [URL.scheme isEqualToString:@"raftel"]) {
+            returnResult = YES;
+        }
+    }
+    
+    return returnResult;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -76,6 +85,21 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    NSLog(@"open url: %@", url);
+    if (![url.scheme isEqualToString:@"raftel"]) {
+        return NO;
+    }
+    NSString *path = url.relativePath;
+    NSString *mangaURLString = [NSString stringWithFormat:@"http://www.mangapanda.com%@", path];
+    NSURL *mangaURL = [NSURL URLWithString:mangaURLString];
+    
+    UITabBarController *tabBar = (UITabBarController *)self.window.rootViewController;
+    SearchCollectionViewController *searchVC = (SearchCollectionViewController *)[[[tabBar.viewControllers firstObject] viewControllers] firstObject];
+    [searchVC openMangaWithURL:mangaURL];
+    return YES;
 }
 
 #pragma mark - Ads

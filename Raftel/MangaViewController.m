@@ -58,6 +58,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     
     if (m) {
         self.manga = m;
+        self.title = self.manga.name;
         [self.collectionView reloadData];
         __weak typeof (self) selfie = self;
         NSURL *url = self.manga.url;

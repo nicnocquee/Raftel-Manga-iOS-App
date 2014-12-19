@@ -10,4 +10,6 @@
 
 @interface SearchCollectionViewController : UICollectionViewController
 
+- (void)openMangaWithURL:(NSURL *)url;
+
 @end

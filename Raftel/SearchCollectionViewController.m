@@ -154,4 +154,12 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
     }
 }
 
+- (void)openMangaWithURL:(NSURL *)url {
+    if (url) {
+        MangaSearchResult *searchResult = [[MangaSearchResult alloc] init];
+        [searchResult setValue:url forKey:NSStringFromSelector(@selector(url))];
+        [self performSegueWithIdentifier:@"showManga" sender:searchResult];
+    }
+}
+
 @end
