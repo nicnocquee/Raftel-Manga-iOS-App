@@ -37,9 +37,6 @@ static NSString * const reuseIdentifier = @"pageCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
-    [self.navigationItem setRightBarButtonItem:shareButton];
-    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY]) {
         [AppsfireAdSDK setDelegate:self];
         NSUInteger sashimiMinimalAdsCount = [AppsfireAdSDK numberOfSashimiAdsAvailableForFormat:AFAdSDKSashimiFormatMinimal];
@@ -87,6 +84,7 @@ static NSString * const reuseIdentifier = @"pageCell";
         self.chapter = ch;
         [self.collectionView setScrollEnabled:YES];
         [self setTitleForPage:1 total:(int)self.chapter.pages.count];
+        [self showRightBarLoadingView:NO];
     } else {
         [self showRightBarLoadingView:YES];
         __weak typeof (self) selfie = self;
@@ -184,7 +182,8 @@ static NSString * const reuseIdentifier = @"pageCell";
         [view startAnimating];
         [self.navigationItem setRightBarButtonItem:right];
     } else {
-        [self.navigationItem setRightBarButtonItem:nil];
+        UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
+        [self.navigationItem setRightBarButtonItem:shareButton];
     }
 }
 

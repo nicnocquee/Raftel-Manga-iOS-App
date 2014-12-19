@@ -203,7 +203,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
 - (void)didTapActionButton:(UIButton *)sender {
     NSString *relative = self.manga.url.relativePath?:self.searchResult.url.relativePath;
     NSString *raftelURLString = [NSString stringWithFormat:@"raftel://manga%@", relative];
-    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Hey check out %@ in Raftel app! %@\n\n Download the app here first https://itunes.apple.com/us/app/raftel-manga-browser-reader/id949370715?ls=1&mt=8\n\n", nil), self.manga.name, raftelURLString];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Hey check out %@ in Raftel app! %@\n\nDownload the app here first https://itunes.apple.com/us/app/raftel-manga-browser-reader/id949370715?ls=1&mt=8\n\n", nil), self.manga.name, raftelURLString];
     void (^completionHandler)(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) = ^void(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         
     };
