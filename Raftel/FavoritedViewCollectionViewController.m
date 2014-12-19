@@ -76,8 +76,13 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Remove", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [((AppDelegate *)[[UIApplication sharedApplication] delegate]) removeAds];
     }];
+    UIAlertAction *restoreAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restore Purchase", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [((AppDelegate *)[[UIApplication sharedApplication] delegate]) restorePurchase];
+    }];
+    
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:action];
+    [alert addAction:restoreAction];
     [alert addAction:cancel];
     [self presentViewController:alert animated:YES completion:nil];
 }

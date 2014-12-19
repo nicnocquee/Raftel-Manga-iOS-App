@@ -16,7 +16,7 @@
 
 - (BOOL)displayModalAdIfPossible;
 - (void)removeAds;
-
+- (void)restorePurchase;
 
 @end
 
