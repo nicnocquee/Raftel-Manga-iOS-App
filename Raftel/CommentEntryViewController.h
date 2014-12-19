@@ -7,9 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Manga.h"
+
+@class CommentEntryViewController;
+
+@protocol CommentEntryViewControllerDelegate <NSObject>
+
+@optional
+- (void)commentEntry:(CommentEntryViewController *)commentEntry didSendComment:(NSString *)comment;
+
+@end
 
 @interface CommentEntryViewController : UIViewController
 
+@property (nonatomic, strong) Manga *manga;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (nonatomic, weak) id<CommentEntryViewControllerDelegate>delegate;
 
 @end

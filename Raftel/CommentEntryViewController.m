@@ -7,6 +7,7 @@
 //
 
 #import "CommentEntryViewController.h"
+#import "Manga+Parse.h"
 
 @interface CommentEntryViewController ()
 
@@ -37,6 +38,11 @@
 }
 
 - (void)didTapSendButton:(id)sender {
+    if (self.textView.text.length > 0) {
+        [self.manga addComment:self.textView.text completionBlock:^{
+            
+        }];
+    }
     
 }
 

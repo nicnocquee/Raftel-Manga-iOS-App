@@ -17,7 +17,7 @@
 
 static NSString *const cellIdentifier = @"comment";
 
-@interface CommentsTableViewController () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+@interface CommentsTableViewController () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, CommentEntryViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *comments;
 
@@ -72,6 +72,14 @@ static NSString *const cellIdentifier = @"comment";
     }];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showCommentEntry"]) {
+        CommentEntryViewController *entry = (CommentEntryViewController *)[((UINavigationController *)segue.destinationViewController).viewControllers firstObject];
+        [entry setManga:self.manga];
+        [entry setDelegate:self];
+    }
+}
+
 #pragma mark - Buttons
 
 - (void)didTapDoneButton:(id)sender {
@@ -83,7 +91,7 @@ static NSString *const cellIdentifier = @"comment";
         LoginViewController *logInController = [[LoginViewController alloc] init];
         logInController.delegate = self;
         SignUpViewController *signupController = [[SignUpViewController alloc] init];
-        [signupController setDelegate:self];
+        [signupController setDelegate:logInController];
         signupController.fields = (PFSignUpFieldsUsernameAndPassword
                                    | PFSignUpFieldsSignUpButton
                                    | PFSignUpFieldsDismissButton);
@@ -128,21 +136,23 @@ static NSString *const cellIdentifier = @"comment";
 
 - (void)logInViewController:(PFLogInViewController *)controller
                didLogInUser:(PFUser *)user {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (user) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self openCommentEntry];
+        }];
+    }
 }
 
 - (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - <PFSignUpViewControllerDelegate>
+#pragma mark - <CommentEntryViewControllerDelegate>
 
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-    
-}
-
-- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
-    
+- (void)commentEntry:(CommentEntryViewController *)commentEntry didSendComment:(NSString *)comment {
+    [commentEntry dismissViewControllerAnimated:YES completion:^{
+        [self fetchComments];
+    }];
 }
 
 @end
