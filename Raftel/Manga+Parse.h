@@ -27,7 +27,7 @@ static NSString *parseCommentAvatarKey = @"parseCommentAvatarKey";
 - (int)readingCount;
 - (int)commentsCount;
 - (void)fetchCommentsWithCompletionBlock:(void(^)(NSArray *comments, NSError *error))completionBlock;
-- (void)addComment:(NSString *)comment completionBlock:(void(^)())completionBlock;
+- (void)addComment:(NSString *)comment completionBlock:(void(^)(NSError *))completionBlock;
 - (void)countCommentsWithCompletionBlock:(void(^)(int count))completionBlock;
 
 @end

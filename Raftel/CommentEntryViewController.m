@@ -39,8 +39,18 @@
 
 - (void)didTapSendButton:(id)sender {
     if (self.textView.text.length > 0) {
-        [self.manga addComment:self.textView.text completionBlock:^{
-            
+        __weak typeof (self) selfie = self;
+        [self.manga addComment:self.textView.text completionBlock:^(NSError *error) {
+            if (error) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil) message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *dismiss = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+                [alert addAction:dismiss];
+                [selfie presentViewController:alert animated:YES completion:nil];
+            } else {
+                if (selfie.delegate && [selfie.delegate respondsToSelector:@selector(commentEntry:didSendComment:)]) {
+                    [selfie.delegate commentEntry:selfie didSendComment:selfie.textView.text];
+                }
+            }
         }];
     }
     

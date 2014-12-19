@@ -116,8 +116,24 @@ const void *parseCommentsCountKey = &parseCommentsCountKey;
     }];
 }
 
-- (void)addComment:(NSString *)comment completionBlock:(void (^)())completionBlock {
+- (void)addComment:(NSString *)comment completionBlock:(void (^)(NSError *))completionBlock {
+    PFObject *object = [PFObject objectWithClassName:NSStringFromClass([MangaComment class])];
+    object[NSStringFromSelector(@selector(string))] = comment;
+    PFUser *user = [PFUser currentUser];
+    object[NSStringFromSelector(@selector(username))] = user.username;
+    object[NSStringFromSelector(@selector(mangaURL))] = self.url.absoluteString;
     
+    [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            if (completionBlock) {
+                completionBlock(nil);
+            }
+        } else {
+            if (completionBlock) {
+                completionBlock(error);
+            }
+        }
+    }];
 }
 
 - (void)countCommentsWithCompletionBlock:(void (^)(int))completionBlock {
