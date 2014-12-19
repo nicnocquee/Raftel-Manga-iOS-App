@@ -72,12 +72,14 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentlyReadChapter.index.integerValue inSection:1] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
             }
         }];
-        [self setUpdatingTitleView];
         [self showSortButton];
     } else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self fetchManga];
     }
-    
+}
+
+- (void)fetchManga {
     NSURL *URL = self.searchResult.url?:self.manga.url;
     NSString *name = self.searchResult.name?:self.manga.name;
     __weak typeof (self) selfie = self;
@@ -386,6 +388,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     headerCell.authorLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Author: %@", ni), manga.author];
     headerCell.artistLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Artist: %@", ni), manga.artist];
     headerCell.summaryLabel.text = manga.synopsis;
+    headerCell.chaptersLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Chapters: %d", nil), (int)manga.chapters.count];
 }
 
 #pragma mark <UICollectionViewDelegate>
