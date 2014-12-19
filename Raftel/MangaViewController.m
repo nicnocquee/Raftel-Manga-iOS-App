@@ -160,9 +160,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setToolbarHidden:NO animated:YES];
     
-    [self setNumberOfComments:[self.manga commentsCount]];
+    if (self.manga) {
+        [self setNumberOfComments:[self.manga commentsCount]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -189,6 +190,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [fixedSpace setWidth:-5];
         [self setToolbarItems:@[addButton, flexibleSpace, commentButton, fixedSpace, commentNumbersItem, flexibleSpace, shareButton]];
     }
+    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 - (void)showAdsWhileWaiting {
@@ -216,6 +218,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 [selfie.manga incrementReadingCountWithCompletionBlock:^(int readingCount) {
                     NSLog(@"reading count = %d", readingCount);
                     [selfie.collectionView reloadData];
+                }];
+                [selfie.manga countCommentsWithCompletionBlock:^(int count) {
+                    NSLog(@"number of comments = %d", count);
+                    [selfie setNumberOfComments:count];
                 }];
                 [selfie.collectionView reloadData];
                 [selfie showSortButton];
