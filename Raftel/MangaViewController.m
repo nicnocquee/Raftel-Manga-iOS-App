@@ -177,10 +177,17 @@ static NSString * const chapterIdentifier = @"chapterCell";
     if (comments == 0) {
         [self setToolbarItems:@[addButton, flexibleSpace, commentButton, flexibleSpace, shareButton]];
     } else {
-        UIBarButtonItem *commentNumbersItem = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"%d", comments] style:UIBarButtonItemStyleDone target:nil action:nil];
-        [self setToolbarItems:@[addButton, flexibleSpace, commentButton, commentNumbersItem, flexibleSpace, shareButton]];
+        NSString *number = [NSNumberFormatter localizedStringFromNumber:@(comments) numberStyle:NSNumberFormatterDecimalStyle];
+        if (comments > 100000) {
+            comments = 100000;
+            number = [NSString stringWithFormat:@">%@", [NSNumberFormatter localizedStringFromNumber:@(comments) numberStyle:NSNumberFormatterDecimalStyle]];
+        }
+        UIBarButtonItem *commentNumbersItem = [[UIBarButtonItem alloc] initWithTitle:number style:UIBarButtonItemStyleDone target:nil action:nil];
+        [commentNumbersItem setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12]} forState:UIControlStateNormal];
+        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [fixedSpace setWidth:-5];
+        [self setToolbarItems:@[addButton, flexibleSpace, commentButton, fixedSpace, commentNumbersItem, flexibleSpace, shareButton]];
     }
-    
 }
 
 - (void)showAdsWhileWaiting {
