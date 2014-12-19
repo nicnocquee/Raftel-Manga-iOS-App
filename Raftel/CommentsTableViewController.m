@@ -26,7 +26,9 @@ static NSString *const cellIdentifier = @"comment";
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([CommentCell class]) bundle:nil] forCellReuseIdentifier:cellIdentifier];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(didTapDoneButton:)];
-    [self.navigationItem setRightBarButtonItem:doneButton];
+    UIBarButtonItem *addComment = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(didTapComposeButton:)];
+    [self.navigationItem setRightBarButtonItem:addComment];
+    [self.navigationItem setLeftBarButtonItem:doneButton];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +40,10 @@ static NSString *const cellIdentifier = @"comment";
 
 - (void)didTapDoneButton:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didTapComposeButton:(id)sender {
+    
 }
 
 #pragma mark - Table view data source
