@@ -107,11 +107,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
     [self.dataTask suspend];
     self.navigationItem.titleView = nil;
     self.title = self.manga.name;
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

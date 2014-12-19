@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, strong) NSOperationQueue *pagesOperationQueue;
 @property (nonatomic, weak) AFAdSDKSashimiMinimalView *adView;
+@property (nonatomic, assign) BOOL viewWillDisappear;
 
 @end
 
@@ -162,11 +163,18 @@ static NSString * const reuseIdentifier = @"pageCell";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
     NSLog(@"canceling data task");
+    self.viewWillDisappear = YES;
     [self.dataTask cancel];
     [self.pagesOperationQueue cancelAllOperations];
     [self.adView removeFromSuperview];
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.viewWillDisappear = NO;
 }
 
 - (void)showRightBarLoadingView:(BOOL)show {
@@ -181,6 +189,9 @@ static NSString * const reuseIdentifier = @"pageCell";
 }
 
 - (void)setTitleForPage:(int)page total:(int)total{
+    if (self.viewWillDisappear) {
+        return;
+    }
     NSString *pagination = [NSString stringWithFormat:@"%d/%d", page, total];
     NSString *title = self.chapter.title;
     NSString *combine = [NSString stringWithFormat:@"%@\n%@", title, pagination];
