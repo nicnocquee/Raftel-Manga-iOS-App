@@ -18,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *artistLabel;
 @property (weak, nonatomic) IBOutlet UILabel *summaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *chaptersLabel;
+@property (weak, nonatomic) IBOutlet UILabel *readingCountLabel;
 
 @end

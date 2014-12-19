@@ -10,6 +10,7 @@
 #import "MangaHeaderViewCell.h"
 #import "MangaChapterCollectionViewCell.h"
 #import "Manga.h"
+#import "Manga+Parse.h"
 #import "Mangapanda.h"
 #import "MangaChapter.h"
 #import "MangaSearchResult.h"
@@ -43,6 +44,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
     
     self.ascending = YES;
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshManga:) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:refreshControl];
+    
     [self.navigationController setDelegate:self];
     
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([MangaHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:headerIdentifier];
@@ -58,9 +63,14 @@ static NSString * const chapterIdentifier = @"chapterCell";
     
     if (m) {
         self.manga = m;
+        __weak Manga *weakManga = self.manga;
+        __weak typeof (self) selfie = self;
+        [self.manga createMangaIfNeededWithCompletionBlock:^(PFObject *mangaPFObject) {
+            NSLog(@"count = %d", [weakManga readingCount]);
+            [selfie.collectionView reloadData];
+        }];
         self.title = self.manga.name;
         [self.collectionView reloadData];
-        __weak typeof (self) selfie = self;
         NSURL *url = self.manga.url;
         [[[DBManager sharedManager] readConnection] asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
             UserLastRead *lastRead = [transaction objectForKey:url.absoluteString inCollection:kUserLastReadCollection];
@@ -106,6 +116,21 @@ static NSString * const chapterIdentifier = @"chapterCell";
         }
     }];
     [self.dataTask resume];
+}
+
+- (void)refreshManga:(id)sender {
+    
+    if (self.dataTask && self.dataTask.state == NSURLSessionTaskStateRunning) {
+        [(UIRefreshControl *)sender endRefreshing];
+    } else {
+        [self setUpdatingTitleView];
+        [self fetchManga];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [(UIRefreshControl *)sender endRefreshing];
+        });
+    }
+    
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -164,6 +189,10 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 selfie.navigationItem.titleView = nil;
                 selfie.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), selfie.searchResult.name?:selfie.manga.name, (int)manga.chapters.count];
                 selfie.manga = manga;
+                [selfie.manga incrementReadingCountWithCompletionBlock:^(int readingCount) {
+                    NSLog(@"reading count = %d", readingCount);
+                    [selfie.collectionView reloadData];
+                }];
                 [selfie.collectionView reloadData];
                 [selfie showSortButton];
                 
@@ -389,6 +418,14 @@ static NSString * const chapterIdentifier = @"chapterCell";
     headerCell.artistLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Artist: %@", ni), manga.artist];
     headerCell.summaryLabel.text = manga.synopsis;
     headerCell.chaptersLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Chapters: %d", nil), (int)manga.chapters.count];
+    int readingCount = [manga readingCount];
+    NSString *message;
+    if (readingCount <= 1) {
+        message = NSLocalizedString(@"You are the first one to read this.", nil);
+    } else {
+        message = [NSString stringWithFormat:NSLocalizedString(@"You and %d others read this.", nil), readingCount];
+    }
+    headerCell.readingCountLabel.text = message;
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -407,7 +444,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [cell setNeedsLayout];
         [cell layoutIfNeeded];
         
-        return CGSizeMake(CGRectGetWidth(collectionView.frame), MAX(CGRectGetMaxY(cell.summaryLabel.frame), CGRectGetMaxY(cell.imageView.frame)) + 10);
+        return CGSizeMake(CGRectGetWidth(collectionView.frame), MAX(CGRectGetMaxY(cell.readingCountLabel.frame), CGRectGetMaxY(cell.imageView.frame)) + 10);
     } else {
         return CGSizeMake(CGRectGetWidth(collectionView.frame), 44);
     }

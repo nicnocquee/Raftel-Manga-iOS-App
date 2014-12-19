@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030E2B911A44109000A637FB /* Manga+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B901A44109000A637FB /* Manga+Parse.m */; };
 		0330183D1A44092A00679FEE /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183C1A44092A00679FEE /* Parse.framework */; };
 		0330183F1A44094F00679FEE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183E1A44094F00679FEE /* Accounts.framework */; };
 		033018411A44095400679FEE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 033018401A44095400679FEE /* AudioToolbox.framework */; };
@@ -68,6 +69,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		030E2B8F1A44109000A637FB /* Manga+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Manga+Parse.h"; sourceTree = "<group>"; };
+		030E2B901A44109000A637FB /* Manga+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Manga+Parse.m"; sourceTree = "<group>"; };
 		0330183C1A44092A00679FEE /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		0330183E1A44094F00679FEE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		033018401A44095400679FEE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -280,6 +283,8 @@
 				033C7C591A33E89D000F34CF /* NSString+Matches.m */,
 				033C7C5B1A33F193000F34CF /* NSArray+SourcesPlist.h */,
 				033C7C5C1A33F193000F34CF /* NSArray+SourcesPlist.m */,
+				030E2B8F1A44109000A637FB /* Manga+Parse.h */,
+				030E2B901A44109000A637FB /* Manga+Parse.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -542,6 +547,7 @@
 				038B520F1A355BCF0061A9C8 /* MangaProcessor.m in Sources */,
 				03D66DF81A34895B004D9CEB /* DBManager.m in Sources */,
 				033C7C5D1A33F193000F34CF /* NSArray+SourcesPlist.m in Sources */,
+				030E2B911A44109000A637FB /* Manga+Parse.m in Sources */,
 				033C7C241A333A90000F34CF /* AppDelegate.m in Sources */,
 				033C7C6B1A341C00000F34CF /* SearchResultCell.m in Sources */,
 				033C7C741A342B00000F34CF /* MangaChapterCollectionViewCell.m in Sources */,
