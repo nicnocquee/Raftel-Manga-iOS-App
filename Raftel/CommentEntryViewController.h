@@ -15,6 +15,7 @@
 
 @optional
 - (void)commentEntry:(CommentEntryViewController *)commentEntry didSendComment:(NSString *)comment;
+- (void)commentEntryDidCancel:(CommentEntryViewController *)commentEntry;
 
 @end
 

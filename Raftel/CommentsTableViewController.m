@@ -38,6 +38,11 @@ static NSString *const cellIdentifier = @"comment";
     [self fetchComments];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -150,6 +155,12 @@ static NSString *const cellIdentifier = @"comment";
 #pragma mark - <CommentEntryViewControllerDelegate>
 
 - (void)commentEntry:(CommentEntryViewController *)commentEntry didSendComment:(NSString *)comment {
+    [commentEntry dismissViewControllerAnimated:YES completion:^{
+        [self fetchComments];
+    }];
+}
+
+- (void)commentEntryDidCancel:(CommentEntryViewController *)commentEntry {
     [commentEntry dismissViewControllerAnimated:YES completion:^{
         [self fetchComments];
     }];

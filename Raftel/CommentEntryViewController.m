@@ -25,6 +25,8 @@
     [self.navigationItem setRightBarButtonItem:sendButton];
     [self.navigationItem setLeftBarButtonItem:cancelButton];
     
+    [self.textView becomeFirstResponder];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidAppear:) name:UIKeyboardDidShowNotification object:nil];
 }
 
@@ -39,6 +41,7 @@
 
 - (void)didTapSendButton:(id)sender {
     if (self.textView.text.length > 0) {
+        [self.textView resignFirstResponder];
         __weak typeof (self) selfie = self;
         [self.manga addComment:self.textView.text completionBlock:^(NSError *error) {
             if (error) {
@@ -57,7 +60,10 @@
 }
 
 - (void)didTapCancelButton:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.textView resignFirstResponder];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(commentEntryDidCancel:)]) {
+        [self.delegate commentEntryDidCancel:self];
+    }
 }
 
 - (void)keyboardDidAppear:(NSNotification *)keyboard {
