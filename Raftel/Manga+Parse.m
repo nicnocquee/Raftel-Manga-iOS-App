@@ -7,7 +7,7 @@
 //
 
 #import "Manga+Parse.h"
-#import "Comment.h"
+#import "MangaComment.h"
 #import <objc/runtime.h>
 
 const void *parseObjectKey = &parseObjectKey;
@@ -90,8 +90,30 @@ const void *parseCommentsCountKey = &parseCommentsCountKey;
     }
 }
 
-- (void)fetchCommentsWithCompletionBlock:(void (^)(NSArray *))completionBlock {
-    
+- (void)fetchCommentsWithCompletionBlock:(void (^)(NSArray *, NSError *))completionBlock {
+    PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass([MangaComment class])];
+    [query whereKey:NSStringFromSelector(@selector(mangaURL)) equalTo:self.url.absoluteString];
+    [query orderByDescending:NSStringFromSelector(@selector(createdAt))];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            if (completionBlock) {
+                NSMutableArray *comments = [NSMutableArray arrayWithCapacity:objects.count];
+                for (PFObject *obj in objects) {
+                    MangaComment *mc = [[MangaComment alloc] init];
+                    [mc setValue:obj[@"username"] forKey:NSStringFromSelector(@selector(username))];
+                    [mc setValue:obj[@"string"] forKey:NSStringFromSelector(@selector(string))];
+                    [mc setValue:obj[@"createdAt"] forKey:NSStringFromSelector(@selector(createdAt))];
+                    
+                    [comments addObject:mc];
+                }
+                completionBlock(comments, nil);
+            }
+        } else {
+            if (completionBlock) {
+                completionBlock(nil, error);
+            }
+        }
+    }];
 }
 
 - (void)addComment:(NSString *)comment completionBlock:(void (^)())completionBlock {
@@ -99,7 +121,7 @@ const void *parseCommentsCountKey = &parseCommentsCountKey;
 }
 
 - (void)countCommentsWithCompletionBlock:(void (^)(int))completionBlock {
-    PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass([Comment class])];
+    PFQuery *query = [PFQuery queryWithClassName:NSStringFromClass([MangaComment class])];
     [query whereKey:NSStringFromSelector(@selector(mangaURL)) equalTo:self.url.absoluteString];
     [query countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
         if (!error) {

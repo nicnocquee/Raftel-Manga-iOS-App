@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		030E2B911A44109000A637FB /* Manga+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B901A44109000A637FB /* Manga+Parse.m */; };
-		030E2B941A442CA600A637FB /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B931A442CA600A637FB /* Comment.m */; };
+		030E2B941A442CA600A637FB /* MangaComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B931A442CA600A637FB /* MangaComment.m */; };
 		030E2B971A4435E100A637FB /* CommentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B961A4435E100A637FB /* CommentsTableViewController.m */; };
 		030E2B991A44366100A637FB /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 030E2B981A44366100A637FB /* CommentCell.xib */; };
 		030E2B9C1A44372100A637FB /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2B9B1A44372100A637FB /* CommentCell.m */; };
+		030E2B9E1A444AE400A637FB /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030E2B9D1A444AE400A637FB /* ParseUI.framework */; };
+		030E2BA11A444BE400A637FB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2BA01A444BE400A637FB /* LoginViewController.m */; };
+		030E2BA41A44574400A637FB /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2BA31A44574400A637FB /* SignUpViewController.m */; };
 		0330183D1A44092A00679FEE /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183C1A44092A00679FEE /* Parse.framework */; };
 		0330183F1A44094F00679FEE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183E1A44094F00679FEE /* Accounts.framework */; };
 		033018411A44095400679FEE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 033018401A44095400679FEE /* AudioToolbox.framework */; };
@@ -75,13 +78,18 @@
 /* Begin PBXFileReference section */
 		030E2B8F1A44109000A637FB /* Manga+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Manga+Parse.h"; sourceTree = "<group>"; };
 		030E2B901A44109000A637FB /* Manga+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Manga+Parse.m"; sourceTree = "<group>"; };
-		030E2B921A442CA600A637FB /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		030E2B931A442CA600A637FB /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		030E2B921A442CA600A637FB /* MangaComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MangaComment.h; sourceTree = "<group>"; };
+		030E2B931A442CA600A637FB /* MangaComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MangaComment.m; sourceTree = "<group>"; };
 		030E2B951A4435E100A637FB /* CommentsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsTableViewController.h; sourceTree = "<group>"; };
 		030E2B961A4435E100A637FB /* CommentsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsTableViewController.m; sourceTree = "<group>"; };
 		030E2B981A44366100A637FB /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		030E2B9A1A44372100A637FB /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		030E2B9B1A44372100A637FB /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
+		030E2B9D1A444AE400A637FB /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		030E2B9F1A444BE400A637FB /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		030E2BA01A444BE400A637FB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		030E2BA21A44574400A637FB /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		030E2BA31A44574400A637FB /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		0330183C1A44092A00679FEE /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		0330183E1A44094F00679FEE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		033018401A44095400679FEE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -165,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				030E2B9E1A444AE400A637FB /* ParseUI.framework in Frameworks */,
 				033018571A4409AF00679FEE /* libsqlite3.dylib in Frameworks */,
 				033018551A4409A700679FEE /* libz.dylib in Frameworks */,
 				033018531A44099C00679FEE /* SystemConfiguration.framework in Frameworks */,
@@ -219,6 +228,7 @@
 		033C7C1D1A333A90000F34CF /* Raftel */ = {
 			isa = PBXGroup;
 			children = (
+				030E2B9D1A444AE400A637FB /* ParseUI.framework */,
 				033018581A440A0200679FEE /* Bolts.framework */,
 				0330183C1A44092A00679FEE /* Parse.framework */,
 				03D66DFD1A34C630004D9CEB /* Crashlytics.framework */,
@@ -283,8 +293,8 @@
 				038B520E1A355BCF0061A9C8 /* MangaProcessor.m */,
 				038B52101A3584AA0061A9C8 /* UserLastRead.h */,
 				038B52111A3584AA0061A9C8 /* UserLastRead.m */,
-				030E2B921A442CA600A637FB /* Comment.h */,
-				030E2B931A442CA600A637FB /* Comment.m */,
+				030E2B921A442CA600A637FB /* MangaComment.h */,
+				030E2B931A442CA600A637FB /* MangaComment.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -330,6 +340,10 @@
 				030E2B981A44366100A637FB /* CommentCell.xib */,
 				030E2B9A1A44372100A637FB /* CommentCell.h */,
 				030E2B9B1A44372100A637FB /* CommentCell.m */,
+				030E2B9F1A444BE400A637FB /* LoginViewController.h */,
+				030E2BA01A444BE400A637FB /* LoginViewController.m */,
+				030E2BA21A44574400A637FB /* SignUpViewController.h */,
+				030E2BA31A44574400A637FB /* SignUpViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -558,12 +572,13 @@
 			files = (
 				033C7C5A1A33E89D000F34CF /* NSString+Matches.m in Sources */,
 				033C7C601A33FA3A000F34CF /* MangaPage.m in Sources */,
+				030E2BA11A444BE400A637FB /* LoginViewController.m in Sources */,
 				033C7C511A334C20000F34CF /* MangaChapter.m in Sources */,
 				033C7C4E1A33493A000F34CF /* Manga.m in Sources */,
 				033C7C7E1A345F41000F34CF /* MangaPagesViewController.m in Sources */,
 				030E2B971A4435E100A637FB /* CommentsTableViewController.m in Sources */,
 				033C7C711A342AEF000F34CF /* MangaHeaderViewCell.m in Sources */,
-				030E2B941A442CA600A637FB /* Comment.m in Sources */,
+				030E2B941A442CA600A637FB /* MangaComment.m in Sources */,
 				033C7C6E1A3429A2000F34CF /* MangaViewController.m in Sources */,
 				038B520F1A355BCF0061A9C8 /* MangaProcessor.m in Sources */,
 				03D66DF81A34895B004D9CEB /* DBManager.m in Sources */,
@@ -581,6 +596,7 @@
 				033C7C4B1A3348F0000F34CF /* Mangapanda.m in Sources */,
 				033C7C631A340746000F34CF /* MangaSearchResult.m in Sources */,
 				03D66DFB1A34BEA6004D9CEB /* FavoritedViewCollectionViewController.m in Sources */,
+				030E2BA41A44574400A637FB /* SignUpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,12 +7,16 @@
 //
 
 #import "CommentsTableViewController.h"
-#import "Comment.h"
+#import "MangaComment.h"
+#import "LoginViewController.h"
 #import "CommentCell.h"
+#import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
+#import <MBProgressHUD.h>
 
 static NSString *const cellIdentifier = @"comment";
 
-@interface CommentsTableViewController ()
+@interface CommentsTableViewController () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *comments;
 
@@ -29,11 +33,42 @@ static NSString *const cellIdentifier = @"comment";
     UIBarButtonItem *addComment = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(didTapComposeButton:)];
     [self.navigationItem setRightBarButtonItem:addComment];
     [self.navigationItem setLeftBarButtonItem:doneButton];
+    
+    [self fetchComments];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)fetchComments {
+    __weak typeof (self) selfie = self;
+    [self.tableView setScrollEnabled:NO];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
+    [self.manga fetchCommentsWithCompletionBlock:^(NSArray *comments, NSError *error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:selfie.tableView animated:YES];
+                [selfie.tableView setScrollEnabled:YES];
+                [selfie.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+                selfie.comments = comments;
+                [selfie.tableView reloadData];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:selfie.tableView animated:YES];
+                [selfie.tableView setScrollEnabled:YES];
+                [selfie.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil) message:error.description preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *dismiss = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+                [alert addAction:dismiss];
+                [self presentViewController:alert animated:YES completion:nil];
+            });
+        }
+    }];
 }
 
 #pragma mark - Buttons
@@ -43,7 +78,17 @@ static NSString *const cellIdentifier = @"comment";
 }
 
 - (void)didTapComposeButton:(id)sender {
-    
+    if (![PFUser currentUser]) {
+        LoginViewController *logInController = [[LoginViewController alloc] init];
+        logInController.delegate = self;
+        SignUpViewController *signupController = [[SignUpViewController alloc] init];
+        [signupController setDelegate:self];
+        signupController.fields = (PFSignUpFieldsUsernameAndPassword
+                                   | PFSignUpFieldsSignUpButton
+                                   | PFSignUpFieldsDismissButton);
+        logInController.signUpController = signupController;
+        [self presentViewController:logInController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Table view data source
@@ -58,7 +103,7 @@ static NSString *const cellIdentifier = @"comment";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CommentCell *cell = (CommentCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    Comment *comment = [self.comments objectAtIndex:indexPath.row];
+    MangaComment *comment = [self.comments objectAtIndex:indexPath.row];
     NSString *username = comment.username;
     NSString *commentString = comment.string;
     NSString *text = [NSString stringWithFormat:@"%@ %@", username, commentString];
@@ -70,6 +115,27 @@ static NSString *const cellIdentifier = @"comment";
     [cell.commentLabel setAttributedText:attr];
     [cell setNeedsLayout];
     return cell;
+}
+
+#pragma mark - <PFLogInViewControllerDelegate>
+
+- (void)logInViewController:(PFLogInViewController *)controller
+               didLogInUser:(PFUser *)user {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - <PFSignUpViewControllerDelegate>
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    
+}
+
+- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
+    
 }
 
 @end

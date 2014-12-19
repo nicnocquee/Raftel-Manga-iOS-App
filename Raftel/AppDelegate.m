@@ -52,14 +52,6 @@
     [[UIToolbar appearance] setBarTintColor:darkColor];
     [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
     
-    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-        if (error) {
-            NSLog(@"Anonymous login failed.");
-        } else {
-            NSLog(@"Anonymous user logged in.");
-        }
-    }];
-    
 #ifdef DEBUG
     [AppsfireAdSDK setDebugModeEnabled:YES];
 #endif
