@@ -15,6 +15,7 @@
 		030E2B9E1A444AE400A637FB /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030E2B9D1A444AE400A637FB /* ParseUI.framework */; };
 		030E2BA11A444BE400A637FB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2BA01A444BE400A637FB /* LoginViewController.m */; };
 		030E2BA41A44574400A637FB /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2BA31A44574400A637FB /* SignUpViewController.m */; };
+		030E2BA71A4466A500A637FB /* CommentEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 030E2BA61A4466A500A637FB /* CommentEntryViewController.m */; };
 		0330183D1A44092A00679FEE /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183C1A44092A00679FEE /* Parse.framework */; };
 		0330183F1A44094F00679FEE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0330183E1A44094F00679FEE /* Accounts.framework */; };
 		033018411A44095400679FEE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 033018401A44095400679FEE /* AudioToolbox.framework */; };
@@ -90,6 +91,8 @@
 		030E2BA01A444BE400A637FB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		030E2BA21A44574400A637FB /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		030E2BA31A44574400A637FB /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		030E2BA51A4466A500A637FB /* CommentEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentEntryViewController.h; sourceTree = "<group>"; };
+		030E2BA61A4466A500A637FB /* CommentEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentEntryViewController.m; sourceTree = "<group>"; };
 		0330183C1A44092A00679FEE /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		0330183E1A44094F00679FEE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		033018401A44095400679FEE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -344,6 +347,8 @@
 				030E2BA01A444BE400A637FB /* LoginViewController.m */,
 				030E2BA21A44574400A637FB /* SignUpViewController.h */,
 				030E2BA31A44574400A637FB /* SignUpViewController.m */,
+				030E2BA51A4466A500A637FB /* CommentEntryViewController.h */,
+				030E2BA61A4466A500A637FB /* CommentEntryViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -589,6 +594,7 @@
 				033C7C6B1A341C00000F34CF /* SearchResultCell.m in Sources */,
 				033C7C741A342B00000F34CF /* MangaChapterCollectionViewCell.m in Sources */,
 				038B52121A3584AA0061A9C8 /* UserLastRead.m in Sources */,
+				030E2BA71A4466A500A637FB /* CommentEntryViewController.m in Sources */,
 				033C7C821A3460B8000F34CF /* MangaPageViewCell.m in Sources */,
 				033C7C571A337142000F34CF /* MangaGenre.m in Sources */,
 				033C7C661A341963000F34CF /* SearchCollectionViewController.m in Sources */,

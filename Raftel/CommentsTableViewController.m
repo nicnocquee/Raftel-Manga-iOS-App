@@ -10,6 +10,7 @@
 #import "MangaComment.h"
 #import "LoginViewController.h"
 #import "CommentCell.h"
+#import "CommentEntryViewController.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import <MBProgressHUD.h>
@@ -88,7 +89,13 @@ static NSString *const cellIdentifier = @"comment";
                                    | PFSignUpFieldsDismissButton);
         logInController.signUpController = signupController;
         [self presentViewController:logInController animated:YES completion:nil];
+    } else {
+        [self openCommentEntry];
     }
+}
+
+- (void)openCommentEntry {
+    [self performSegueWithIdentifier:@"showCommentEntry" sender:nil];
 }
 
 #pragma mark - Table view data source
