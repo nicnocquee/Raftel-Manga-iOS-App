@@ -113,6 +113,7 @@
                     </collectionView>
                     <connections>
                         <segue destination="7cB-Da-CEt" kind="show" identifier="showPages" id="Suv-Mi-Cgb"/>
+                        <segue destination="YJb-pP-Tcj" kind="presentation" identifier="showComments" id="7qP-w6-bi4"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CS5-9o-AkA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -153,6 +154,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9bN-4f-o70" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2976" y="-320"/>
+        </scene>
+        <!--Comments-->
+        <scene sceneID="yhc-ng-elW">
+            <objects>
+                <tableViewController id="gGn-bJ-7as" customClass="CommentsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3xR-D1-47E">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Hyd-uh-3UI">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hyd-uh-3UI" id="fPU-x1-san">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="gGn-bJ-7as" id="F3O-e1-mxM"/>
+                            <outlet property="delegate" destination="gGn-bJ-7as" id="Rrv-8j-HUa"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Comments" id="G8W-Lr-YSs"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="18D-Ly-aiY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3101" y="534"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -210,6 +238,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Av8-eX-hM9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="750" y="360"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YOk-hw-tOS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YJb-pP-Tcj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="j30-Qw-edk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="gGn-bJ-7as" kind="relationship" relationship="rootViewController" id="QtD-iX-SUq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H3F-nA-cCf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2289" y="534"/>
         </scene>
     </scenes>
     <resources>

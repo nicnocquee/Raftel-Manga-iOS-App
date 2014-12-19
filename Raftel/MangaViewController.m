@@ -19,6 +19,7 @@
 #import "MangaProcessor.h"
 #import "UserLastRead.h"
 #import "AppDelegate.h"
+#import "CommentsTableViewController.h"
 #import <UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 #import <SIAlertView.h>
@@ -255,7 +256,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
 #pragma mark - Buttons
 
 - (void)didTapCommentButton:(UIButton *)sender {
-    
+    [self performSegueWithIdentifier:@"showComments" sender:self.manga];
 }
 
 - (void)didTapActionButton:(UIButton *)sender {
@@ -363,7 +364,9 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 [self.collectionView reloadData];
             });
         }];
-        
+    } else if ([segue.identifier isEqualToString:@"showComments"]) {
+        CommentsTableViewController *commentsVC = (CommentsTableViewController *)[((UINavigationController *)segue.destinationViewController).viewControllers firstObject];
+        [commentsVC setManga:self.manga];
     }
 }
 

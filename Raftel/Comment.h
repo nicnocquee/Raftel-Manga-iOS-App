@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy, readonly) NSString *string;
 @property (nonatomic, copy, readonly) NSString *userId;
+@property (nonatomic, copy, readonly) NSString *username;
 @property (nonatomic, copy, readonly) NSString *avatar;
 @property (nonatomic, copy, readonly) NSDate *createdAt;
 @property (nonatomic, copy, readonly) NSString *mangaURL;
