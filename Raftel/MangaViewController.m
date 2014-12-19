@@ -106,6 +106,27 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [self.dataTask resume];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.dataTask suspend];
+    self.navigationItem.titleView = nil;
+    self.title = self.manga.name;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.dataTask && self.dataTask.state == NSURLSessionTaskStateSuspended) {
+        [self setUpdatingTitleView];
+        [self.dataTask resume];
+    } else {
+        if ([self.operation isExecuting]) {
+            [self setUpdatingTitleView];
+        }
+        [self startProcessingContentString];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:NO animated:YES];
@@ -165,27 +186,6 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 }
             });
         }];
-    }
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    [self.dataTask suspend];
-    self.navigationItem.titleView = nil;
-    self.title = self.manga.name;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (self.dataTask && self.dataTask.state == NSURLSessionTaskStateSuspended) {
-        [self setUpdatingTitleView];
-        [self.dataTask resume];
-    } else {
-        if ([self.operation isExecuting]) {
-            [self setUpdatingTitleView];
-        }
-        [self startProcessingContentString];
     }
 }
 

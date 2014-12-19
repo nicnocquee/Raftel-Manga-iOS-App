@@ -16,6 +16,8 @@
 #import <SIAlertView.h>
 #import <AppsfireAdSDK.h>
 #import <AFAdSDKSashimiMinimalView.h>
+#import <MBProgressHUD.h>
+#import <SDImageCache.h>
 
 #define AD_HEIGHT 100
 
@@ -33,6 +35,10 @@ static NSString * const reuseIdentifier = @"pageCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
+    [self.navigationItem setRightBarButtonItem:shareButton];
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:USER_HAS_PURCHASED_ADS_REMOVE_KEY]) {
         [AppsfireAdSDK setDelegate:self];
         NSUInteger sashimiMinimalAdsCount = [AppsfireAdSDK numberOfSashimiAdsAvailableForFormat:AFAdSDKSashimiFormatMinimal];
@@ -198,11 +204,41 @@ static NSString * const reuseIdentifier = @"pageCell";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Buttons 
+
+- (void)didTapActionButton:(UIButton *)sender {
+    MangaPageViewCell *cell = (MangaPageViewCell *)[[self.collectionView visibleCells] firstObject];
+    UIImage *image = cell.imageView.image;
+    if (image) {
+        UIActivityViewController *activity = [[UIActivityViewController alloc] initWithActivityItems:@[image] applicationActivities:nil];
+        [self presentViewController:activity animated:YES completion:nil];
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Please wait", nil) message:NSLocalizedString(@"Image is still loading", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
 #pragma mark - <UISCrollViewDelegate>
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    int page = (int)floorf(self.collectionView.contentOffset.x / scrollView.frame.size.width);
+    [self endDecelerating:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        [self endDecelerating:scrollView];
+    }
+}
+
+- (void)endDecelerating:(UIScrollView *)scrollView {
+    int page = [self currentPage];
     [self setTitleForPage:page+1 total:(int)self.chapter.pages.count];
+}
+
+- (int)currentPage {
+    return (int)floorf(self.collectionView.contentOffset.x / self.collectionView.frame.size.width);
 }
 
 #pragma mark <UICollectionViewDataSource>
