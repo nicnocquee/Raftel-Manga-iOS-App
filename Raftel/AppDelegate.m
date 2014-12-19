@@ -14,6 +14,7 @@
 #import <AppsfireSDK.h>
 #import <AppsfireAdSDK.h>
 #import <MBProgressHUD.h>
+#import <Parse/Parse.h>
 
 @interface AppDelegate () <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
@@ -35,6 +36,9 @@
     [[[SDWebImageManager sharedManager] imageCache] setMaxCacheAge:30*24*60*60*12];
     [AppsfireSDK connectWithSDKToken:@"1B0D21DBE444DBC97C9FF7F3783CE10C" secretKey:@"8e7d7710f71bfb609feb41c54f978d74" features:AFSDKFeatureMonetization parameters:nil];
     [Crashlytics startWithAPIKey:@"e2c34125953b33a5ab021b095a449f744b70187a"];
+    [Parse setApplicationId:@"trYZtVhrghaHqjA8CTGWD2VsgFtBM8vXp6ZibeNQ"
+                  clientKey:@"Goaaq6se7whpzqaRHWx6eoESrFlhzmWrGyIk8FyQ"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     UIColor *darkColor = [UIColor colorWithRed:0.118 green:0.125 blue:0.157 alpha:1.000];
     [[UINavigationBar appearance] setBarTintColor:darkColor];
@@ -47,6 +51,14 @@
     
     [[UIToolbar appearance] setBarTintColor:darkColor];
     [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
+    
+    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+        if (error) {
+            NSLog(@"Anonymous login failed.");
+        } else {
+            NSLog(@"Anonymous user logged in.");
+        }
+    }];
     
 #ifdef DEBUG
     [AppsfireAdSDK setDebugModeEnabled:YES];
