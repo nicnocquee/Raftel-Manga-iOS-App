@@ -87,6 +87,7 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showMangaFromFavorite"]) {
         MangaViewController *mangaVC = (MangaViewController *)segue.destinationViewController;
+        [mangaVC setHidesBottomBarWhenPushed:YES];
         mangaVC.manga = sender;
     }
 }

@@ -72,7 +72,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
             }
         }];
         [self setUpdatingTitleView];
-        [self showAddToCollectionButton:YES];
+        [self showSortButton];
     } else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
@@ -105,6 +105,20 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [self.dataTask resume];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:NO animated:YES];
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
+    [self setToolbarItems:@[addButton, flexibleSpace, shareButton]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setToolbarHidden:YES animated:YES];
+}
+
 - (void)showAdsWhileWaiting {
     if (!self.hasShownAds) {
         self.hasShownAds = YES;
@@ -128,7 +142,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 selfie.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), selfie.searchResult.name?:selfie.manga.name, (int)manga.chapters.count];
                 selfie.manga = manga;
                 [selfie.collectionView reloadData];
-                [selfie showAddToCollectionButton:YES];
+                [selfie showSortButton];
                 
                 [[[DBManager sharedManager] writeConnection] asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
                     if ([transaction hasObjectForKey:selfie.searchResult.url.absoluteString?:selfie.manga.url.absoluteString inCollection:kMangaCollection]) {
@@ -186,26 +200,34 @@ static NSString * const chapterIdentifier = @"chapterCell";
 
 #pragma mark - Buttons
 
-- (void)showAddToCollectionButton:(BOOL)show {
-    if (show) {
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
-        UIImage *ascendingImage = [UIImage imageNamed:@"Ascending"];
-        if (!self.ascending) {
-            ascendingImage = [UIImage imageNamed:@"Descending"];
-        }
-        UIBarButtonItem *sort = [[UIBarButtonItem alloc] initWithImage:ascendingImage style:UIBarButtonItemStyleDone target:self action:@selector(didTapSort:)];
-        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        [space setWidth:5];
-        [self.navigationItem setRightBarButtonItems:@[right, space, sort]];
-    } else {
-        [self.navigationItem setRightBarButtonItem:nil];
+- (void)didTapActionButton:(UIButton *)sender {
+    NSString *relative = self.manga.url.relativePath?:self.searchResult.url.relativePath;
+    NSString *raftelURLString = [NSString stringWithFormat:@"raftel://manga%@", relative];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Hey check out %@ in Raftel app! %@\n\n Download the app here first https://itunes.apple.com/us/app/raftel-manga-browser-reader/id949370715?ls=1&mt=8\n\n", nil), self.manga.name, raftelURLString];
+    void (^completionHandler)(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) = ^void(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        
+    };
+
+    UIActivityViewController *activity = [[UIActivityViewController alloc] initWithActivityItems:@[message] applicationActivities:nil];
+    [activity setCompletionWithItemsHandler:completionHandler];
+    [self presentViewController:activity animated:YES completion:nil];
+}
+
+- (void)showSortButton {
+    UIImage *ascendingImage = [UIImage imageNamed:@"Ascending"];
+    if (!self.ascending) {
+        ascendingImage = [UIImage imageNamed:@"Descending"];
     }
+    UIBarButtonItem *sort = [[UIBarButtonItem alloc] initWithImage:ascendingImage style:UIBarButtonItemStyleDone target:self action:@selector(didTapSort:)];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    [space setWidth:5];
+    [self.navigationItem setRightBarButtonItems:@[sort]];
 }
 
 - (void)didTapSort:(id)sender {
     self.ascending = !self.ascending;
     [self.collectionView reloadData];
-    [self showAddToCollectionButton:YES];
+    [self showSortButton];
 }
 
 - (void)didTapAddButton:(id)sender {

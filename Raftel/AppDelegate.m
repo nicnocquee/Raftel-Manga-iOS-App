@@ -14,7 +14,7 @@
 #import <AppsfireAdSDK.h>
 #import <MBProgressHUD.h>
 
-@interface AppDelegate () <SKProductsRequestDelegate>
+@interface AppDelegate () <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
 @property (nonatomic, strong) NSArray *iapProducts;
 @property (nonatomic, assign) BOOL purchaseInitiated;
@@ -43,6 +43,9 @@
     
     [[UITabBar appearance] setBarTintColor:darkColor];
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.227 green:0.506 blue:0.718 alpha:1.000]];
+    
+    [[UIToolbar appearance] setBarTintColor:darkColor];
+    [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
     
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     

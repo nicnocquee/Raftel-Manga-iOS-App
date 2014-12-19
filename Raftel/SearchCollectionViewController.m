@@ -55,6 +55,7 @@ static NSString *const searchResultCellIdentifier = @"searchResult";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showManga"]) {
         MangaViewController *mangaVC = (MangaViewController *)segue.destinationViewController;
+        [mangaVC setHidesBottomBarWhenPushed:YES];
         mangaVC.searchResult = sender;
     }
 }
