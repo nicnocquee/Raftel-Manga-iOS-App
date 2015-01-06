@@ -12,10 +12,7 @@
 #import "MangaViewController.h"
 #import "Manga.h"
 #import "AppDelegate.h"
-#import "LoginViewController.h"
-#import "SignUpViewController.h"
 #import <UIImageView+WebCache.h>
-#import <Parse/Parse.h>
 
 static CGFloat const cellSpacing = 10;
 
@@ -23,7 +20,7 @@ static int const column = 3;
 
 static NSString *const favoriteCellIdentifier = @"searchResult";
 
-@interface FavoritedViewCollectionViewController () <PFLogInViewControllerDelegate>
+@interface FavoritedViewCollectionViewController ()
 
 @property (nonatomic, strong) YapDatabaseConnection *readConnection;
 @property (nonatomic, strong) YapDatabaseViewMappings *databaseViewMappings;
@@ -57,10 +54,6 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     
     // Register cell classes
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([SearchResultCell class]) bundle:nil] forCellWithReuseIdentifier:favoriteCellIdentifier];
-    // Do any additional setup after loading the view.
-    
-    UIBarButtonItem *setting = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Setting"] style:UIBarButtonItemStyleDone target:self action:@selector(didTapSetting:)];
-    [self.navigationItem setLeftBarButtonItem:setting];
 }
 
 - (void)dealloc {
@@ -70,45 +63,6 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Buttons
-
-- (void)didTapSetting:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Remove ads", nil) preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Remove", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((AppDelegate *)[[UIApplication sharedApplication] delegate]) removeAds];
-    }];
-    UIAlertAction *restoreAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restore Purchase", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((AppDelegate *)[[UIApplication sharedApplication] delegate]) restorePurchase];
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:action];
-    [alert addAction:restoreAction];
-    [alert addAction:cancel];
-    
-    if ([PFUser currentUser]) {
-        UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Logout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [PFUser logOut];
-        }];
-        [alert addAction:logoutAction];
-    } else {
-        UIAlertAction *loginAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Login", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            LoginViewController *logInController = [[LoginViewController alloc] init];
-            logInController.delegate = self;
-            SignUpViewController *signupController = [[SignUpViewController alloc] init];
-            [signupController setDelegate:logInController];
-            signupController.fields = (PFSignUpFieldsUsernameAndPassword
-                                       | PFSignUpFieldsSignUpButton
-                                       | PFSignUpFieldsDismissButton);
-            logInController.signUpController = signupController;
-            [self presentViewController:logInController animated:YES completion:nil];
-        }];
-        [alert addAction:loginAction];
-    }
-    
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Navigation
@@ -182,22 +136,6 @@ static NSString *const favoriteCellIdentifier = @"searchResult";
     }];
     
     [self.collectionView reloadData];
-}
-
-#pragma mark - <PFLogInViewControllerDelegate>
-
-#pragma mark - <PFLogInViewControllerDelegate>
-
-- (void)logInViewController:(PFLogInViewController *)controller
-               didLogInUser:(PFUser *)user {
-    if (user) {
-        [self dismissViewControllerAnimated:YES completion:^{
-        }];
-    }
-}
-
-- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

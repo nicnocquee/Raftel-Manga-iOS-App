@@ -10,7 +10,6 @@
 #import "MangaHeaderViewCell.h"
 #import "MangaChapterCollectionViewCell.h"
 #import "Manga.h"
-#import "Manga+Parse.h"
 #import "Mangapanda.h"
 #import "MangaChapter.h"
 #import "MangaSearchResult.h"
@@ -19,7 +18,6 @@
 #import "MangaProcessor.h"
 #import "UserLastRead.h"
 #import "AppDelegate.h"
-#import "CommentsTableViewController.h"
 #import <UIImageView+WebCache.h>
 #import <MBProgressHUD.h>
 #import <SIAlertView.h>
@@ -64,16 +62,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     
     if (m) {
         self.manga = m;
-        __weak Manga *weakManga = self.manga;
         __weak typeof (self) selfie = self;
-        [self.manga createMangaIfNeededWithCompletionBlock:^(PFObject *mangaPFObject) {
-            NSLog(@"count = %d", [weakManga readingCount]);
-            [selfie.collectionView reloadData];
-        }];
-        [self.manga countCommentsWithCompletionBlock:^(int count) {
-            NSLog(@"number of comments = %d", count);
-            [selfie setNumberOfComments:count];
-        }];
         self.title = self.manga.name;
         [self.collectionView reloadData];
         NSURL *url = self.manga.url;
@@ -162,7 +151,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [super viewWillAppear:animated];
     
     if (self.manga) {
-        [self setNumberOfComments:[self.manga commentsCount]];
+        [self setToolbar];
     }
 }
 
@@ -171,25 +160,11 @@ static NSString * const chapterIdentifier = @"chapterCell";
     [self.navigationController setToolbarHidden:YES animated:YES];
 }
 
-- (void)setNumberOfComments:(int)comments {
+- (void)setToolbar {
     UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didTapActionButton:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAddButton:)];
-    UIBarButtonItem *commentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Chat"] style:UIBarButtonItemStyleDone target:self action:@selector(didTapCommentButton:)];
-    if (comments == 0) {
-        [self setToolbarItems:@[addButton, flexibleSpace, commentButton, flexibleSpace, shareButton]];
-    } else {
-        NSString *number = [NSNumberFormatter localizedStringFromNumber:@(comments) numberStyle:NSNumberFormatterDecimalStyle];
-        if (comments > 100000) {
-            comments = 100000;
-            number = [NSString stringWithFormat:@">%@", [NSNumberFormatter localizedStringFromNumber:@(comments) numberStyle:NSNumberFormatterDecimalStyle]];
-        }
-        UIBarButtonItem *commentNumbersItem = [[UIBarButtonItem alloc] initWithTitle:number style:UIBarButtonItemStyleDone target:nil action:nil];
-        [commentNumbersItem setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12]} forState:UIControlStateNormal];
-        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        [fixedSpace setWidth:-5];
-        [self setToolbarItems:@[addButton, flexibleSpace, commentButton, fixedSpace, commentNumbersItem, flexibleSpace, shareButton]];
-    }
+    [self setToolbarItems:@[addButton, flexibleSpace, shareButton]];
     [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
@@ -215,14 +190,8 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 selfie.navigationItem.titleView = nil;
                 selfie.title = [NSString stringWithFormat:NSLocalizedString(@"%@ (%d chapters)", nil), selfie.searchResult.name?:selfie.manga.name, (int)manga.chapters.count];
                 selfie.manga = manga;
-                [selfie.manga incrementReadingCountWithCompletionBlock:^(int readingCount) {
-                    NSLog(@"reading count = %d", readingCount);
-                    [selfie.collectionView reloadData];
-                }];
-                [selfie.manga countCommentsWithCompletionBlock:^(int count) {
-                    NSLog(@"number of comments = %d", count);
-                    [selfie setNumberOfComments:count];
-                }];
+
+                [selfie setToolbar];
                 [selfie.collectionView reloadData];
                 [selfie showSortButton];
                 
@@ -370,9 +339,6 @@ static NSString * const chapterIdentifier = @"chapterCell";
                 [self.collectionView reloadData];
             });
         }];
-    } else if ([segue.identifier isEqualToString:@"showComments"]) {
-        CommentsTableViewController *commentsVC = (CommentsTableViewController *)[((UINavigationController *)segue.destinationViewController).viewControllers firstObject];
-        [commentsVC setManga:self.manga];
     }
 }
 
@@ -454,14 +420,6 @@ static NSString * const chapterIdentifier = @"chapterCell";
     headerCell.artistLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Artist: %@", ni), manga.artist];
     headerCell.summaryLabel.text = manga.synopsis;
     headerCell.chaptersLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Chapters: %d", nil), (int)manga.chapters.count];
-    int readingCount = [manga readingCount];
-    NSString *message;
-    if (readingCount <= 1) {
-        message = NSLocalizedString(@"You are the first one to read this.", nil);
-    } else {
-        message = [NSString stringWithFormat:NSLocalizedString(@"You and %d others read this.", nil), readingCount];
-    }
-    headerCell.readingCountLabel.text = message;
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -480,7 +438,7 @@ static NSString * const chapterIdentifier = @"chapterCell";
         [cell setNeedsLayout];
         [cell layoutIfNeeded];
         
-        return CGSizeMake(CGRectGetWidth(collectionView.frame), MAX(CGRectGetMaxY(cell.readingCountLabel.frame), CGRectGetMaxY(cell.imageView.frame)) + 10);
+        return CGSizeMake(CGRectGetWidth(collectionView.frame), MAX(CGRectGetMaxY(cell.summaryLabel.frame), CGRectGetMaxY(cell.imageView.frame)) + 10);
     } else {
         return CGSizeMake(CGRectGetWidth(collectionView.frame), 44);
     }

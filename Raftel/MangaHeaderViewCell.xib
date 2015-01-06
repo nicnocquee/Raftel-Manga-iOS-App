@@ -63,12 +63,6 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xVc-8N-48f">
-                        <rect key="frame" x="8" y="225" width="38" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -78,7 +72,6 @@
                 <constraint firstItem="Yg0-Pq-2CH" firstAttribute="top" secondItem="UnI-YL-7wE" secondAttribute="bottom" constant="6" id="3oX-Ik-2yf"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xbW-nk-FRh" secondAttribute="trailing" constant="10" id="6Ay-N8-d98"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BY9-k3-aAr" secondAttribute="trailing" constant="8" id="B3O-ZI-iBq"/>
-                <constraint firstItem="1gq-gV-Lcv" firstAttribute="leading" secondItem="xVc-8N-48f" secondAttribute="leading" constant="2" id="BZz-cj-6aj"/>
                 <constraint firstItem="UnI-YL-7wE" firstAttribute="leading" secondItem="1gq-gV-Lcv" secondAttribute="trailing" constant="10" id="Ccd-nZ-7Xl"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1kg-hb-GLX" secondAttribute="trailing" constant="8" id="DwU-Qm-co9"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="p4f-DC-xkF" secondAttribute="trailing" constant="8" id="EZd-Ct-Wfd"/>
@@ -90,7 +83,6 @@
                 <constraint firstItem="Yg0-Pq-2CH" firstAttribute="leading" secondItem="1gq-gV-Lcv" secondAttribute="trailing" constant="10" id="R0G-pf-RXj"/>
                 <constraint firstItem="B9W-LU-vo5" firstAttribute="top" secondItem="p4f-DC-xkF" secondAttribute="bottom" constant="7" id="RCr-JV-PSh"/>
                 <constraint firstItem="1kg-hb-GLX" firstAttribute="leading" secondItem="UnI-YL-7wE" secondAttribute="leading" id="RRm-S2-gTJ"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xVc-8N-48f" secondAttribute="trailing" constant="8" id="VPa-6o-0NU"/>
                 <constraint firstItem="BY9-k3-aAr" firstAttribute="leading" secondItem="UnI-YL-7wE" secondAttribute="leading" id="VYB-Mb-Qcx"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="B9W-LU-vo5" secondAttribute="trailing" constant="8" id="Vca-TI-gxt"/>
                 <constraint firstItem="p4f-DC-xkF" firstAttribute="leading" secondItem="1gq-gV-Lcv" secondAttribute="trailing" constant="10" id="YoL-5g-MZS"/>
@@ -100,7 +92,6 @@
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UnI-YL-7wE" secondAttribute="trailing" constant="8" id="eI4-U7-TLW"/>
                 <constraint firstItem="1kg-hb-GLX" firstAttribute="top" secondItem="xbW-nk-FRh" secondAttribute="bottom" constant="6" id="eio-pT-yyj"/>
                 <constraint firstItem="p4f-DC-xkF" firstAttribute="top" secondItem="BY9-k3-aAr" secondAttribute="bottom" constant="7" id="fBY-dv-EBb"/>
-                <constraint firstItem="xVc-8N-48f" firstAttribute="top" secondItem="B9W-LU-vo5" secondAttribute="bottom" constant="6" id="hHF-ZU-0dO"/>
                 <constraint firstItem="UnI-YL-7wE" firstAttribute="top" secondItem="1kg-hb-GLX" secondAttribute="bottom" constant="6" id="hog-Ur-wEu"/>
                 <constraint firstItem="Yg0-Pq-2CH" firstAttribute="top" secondItem="UnI-YL-7wE" secondAttribute="top" constant="24" id="iQk-24-IJf"/>
                 <constraint firstItem="B9W-LU-vo5" firstAttribute="leading" secondItem="1gq-gV-Lcv" secondAttribute="trailing" constant="10" id="qMD-S1-YFk"/>
@@ -134,7 +125,6 @@
                 <outlet property="authorLabel" destination="BY9-k3-aAr" id="weh-4p-KNZ"/>
                 <outlet property="chaptersLabel" destination="Yg0-Pq-2CH" id="GsL-Xx-5Mn"/>
                 <outlet property="imageView" destination="1gq-gV-Lcv" id="1W5-y7-ZYo"/>
-                <outlet property="readingCountLabel" destination="xVc-8N-48f" id="CeY-rs-dfQ"/>
                 <outlet property="statusLabel" destination="UnI-YL-7wE" id="Ysk-GY-FsH"/>
                 <outlet property="summaryLabel" destination="B9W-LU-vo5" id="VRZ-Y1-ZUm"/>
                 <outlet property="titleLabel" destination="xbW-nk-FRh" id="4DI-7P-VaU"/>
