@@ -5,6 +5,8 @@ Raftel is iOS app to browse, read, and collect manga. It is rejected by the App 
 
 Since it cannot exist in the App Store, I'll just leave the source code here. 
 
+PS: Bonus internet points if you know what Raftel is without googling it.
+
 Screenshot
 --
 
@@ -13,8 +15,6 @@ Screenshot
 ![](https://raw.githubusercontent.com/nicnocquee/Raftel-Manga-iOS-App/master/screenshots/en-US/en-US-iPhone5-portrait-0-name%203.png)
 
 ![](https://raw.githubusercontent.com/nicnocquee/Raftel-Manga-iOS-App/master/screenshots/en-US/en-US-iPhone5-portrait-0-name%202.png)
-
-See more here
 
 License
 --
