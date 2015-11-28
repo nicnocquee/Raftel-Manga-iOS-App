@@ -1,5 +1,6 @@
 Raftel
 --
+[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5658bcc4be7d810100d8509e&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/5658bcc4be7d810100d8509e/build/latest)
 
 Raftel is iOS app to browse, read, and collect manga. It is rejected by the App Store because it's too simple and no interactivity. Which is bullshit because then apps like Medium should be rejected.
 
